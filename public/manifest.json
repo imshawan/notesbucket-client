@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "NotesBucket",
+  "name": "NotesBucket - An open-source app for storing notes",
   "icons": [
     {
       "src": "favicon.ico",
