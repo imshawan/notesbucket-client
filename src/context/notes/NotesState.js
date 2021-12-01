@@ -10,5 +10,4 @@ const NotesState = (props) => {
     <NotesContext.Provider value={{}}>{props.children}</NotesContext.Provider>
   );
 };
-
 export default NotesState;
