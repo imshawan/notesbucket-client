@@ -13,4 +13,4 @@ const AuthState = (props) => {
   );
 };
 
-export default AuthContext;
+export default AuthState;

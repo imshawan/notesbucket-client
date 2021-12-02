@@ -1,7 +1,13 @@
 .App {
   text-align: center;
 }
-
+body {
+  margin: 0px;
+  font-family: "Roboto";
+}
+#outlined-basic {
+  height: 16px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
