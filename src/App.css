@@ -5,6 +5,9 @@ body {
   margin: 0px;
   font-family: "Roboto";
 }
+button {
+  background-color: #0029ff!important;
+}
 #outlined-basic {
   height: 16px;
 }

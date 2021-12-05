@@ -16,9 +16,9 @@ function App() {
         <Router>
           <Fragment>
             <div className="App">
-              <Note exact path="/register" />
+              <Register exact path="/register" />
               <Routes>
-                { <Route exact path="/register" component={Note} />}
+                { <Route exact path="/register" component={Register} />}
               </Routes>
             </div>
           </Fragment>
