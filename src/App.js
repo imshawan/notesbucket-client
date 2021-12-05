@@ -6,6 +6,7 @@ import AppBar from './components/layout/AppBar';
 import AuthState from './context/auth/AuthState';
 import NotesState from './context/notes/NotesState';
 import Register from './components/auth/Register';
+import Note from './components/Notes';
 
 function App() {
   return (
@@ -15,9 +16,9 @@ function App() {
         <Router>
           <Fragment>
             <div className="App">
-              <Register exact path="/register" />
+              <Note exact path="/register" />
               <Routes>
-                { <Route exact path="/register" component={Register} />}
+                { <Route exact path="/register" component={Note} />}
               </Routes>
             </div>
           </Fragment>
