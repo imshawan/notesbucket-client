@@ -52,7 +52,6 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
     if (!user.otp) {
       setOpen({...open, open: true, message: "OTP field cannot be blank", severity: "error"});
       return;
