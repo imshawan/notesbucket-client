@@ -5,9 +5,7 @@ body {
   margin: 0px;
   font-family: "Roboto";
 }
-button {
-  background-color: #0029ff!important;
-}
+
 #outlined-basic {
   height: 16px;
 }
@@ -15,7 +13,7 @@ button {
   transition: .3s;
 }
 #notes-card:hover {
-  box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.1), 0px 6px 16px rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1), 0px 4px 10px rgba(255, 255, 255, 0.8);
 }
 .App-logo {
   height: 40vmin;
