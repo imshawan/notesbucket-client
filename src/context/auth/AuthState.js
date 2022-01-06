@@ -4,8 +4,8 @@ import authReducer from './authReducer';
 import AuthContext from './authContext';
 import setAuthToken from '../../utils/setAuthToken';
 import {
-  EMAIL_VERIFICATION_SUCCESS,
-  EMAIL_VERIFICATION_FAIL,
+  EMAIL_SENT_SUCCESS,
+  EMAIL_SENT_FAIL,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAIL,
   USER_LOADED,
@@ -35,21 +35,20 @@ const AuthState = (props) => {
   //Email Verification API Call
   const verifyEmail = async (payload) =>{
     axios.request({
-        url: `${process.env.PROD_URL}/api/account/getOtp`,
+        url: `${process.env.REACT_APP_PROD_URL}/api/account/getOtp`,
         method: 'POST',
         data: payload,
         headers: headers
       }).then((resp) => {
-        dispatch({ type: EMAIL_VERIFICATION_SUCCESS, payload: resp.data })
+        dispatch({ type: EMAIL_SENT_SUCCESS, payload: resp.data })
       })
-      .catch(err => dispatch({ type: EMAIL_VERIFICATION_FAIL, payload: err.response.data.msg }))
+      .catch(err => dispatch({ type: EMAIL_SENT_FAIL, payload: err.response.data.msg }))
   }
 
   const loadUser = async () => {
     if(localStorage.token){
         setAuthToken(localStorage.token)
     }
-    
     try {
       const res = await axios.get('/api/auth')
       dispatch({ type: USER_LOADED, payload: res.data })
@@ -60,7 +59,7 @@ const AuthState = (props) => {
 
   const register = async (formData) =>{
     axios.request({
-      url: `${process.env.PROD_URL}/api/user/signup`,
+      url: `${process.env.REACT_APP_PROD_URL}/api/user/signup`,
       method: 'POST',
       data: formData,
       headers: headers
@@ -72,7 +71,7 @@ const AuthState = (props) => {
 
   const signin = async(formData) =>{
     axios.request({
-      url: `${process.env.PROD_URL}/api/user/signin`,
+      url: `${process.env.REACT_APP_PROD_URL}/api/user/signin`,
       method: 'POST',
       data: formData,
       headers: headers
@@ -106,7 +105,9 @@ const AuthState = (props) => {
         signin,
         logout
     }
-    }>{props.children}</AuthContext.Provider>
+    }>
+      {props.children}
+    </AuthContext.Provider>
   );
 };
 

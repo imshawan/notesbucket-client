@@ -4,25 +4,11 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+import { ThemeProvider } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import AuthContext from '../../context/auth/authContext'
-
-
-const lightTheme = createTheme({ palette: { mode: 'light' } });
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  color: theme.palette.text.secondary,
-  height: 550,
-  lineHeight: '60px',
-  borderRadius: '15px'
-}));
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import { lightTheme, Item, Alert } from '../layout/Layout';
 
 const Register = (props) => {
   const authContext = useContext(AuthContext);
@@ -108,6 +94,7 @@ const Register = (props) => {
       setOpen({...open, open: true, message: "Please enter your email to proceed", severity: "error"});
       return;
     }
+    verifyEmail(email);
   };
 
   const handleClose = (event, reason) => {
