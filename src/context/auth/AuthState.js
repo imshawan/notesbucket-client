@@ -35,7 +35,7 @@ const AuthState = (props) => {
   //Email Verification API Call
   const verifyEmail = async (payload) =>{
     axios.request({
-        url: `${process.env.PROD_URL}/api/account/getOtp`,
+        url: `${process.env.REACT_APP_PROD_URL}/api/account/getOtp`,
         method: 'POST',
         data: payload,
         headers: headers
@@ -49,7 +49,6 @@ const AuthState = (props) => {
     if(localStorage.token){
         setAuthToken(localStorage.token)
     }
-    
     try {
       const res = await axios.get('/api/auth')
       dispatch({ type: USER_LOADED, payload: res.data })
@@ -60,7 +59,7 @@ const AuthState = (props) => {
 
   const register = async (formData) =>{
     axios.request({
-      url: `${process.env.PROD_URL}/api/user/signup`,
+      url: `${process.env.REACT_APP_PROD_URL}/api/user/signup`,
       method: 'POST',
       data: formData,
       headers: headers
@@ -72,7 +71,7 @@ const AuthState = (props) => {
 
   const signin = async(formData) =>{
     axios.request({
-      url: `${process.env.PROD_URL}/api/user/signin`,
+      url: `${process.env.REACT_APP_PROD_URL}/api/user/signin`,
       method: 'POST',
       data: formData,
       headers: headers
