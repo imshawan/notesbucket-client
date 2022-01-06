@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -9,6 +9,8 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import AuthContext from '../../context/auth/authContext'
+
 
 const lightTheme = createTheme({ palette: { mode: 'light' } });
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,12 +24,33 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Register = () => {
+const Register = (props) => {
+  const authContext = useContext(AuthContext);
+  const {
+    verifyEmail,
+    register,
+    clearErrors,
+    error,
+    isAuthenticated
+  } = authContext
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/")
+    }
+    if (error === 'User already exsist') {
+      //setAlert(error, 'danger');
+      clearErrors()
+    }
+  }, [error, isAuthenticated, props.history])
+
   const [user, setUser] = useState({
     username: '',
     password: '',
+    password_confirm: '',
     otp: '',
   });
+
   const [email, setEmail] = useState({
     email: ''
   });
@@ -64,10 +87,19 @@ const Register = () => {
       setOpen({...open, open: true, message: "Password field cannot be blank", severity: "error"});
       return;
     }
+    if (!user.password_confirm) {
+      setOpen({...open, open: true, message: "Password confirmation field cannot be blank", severity: "error"});
+      return;
+    }
     if (!check.check){
       setOpen({...open, open: true, message: "Can't proceed without accepting the terms and conditions", severity: "error"});
       return;
     }
+    if (user.password !== user.password_confirm){
+      setOpen({...open, open: true, message: "Passwords do not match", severity: "error"});
+      return;
+    }
+    register(user);   
   };
 
   const onSubmitEmail = (e) => {
@@ -90,7 +122,7 @@ const Register = () => {
     <div style={{width: '45ch', m: 1, display: 'inline-block', marginTop: '20px'}}>
 
       <ThemeProvider theme={lightTheme}>
-      <Item key={18} elevation={18}>
+      <Item key={18}>
         <h1 style={{paddingTop: '14px', marginBottom: '5px'}}>Registration Page</h1>
         <Box onSubmit={onSubmitEmail}
           component="form"
@@ -126,6 +158,12 @@ const Register = () => {
               value={user.password}
               onChange={onChangeUserData}
               required label="Password" variant="outlined" />
+            <br />
+        <TextField id="outlined-basic" type="password"
+              name="password_confirm"
+              value={user.password_confirm}
+              onChange={onChangeUserData}
+              required label="Confirm Password" variant="outlined" />
             <br />
         <TextField id="outlined-basic" type="text"
           name="otp"
