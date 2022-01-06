@@ -108,6 +108,7 @@ const Register = (props) => {
       setOpen({...open, open: true, message: "Please enter your email to proceed", severity: "error"});
       return;
     }
+    verifyEmail(email);
   };
 
   const handleClose = (event, reason) => {
