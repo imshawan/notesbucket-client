@@ -88,7 +88,7 @@ const Login = (props) => {
               onChange={onChangeUserData}
               required label="Password" variant="outlined" />
             <br />
-        <Button type="submit" variant="contained">Sign up</Button>
+        <Button type="submit" variant="contained">Login</Button>
         </Box>
         </Item>
       </ThemeProvider>

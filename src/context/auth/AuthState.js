@@ -17,7 +17,6 @@ import {
 } from '../types';
 
 const headers = {
-  "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Mobile Safari/537.36",
   "Content-Type" : "application/json",
   "accept": "*/*"
 }
@@ -49,12 +48,15 @@ const AuthState = (props) => {
     if(localStorage.token){
         setAuthToken(localStorage.token)
     }
-    try {
-      const res = await axios.get('/api/auth')
-      dispatch({ type: USER_LOADED, payload: res.data })
-    } catch (err) {
-        dispatch({ type: AUTH_ERROR })
-    }
+    axios.request({
+      url: `${process.env.REACT_APP_PROD_URL}/api/user`,
+      method: 'GET',
+      data: {},
+      headers: headers
+    }).then((resp) => {
+      dispatch({ type: USER_LOADED, payload: resp.data.user })
+    })
+    .catch(err => dispatch({ type: AUTH_ERROR, payload: err.response.data.msg }))
   }
 
   const register = async (formData) =>{

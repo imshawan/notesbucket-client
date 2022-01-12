@@ -8,6 +8,12 @@ import NotesState from './context/notes/NotesState';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Note from './components/Notes';
+import Home from './pages/Home';
+import setAuthToken from './utils/setAuthToken';
+
+if (localStorage.token){
+  setAuthToken(localStorage.token)
+}
 
 function App() {
   return (
@@ -18,7 +24,7 @@ function App() {
           <Fragment>
             <div className="App">
               <Switch>
-                <PrivateRoute exact path="/" component={Note} />
+                <PrivateRoute exact path="/" component={Home} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
               </Switch>
