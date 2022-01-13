@@ -3,6 +3,8 @@ import {
   ADD_NOTE,
   DELETE_NOTE,
   UPDATE_NOTE,
+  SET_CURRENT,
+  CLEAR_CURRENT,
   FILTER_NOTES,
   CLEAR_FILTER,
   NOTE_ERROR,
@@ -20,9 +22,23 @@ const NotesReducer = (state, action) => {
     case ADD_NOTE:
     case DELETE_NOTE:
     case UPDATE_NOTE:
+    case SET_CURRENT:
+      return{
+        ...state,
+        current: action.payload
+      }
+    case CLEAR_CURRENT:
+      return{
+        ...state,
+        current: null
+      }
     case FILTER_NOTES:
     case CLEAR_FILTER:
     case NOTE_ERROR:
+      return{
+        ...state,
+        error:action.payload
+      }
     case CLEAR_NOTES:
     default:
       return state;

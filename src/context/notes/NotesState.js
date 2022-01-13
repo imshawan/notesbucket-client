@@ -7,6 +7,8 @@ import {
   ADD_NOTE,
   DELETE_NOTE,
   UPDATE_NOTE,
+  SET_CURRENT,
+  CLEAR_CURRENT,
   FILTER_NOTES,
   CLEAR_FILTER,
   NOTE_ERROR,
@@ -28,8 +30,7 @@ const NotesState = (props) => {
 }
   const [state, dispatch] = useReducer(notesReducer, initialState);
 
-   //Email Verification API Call
-   const getNotes = async () =>{
+  const getNotes = async () =>{
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/notes`,
         method: 'GET',
@@ -38,7 +39,16 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: GET_NOTES, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data.msg }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.message }))
+  }
+
+  //Set current note
+  const setCurrent = (note) =>{
+    dispatch({ type: SET_CURRENT, payload: note })
+  }
+  //Clear current note
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT })
   }
 
   return (
@@ -50,8 +60,8 @@ const NotesState = (props) => {
       loading: state.loading,
       // addContact,
       // deleteContact,
-      // setCurrent,
-      // clearCurrent,
+      setCurrent,
+      clearCurrent,
       // updateContact,
       // filterContacts,
       // clearFilter,

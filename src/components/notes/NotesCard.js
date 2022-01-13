@@ -18,7 +18,7 @@ const NotesCard = ({ note }) => {
         clearCurrent()
     }
     const editNote =()=>{
-        console.log('hey')
+        console.log(note)
         setCurrent(note)
     }
     return (

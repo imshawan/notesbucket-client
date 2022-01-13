@@ -41,7 +41,7 @@ const AuthState = (props) => {
       }).then((resp) => {
         dispatch({ type: EMAIL_SENT_SUCCESS, payload: resp.data })
       })
-      .catch(err => dispatch({ type: EMAIL_SENT_FAIL, payload: err.response.data.msg }))
+      .catch(err => dispatch({ type: EMAIL_SENT_FAIL, payload: err.message }))
   }
 
   const loadUser = async () => {
@@ -56,7 +56,7 @@ const AuthState = (props) => {
     }).then((resp) => {
       dispatch({ type: USER_LOADED, payload: resp.data.user })
     })
-    .catch(err => dispatch({ type: AUTH_ERROR, payload: err.response.data.msg }))
+    .catch(err => dispatch({ type: AUTH_ERROR, payload: err.message }))
   }
 
   const register = async (formData) =>{
@@ -68,7 +68,7 @@ const AuthState = (props) => {
     }).then((resp) => {
       dispatch({ type: REGISTRATION_SUCCESS, payload: resp.data })
     })
-    .catch(err => dispatch({ type: REGISTRATION_FAIL, payload: err.response.data.msg }))
+    .catch(err => dispatch({ type: REGISTRATION_FAIL, payload: err.message }))
   }
 
   const signin = async(formData) =>{
@@ -80,7 +80,7 @@ const AuthState = (props) => {
     }).then((resp) => {
       dispatch({ type: LOGIN_SUCCESS, payload: resp.data })
     })
-    .catch(err => dispatch({ type: LOGIN_FAIL, payload: err.response.data.msg }))
+    .catch(err => dispatch({ type: LOGIN_FAIL, payload: err.message }))
   }
 
   const logout = () =>{
