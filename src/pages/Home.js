@@ -12,7 +12,7 @@ const Home = () => {
         loadUser()
     },[])
     return (
-        <div className='grid-2'>
+        <div className='container'>
             <div>
                 <Notes></Notes>
             </div>

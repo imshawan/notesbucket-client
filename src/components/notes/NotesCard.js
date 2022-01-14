@@ -1,18 +1,22 @@
 import React,{useContext} from 'react'
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types'
 import NoteContext from '../../context/notes/notesContext'
 import TimeFormatter from '../../utils/timeFormatter';
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemText from '@mui/material/ListItemText';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
 
-
+  
 const NotesCard = ({ note }) => {
-    const { _id, title, content, updatedAt } = note;
+    const { _id, title, updatedAt } = note;
     const noteContext = useContext(NoteContext)
     const { deleteNote, setCurrent, clearCurrent } = noteContext
+  
     const onDelete = () =>{
         deleteNote(_id);
         clearCurrent()
@@ -22,26 +26,24 @@ const NotesCard = ({ note }) => {
         setCurrent(note)
     }
     return (
-        <div id="notes-card" style={{width: 350, display: 'inline-block', margin: 5}}>
-        <Card style={{maxHeight: 300}}>
-        <CardContent>
-            <Typography variant="h6" component="div">
-               {title}
-            </Typography>
-            <Typography variant="body2">
-                {content}
-            </Typography>
-            <Typography sx={{ fontSize: 14, bottom: '0px'}} color="text.secondary" gutterBottom>
-            Last modified: {TimeFormatter(updatedAt)}
-            </Typography>
-        </CardContent>
-        <CardActions>
-            <Button size="small">View</Button>
-            <Button size="small" onClick={editNote}>Edit</Button>
-            <Button size="small" onClick={onDelete}>Delete</Button>
-        </CardActions>
-        </Card>
-    </div>
+        <div className='col-12 col-md-6 col-lg-4' onClick={editNote} id={_id}>
+            <List>
+              <ListItemButton className='notes-card' style={{borderRadius: '10px'}}>
+                    <IconButton style={{right: 0, position: 'absolute', marginRight: '14px'}} onClick={onDelete} edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <NoteAltIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={(title.length > 25) ? `${title.slice(0, 25)}...` : title}
+                    secondary={`Last moodified ${TimeFormatter(updatedAt)}`}
+                  />
+                </ListItemButton>
+            </List>
+          </div>
     )
 }
 NotesCard.propTypes={

@@ -10,6 +10,7 @@ import Login from './components/auth/Login';
 import Note from './components/Notes';
 import Home from './pages/Home';
 import setAuthToken from './utils/setAuthToken';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 if (localStorage.token){
   setAuthToken(localStorage.token)

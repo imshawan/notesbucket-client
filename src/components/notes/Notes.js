@@ -17,7 +17,7 @@ const Notes = () => {
         return (
             <Fragment>
                 {notes !== [] && !loading ?(
-                     <div>
+                     <div className='row'>
                      {
                          filtered !== null ? filtered.map(note=><NotesCard note={note} key={note._id}/>) 
                          : notes.map(note=><NotesCard note={note} key={note._id} />)
