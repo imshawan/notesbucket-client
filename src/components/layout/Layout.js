@@ -2,7 +2,7 @@
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import MuiAlert from '@mui/material/Alert';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 
 const lightTheme = createTheme({ palette: { mode: 'light' } });
 const Item = styled(Paper)(({ theme }) => ({

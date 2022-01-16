@@ -6,14 +6,26 @@ body {
   font-family: "Roboto";
 }
 
+p {
+  margin-bottom: 0px!important;
+}
+.notes-container {
+  margin-top: 1rem;
+}
 #outlined-basic {
   height: 16px;
 }
-#notes-card {
+.notes-card {
   transition: .3s;
 }
-#notes-card:hover {
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1), 0px 4px 10px rgba(255, 255, 255, 0.8);
+.notes-card {
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(255, 255, 255, 0.8);
+}
+.notes-title textarea {
+  font-weight: 600;
+}
+.notes-creator-textarea textarea {
+  min-height: 364px;
 }
 .App-logo {
   height: 40vmin;
@@ -41,6 +53,17 @@ body {
   color: #61dafb;
 }
 
+@media (min-width: 992px){
+  .notes-container {
+    margin-top: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .notes-container {
+    margin-top: 2rem;
+  }
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
