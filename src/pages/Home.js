@@ -4,21 +4,16 @@ import React, { useContext, useEffect } from 'react'
 import Notes from '../components/notes/Notes'
 //import ContactFilter from '../contacts/ContactFilter'
 import AuthContext from '../context/auth/authContext'
-
 const Home = () => {
     const authContext = useContext(AuthContext);
-    const {loadUser} = authContext
+    const { loadUser } = authContext
     useEffect(()=>{
+        console.log("load")
         loadUser()
     },[])
     return (
-        <div className='container'>
-            <div>
-                <Notes></Notes>
-            </div>
-            <div>
-                
-            </div>
+        <div className='notes-container'>
+            <Notes></Notes>
         </div>
     )
 }

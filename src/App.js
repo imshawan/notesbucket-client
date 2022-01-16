@@ -7,7 +7,6 @@ import AuthState from './context/auth/AuthState';
 import NotesState from './context/notes/NotesState';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import Note from './components/Notes';
 import Home from './pages/Home';
 import setAuthToken from './utils/setAuthToken';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -23,7 +22,7 @@ function App() {
       <NotesState>
         <Router>
           <Fragment>
-            <div className="App">
+            <div className="container">
               <Switch>
                 <PrivateRoute exact path="/" component={Home} />
                 <Route exact path='/register' component={Register} />

@@ -13,7 +13,9 @@ export const LOGOUT = 'LOGOUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 export const GET_NOTES = 'GET_NOTES';
+export const GET_NOTES_BY_ID = 'GET_NOTES_BY_ID';
 export const ADD_NOTE = 'ADD_NOTE';
+export const INIT_ADD_NOTE = 'INIT_ADD_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const CLEAR_CURRENT = 'CLEAR_CURRENT';

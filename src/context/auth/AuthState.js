@@ -67,6 +67,7 @@ const AuthState = (props) => {
       headers: headers
     }).then((resp) => {
       dispatch({ type: REGISTRATION_SUCCESS, payload: resp.data })
+      loadUser()
     })
     .catch(err => dispatch({ type: REGISTRATION_FAIL, payload: err.message }))
   }
@@ -79,6 +80,7 @@ const AuthState = (props) => {
       headers: headers
     }).then((resp) => {
       dispatch({ type: LOGIN_SUCCESS, payload: resp.data })
+      loadUser()
     })
     .catch(err => dispatch({ type: LOGIN_FAIL, payload: err.message }))
   }
