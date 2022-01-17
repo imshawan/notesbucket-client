@@ -27,6 +27,7 @@ const NotesState = (props) => {
     notes: [],
     note: {},
     add: false,
+    status: {},
     current: null,
     filtered: null,
     loading: true,
@@ -43,7 +44,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: GET_NOTES, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.message }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
   }
 
   const createNote = async (payload) =>{
@@ -56,7 +57,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: ADD_NOTE, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.message }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
   }
 
   const getNotesById = async (id) =>{
@@ -69,7 +70,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: GET_NOTES_BY_ID, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.message }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
   }
 
   const updateNoteById = async (id, payload) =>{
@@ -86,7 +87,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: UPDATE_NOTE, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.message }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
   }
 
   const deleteNotesById = async (id) =>{
@@ -99,7 +100,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: DELETE_NOTE, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.message }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
   }
 
   //Set current note
@@ -125,8 +126,7 @@ const NotesState = (props) => {
       ['font', ['bold', 'underline', 'clear']],
       ['fontname', ['fontname']],
       ['para', ['ul', 'ol', 'paragraph']],
-      ['table', ['table']],
-      ['insert', ['link']]
+      ['table', ['table']]
     ]
   }
 
@@ -135,6 +135,7 @@ const NotesState = (props) => {
       notes: state.notes,
       note: state.note,
       add: state.add,
+      status: state.status,
       current: state.current,
       filtered: state.filtered,
       error: state.error,

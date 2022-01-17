@@ -16,7 +16,7 @@ const Register = (props) => {
     verifyEmail,
     register,
     clearErrors,
-    error,
+    status,
     isAuthenticated
   } = authContext
 
@@ -24,11 +24,16 @@ const Register = (props) => {
     if (isAuthenticated) {
       props.history.push("/")
     }
-    if (error === 'User already exsist') {
-      //setAlert(error, 'danger');
-      clearErrors()
+  }, [status, isAuthenticated, props.history])
+
+  useEffect(() => {
+    if (status.success === true) {
+      setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
     }
-  }, [error, isAuthenticated, props.history])
+    if (status.success === false) {
+      setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
+    }
+  }, [status])
 
   const [user, setUser] = useState({
     username: '',
@@ -36,7 +41,7 @@ const Register = (props) => {
     password_confirm: '',
     otp: '',
   });
-
+  const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
   const [email, setEmail] = useState({
     email: ''
   });
@@ -178,6 +183,11 @@ const Register = (props) => {
           </Alert>
         </Snackbar>
       </Stack>
+      <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false, text: ""})}>
+        <Alert onClose={() => setOpsStatus({...statusOps, open: false, text: ""})} severity={statusOps.severity} sx={{ width: '100%' }}>
+          {statusOps.text}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

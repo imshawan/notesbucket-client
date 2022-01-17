@@ -22,7 +22,7 @@ function App() {
       <NotesState>
         <Router>
           <Fragment>
-            <div className="container">
+            <div className="App">
               <Switch>
                 <PrivateRoute exact path="/" component={Home} />
                 <Route exact path='/register' component={Register} />

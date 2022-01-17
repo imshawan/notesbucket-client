@@ -12,21 +12,11 @@ const Login = (props) => {
   const authContext = useContext(AuthContext);
   const {
     signin,
-    clearErrors,
-    error,
+    status,
     isAuthenticated
   } = authContext
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      props.history.push("/")
-    }
-    if (error === 'User already exsist') {
-      //setAlert(error, 'danger');
-      clearErrors()
-    }
-  }, [error, isAuthenticated, props.history])
-
+  const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -37,6 +27,23 @@ const Login = (props) => {
     message: '',
     severity: 'error'
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/")
+    }
+  }, [status, isAuthenticated, props.history])
+
+  useEffect(() => {
+    if (status.success === true) {
+      setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
+    }
+    if (status.success === false) {
+      setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
+    }
+  }, [status])
+
+  
 
   const onChangeUserData = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -100,6 +107,11 @@ const Login = (props) => {
           </Alert>
         </Snackbar>
       </Stack>
+      <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false, text: ""})}>
+        <Alert onClose={() => setOpsStatus({...statusOps, open: false, text: ""})} severity={statusOps.severity} sx={{ width: '100%' }}>
+          {statusOps.text}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
