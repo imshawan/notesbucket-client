@@ -10,11 +10,7 @@ import { lightTheme, Item, Alert } from '../layout/Layout';
 
 const Login = (props) => {
   const authContext = useContext(AuthContext);
-  const {
-    signin,
-    status,
-    isAuthenticated
-  } = authContext
+  const { signin, status, clearStatus, isAuthenticated } = authContext
 
   const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
   const [user, setUser] = useState({
@@ -41,6 +37,7 @@ const Login = (props) => {
     if (status.success === false) {
       setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
     }
+    clearStatus()
   }, [status])
 
   

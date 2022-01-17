@@ -12,13 +12,7 @@ import { lightTheme, Item, Alert } from '../layout/Layout';
 
 const Register = (props) => {
   const authContext = useContext(AuthContext);
-  const {
-    verifyEmail,
-    register,
-    clearErrors,
-    status,
-    isAuthenticated
-  } = authContext
+  const { verifyEmail, register, clearStatus, status, isAuthenticated } = authContext
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -33,6 +27,7 @@ const Register = (props) => {
     if (status.success === false) {
       setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
     }
+    clearStatus()
   }, [status])
 
   const [user, setUser] = useState({
