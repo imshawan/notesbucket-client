@@ -9,7 +9,7 @@ import {
   CLEAR_CURRENT,
   FILTER_NOTES,
   CLEAR_FILTER,
-  NOTE_ERROR,
+  CLEAR_STATUS,
   CLEAR_NOTES
 } from '../types';
 
@@ -30,8 +30,9 @@ const NotesReducer = (state, action) => {
     case ADD_NOTE:
       return {
         ...state,
-        notes: [action.payload,...state.notes],
-        loading: false
+        notes: [action.payload.note, ...state.notes],
+        loading: false,
+        status: { success: action.payload.success, message: action.payload.message }
       }
     case INIT_ADD_NOTE:
       return {
@@ -42,13 +43,15 @@ const NotesReducer = (state, action) => {
       return {
         ...state,
         notes: state.notes.filter(note=> note._id !== action.payload.noteId),
-        loading: false
+        loading: false,
+        status: { success: action.payload.success, message: action.payload.message }
       }
     case UPDATE_NOTE:
       return {
         ...state,
-        notes: state.notes.map(note => note._id === action.payload._id ? action.payload: note),
-        loading: false
+        notes: state.notes.map(note => note._id === action.payload.note._id ? action.payload.note: note),
+        loading: false,
+        status: { success: action.payload.success, message: action.payload.message }
       }
     case SET_CURRENT:
       return {
@@ -62,10 +65,11 @@ const NotesReducer = (state, action) => {
       }
     case FILTER_NOTES:
     case CLEAR_FILTER:
-    case NOTE_ERROR:
+    case CLEAR_STATUS:
       return{
         ...state,
-        error:action.payload
+        status: {},
+        loading: false
       }
     case CLEAR_NOTES:
     default:

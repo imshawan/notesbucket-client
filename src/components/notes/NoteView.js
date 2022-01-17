@@ -1,8 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
+import { Alert } from '../layout/Layout';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
@@ -16,24 +18,18 @@ import 'react-summernote/dist/react-summernote.css'; // import styles
 
 function NoteView() {
     const noteContext = useContext(NoteContext)
-    const { note, getNotesById, current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions } = noteContext
+    const { note, status, getNotesById, current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions } = noteContext
     const [open, setOpen] = useState(false)
+    const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
     const [editing, setEditing] = useState(false)
     const [modify, setModify] = useState({text: "EDIT", icon: <EditIcon />})
-    const [notePayload, setNotePayload] = useState({
-      title: "",
-      content: ""
-    })
-
-    const payloadOnChange = (e) => {
-      setNotePayload({ ...notePayload, [e.target.name]: e.target.value });
-    };
+    const [noteTitle, setNoteTitle] = useState("")
+    const [editorContent, setEditorContent] = useState("")
 
     const submitPayload = (e) => {
       e.preventDefault();
-      console.log(notePayload)
-      if (!notePayload.title && !notePayload.content) return;
-      updateNoteById(note._id, notePayload)
+      if (!noteTitle && !editorContent) return;
+      updateNoteById(note._id, {title: noteTitle, content: editorContent})
       setOpen(false)
     }
 
@@ -43,6 +39,15 @@ function NoteView() {
       clearCurrent()
       setOpen(false)
     }
+
+    useEffect(() => {
+      if (status.success === true) {
+        setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
+      }
+      if (status.success === false) {
+        setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
+      }
+    }, [status])
 
     useEffect(()=>{
       if (current){
@@ -64,16 +69,15 @@ function NoteView() {
       }
       else {
         setModify({text: "EDIT", icon: <EditIcon />})
-        setNotePayload({
-          title: "",
-          content: ""
-        })
+        setNoteTitle("")
+        setEditorContent("")
       }
     }, [editing])
 
     return (
+      <Fragment>
       <Modal show={open}
-        size="lg"
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
         backdrop="static"
@@ -85,7 +89,7 @@ function NoteView() {
               {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"
               label="Title"
               name="title"
-              onChange={payloadOnChange}
+              onChange={(e) => setNoteTitle(e.target.value)}
               defaultValue={note.title}
               InputProps={{
                 className: "notes-title"
@@ -110,7 +114,7 @@ function NoteView() {
                 <ReactSummernote
                   onInit={() => {document.querySelector(".note-editable").innerHTML = note.content}}
                   options={SummerNoteOptions}
-                  onChange={(editorText) => setNotePayload({content: editorText})}
+                  onChange={(editorText) => setEditorContent(editorText)}
                 />
             ) : (
               <p dangerouslySetInnerHTML={{ __html: note.content }}></p>
@@ -124,6 +128,12 @@ function NoteView() {
           </Modal.Footer>
         </form>
       </Modal>
+        <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false, text: ""})}>
+          <Alert onClose={() => setOpsStatus({...statusOps, open: false, text: ""})} severity={statusOps.severity} sx={{ width: '100%' }}>
+            {statusOps.text}
+          </Alert>
+        </Snackbar>
+      </Fragment>
     );
   }
   

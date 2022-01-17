@@ -8,7 +8,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_STATUS
 } from '../types';
 
 const AuthReducer = (state, action) => {
@@ -23,6 +23,7 @@ const AuthReducer = (state, action) => {
         user: action.payload
       }
       case REGISTRATION_SUCCESS:
+      case REGISTRATION_FAIL:
       case LOGIN_SUCCESS:
         localStorage.setItem('token', action.payload.token)
         return {
@@ -31,23 +32,39 @@ const AuthReducer = (state, action) => {
             isAuthenticated: true,
             loading: false
         }
-      case REGISTRATION_FAIL:
       case AUTH_ERROR:
+        localStorage.clear()
+        return {
+          ...state,
+          token: null,
+          isAuthenticated: false,
+          loading: false,
+          user: null,
+          status: { success: false, message: action.payload }
+        }
       case LOGIN_FAIL:
+        return {
+          ...state,
+          token: null,
+          isAuthenticated: false,
+          loading: false,
+          user: null,
+          status: { success: false, message: action.payload }
+        }
       case LOGOUT:
         localStorage.removeItem('token')
         return {
           ...state,
           token: null,
-            isAuthenticated: false,
-            loading: false,
-            user: null,
-            error: action.payload
+          isAuthenticated: false,
+          loading: false,
+          user: null,
+          status:  { success: action.payload.success, message: action.payload.message }
         }
-      case CLEAR_ERRORS:
+      case CLEAR_STATUS:
         return {
           ...state,
-          error: null
+          status: {}
         }
       default:
         return state;

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
@@ -18,33 +18,32 @@ import 'react-summernote/dist/react-summernote.css'; // import styles
 
 function NoteCreator() {
     const noteContext = useContext(NoteContext)
-    const { createNote, add, setAdd, SummerNoteOptions } = noteContext
+    const { createNote, status, add, setAdd, SummerNoteOptions } = noteContext
     const [open, setOpen] = useState(false)
-    const [notePayload, setNotePayload] = useState({
-      title: "",
-      content: ""
-    })
+    const [statusOps, setOpsStatus] = useState({open: false, text: ""})
+    const [noteTitle, setNoteTitle] = useState("")
+    const [editorContent, setEditorContent] = useState("")
     const [alert, setAlert] = useState({
         open: false,
         message: '',
         severity: 'error'
       });
     
-    const payloadOnChange = (e) => {
-        setNotePayload({ ...notePayload, [e.target.name]: e.target.value });
-    };
-    
     const submitPayload = (e) => {
         e.preventDefault();
-        if (!notePayload.title) {
+        if (!noteTitle && !editorContent) {
+          setAlert({...alert, open: true, message: "Note's body is empty. Cannot create a note without content", severity: "error"});
+          return;
+        }
+        if (!noteTitle) {
             setAlert({...alert, open: true, message: "Title cannot be blank", severity: "error"});
             return;
         }
-        if (!notePayload.content) {
+        if (!editorContent) {
             setAlert({...alert, open: true, message: "Content cannot be blank", severity: "error"});
             return;
         }
-        createNote(notePayload)
+        createNote({title: noteTitle, content: editorContent})
         setOpen(false)
     }
     
@@ -57,22 +56,30 @@ function NoteCreator() {
       };
 
     useEffect(() => {
+      if (status.success === true) {
+        setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
+      }
+      if (status.success === false) {
+        setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
+      }
+    }, [status])
+    
+    useEffect(() => {
         if (add) setOpen(true)
     }, [add])
 
     useEffect(() => {
         if (!open) {
-            setAdd(false)
-            setNotePayload({
-                title: "",
-                content: ""
-              })
+          setAdd(false)
+          setNoteTitle("")
+          setEditorContent("")
         }
     }, [open])
 
     return (
+      <Fragment>
       <Modal show={open}
-        size="lg"
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
         backdrop="static"
@@ -84,7 +91,7 @@ function NoteCreator() {
               <TextField style={{width: '100%'}} id="outlined-textarea"
                     label="Title"
                     name="title"
-                    onChange={payloadOnChange}
+                    onChange={(e) => setNoteTitle(e.target.value)}
                     placeholder='Title of your note'
                     InputProps={{
                         className: "notes-title"
@@ -93,10 +100,10 @@ function NoteCreator() {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body style={{padding: '1rem 1.8rem'}}>
-                    <ReactSummernote
-                      options={SummerNoteOptions}
-                      onChange={(editorText) => setNotePayload({content: editorText})}
-                    />
+              <ReactSummernote
+                options={SummerNoteOptions}
+                onChange={(editorText) => setEditorContent(editorText)}
+              />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="outlined" style={{ marginRight: '10px' }} type="submit" startIcon={<NoteAddIcon />}>CREATE</Button>
@@ -111,6 +118,12 @@ function NoteCreator() {
         </Snackbar>
       </Stack>
       </Modal>
+        <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({open: false, text: ""})}>
+          <Alert onClose={() => setOpsStatus({open: false, text: ""})} severity={statusOps.severity} sx={{ width: '100%' }}>
+            {statusOps.text}
+          </Alert>
+        </Snackbar>
+      </Fragment>
     );
   }
   

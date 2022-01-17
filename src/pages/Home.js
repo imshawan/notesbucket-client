@@ -8,12 +8,13 @@ const Home = () => {
     const authContext = useContext(AuthContext);
     const { loadUser } = authContext
     useEffect(()=>{
-        console.log("load")
         loadUser()
     },[])
     return (
-        <div className='notes-container'>
-            <Notes></Notes>
+        <div className='container'>
+            <div className='notes-container'>
+                <Notes></Notes>
+            </div>
         </div>
     )
 }

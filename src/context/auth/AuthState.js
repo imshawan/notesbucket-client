@@ -13,7 +13,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_STATUS
 } from '../types';
 
 const headers = {
@@ -22,12 +22,13 @@ const headers = {
 }
 
 const AuthState = (props) => {
+  let Token = localStorage.getItem('token');
   const initialState = {
-    token: localStorage.getItem('token'),
-    isAuthenticated: null,
+    token: Token,
+    isAuthenticated: Token ? true : false,
     loading: true,
     user: null,
-    error: null
+    status: {}
   }
   const [state, dispatch] = useReducer(authReducer, initialState);
 
@@ -41,7 +42,7 @@ const AuthState = (props) => {
       }).then((resp) => {
         dispatch({ type: EMAIL_SENT_SUCCESS, payload: resp.data })
       })
-      .catch(err => dispatch({ type: EMAIL_SENT_FAIL, payload: err.message }))
+      .catch(err => dispatch({ type: EMAIL_SENT_FAIL, payload: err.response.data }))
   }
 
   const loadUser = async () => {
@@ -56,7 +57,7 @@ const AuthState = (props) => {
     }).then((resp) => {
       dispatch({ type: USER_LOADED, payload: resp.data.user })
     })
-    .catch(err => dispatch({ type: AUTH_ERROR, payload: err.message }))
+    .catch(err => dispatch({ type: AUTH_ERROR, payload: `${err.response.data}. Token mismatched or has been expired` }))
   }
 
   const register = async (formData) =>{
@@ -69,7 +70,7 @@ const AuthState = (props) => {
       dispatch({ type: REGISTRATION_SUCCESS, payload: resp.data })
       loadUser()
     })
-    .catch(err => dispatch({ type: REGISTRATION_FAIL, payload: err.message }))
+    .catch(err => dispatch({ type: REGISTRATION_FAIL, payload: err.response.data }))
   }
 
   const signin = async(formData) =>{
@@ -82,7 +83,7 @@ const AuthState = (props) => {
       dispatch({ type: LOGIN_SUCCESS, payload: resp.data })
       loadUser()
     })
-    .catch(err => dispatch({ type: LOGIN_FAIL, payload: err.message }))
+    .catch(err => dispatch({ type: LOGIN_FAIL, payload: `${err.response.data}. Incorrect username or password` }))
   }
 
   const logout = () =>{
@@ -91,7 +92,7 @@ const AuthState = (props) => {
 
   //Clear Errors
   const clearErrors = () => {
-      dispatch({ type: CLEAR_ERRORS })
+      dispatch({ type: CLEAR_STATUS })
   }
 
   return (
@@ -100,8 +101,8 @@ const AuthState = (props) => {
         token: state.token,
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
+        status: state.status,
         user: state.user,
-        error: state.error,
         verifyEmail,
         register,
         clearErrors,
