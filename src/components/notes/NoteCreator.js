@@ -56,6 +56,7 @@ function NoteCreator() {
       };
 
     useEffect(() => {
+      if (!status) return;
       if (status.success === true) {
         setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
       }

@@ -14,7 +14,18 @@ import {
 const AuthReducer = (state, action) => {
   switch (action.type) {
     case EMAIL_SENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        status: { success: action.payload.success, message: action.payload.message }
+      }
     case EMAIL_SENT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        status: { success: false, 
+          message: action.payload.message ? action.payload.message : action.payload }
+      }
     case USER_LOADED:
       return {
         ...state,
@@ -22,52 +33,66 @@ const AuthReducer = (state, action) => {
         loading: false,
         user: action.payload
       }
-      case REGISTRATION_SUCCESS:
-      case REGISTRATION_FAIL:
-      case LOGIN_SUCCESS:
-        localStorage.setItem('token', action.payload.token)
-        return {
-          ...state,
-          ...action.payload,
-            isAuthenticated: true,
-            loading: false
-        }
-      case AUTH_ERROR:
-        localStorage.clear()
-        return {
-          ...state,
-          token: null,
-          isAuthenticated: false,
-          loading: false,
-          user: null,
-          status: { success: false, message: action.payload }
-        }
-      case LOGIN_FAIL:
-        return {
-          ...state,
-          token: null,
-          isAuthenticated: false,
-          loading: false,
-          user: null,
-          status: { success: false, message: action.payload }
-        }
-      case LOGOUT:
-        localStorage.removeItem('token')
-        return {
-          ...state,
-          token: null,
-          isAuthenticated: false,
-          loading: false,
-          user: null,
-          status:  { success: action.payload.success, message: action.payload.message }
-        }
-      case CLEAR_STATUS:
-        return {
-          ...state,
-          status: {}
-        }
-      default:
-        return state;
+    case REGISTRATION_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        status: { success: action.payload.success, message: action.payload.message },
+        registration: "success"
+      }
+    case REGISTRATION_FAIL:
+      return {
+        ...state,
+        loading: false,
+        status: { success: false, message: action.payload.message ? action.payload.message : action.payload }
+      }
+    case LOGIN_SUCCESS:
+      localStorage.setItem('token', action.payload.token)
+      return {
+        ...state,
+        ...action.payload,
+          isAuthenticated: true,
+          loading: false
+      }
+    case AUTH_ERROR:
+      localStorage.clear()
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        status: { success: false, message: action.payload }
+      }
+    case LOGIN_FAIL:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        status: { success: false, message: action.payload }
+      }
+    case LOGOUT:
+      localStorage.removeItem('token')
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        status:  { success: action.payload.success, message: action.payload.message }
+      }
+    case CLEAR_STATUS:
+      return {
+        ...state,
+        status: null
+      }
+    default:
+      return state;
   }
 };
 

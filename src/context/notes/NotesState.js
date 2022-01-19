@@ -27,7 +27,7 @@ const NotesState = (props) => {
     notes: [],
     note: {},
     add: false,
-    status: {},
+    status: null,
     current: null,
     filtered: null,
     loading: true,
