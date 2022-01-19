@@ -68,7 +68,7 @@ const NotesReducer = (state, action) => {
     case CLEAR_STATUS:
       return{
         ...state,
-        status: {},
+        status: null,
         loading: false
       }
     case CLEAR_NOTES:

@@ -8,7 +8,7 @@ const lightTheme = createTheme({ palette: { mode: 'light' } });
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
-    height: 550,
+    height: 590,
     lineHeight: '60px',
     borderRadius: '15px'
     }));

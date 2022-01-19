@@ -28,7 +28,8 @@ const AuthState = (props) => {
     isAuthenticated: Token ? true : false,
     loading: true,
     user: null,
-    status: {}
+    status: null,
+    registration: null
   }
   const [state, dispatch] = useReducer(authReducer, initialState);
 
@@ -42,7 +43,10 @@ const AuthState = (props) => {
       }).then((resp) => {
         dispatch({ type: EMAIL_SENT_SUCCESS, payload: resp.data })
       })
-      .catch(err => dispatch({ type: EMAIL_SENT_FAIL, payload: err.response.data }))
+      .catch(err => dispatch({
+        type: EMAIL_SENT_FAIL,
+        payload: err.response ? err.response.data : err.message
+      }))
   }
 
   const loadUser = async () => {
@@ -57,7 +61,10 @@ const AuthState = (props) => {
     }).then((resp) => {
       dispatch({ type: USER_LOADED, payload: resp.data.user })
     })
-    .catch(err => dispatch({ type: AUTH_ERROR, payload: `${err.response.data}. Token mismatched or has been expired` }))
+    .catch(err => dispatch({
+      type: AUTH_ERROR,
+      payload: err.response ? `${err.response.data}. Token mismatched or has been expired` : err.message
+    }))
   }
 
   const register = async (formData) =>{
@@ -68,9 +75,11 @@ const AuthState = (props) => {
       headers: headers
     }).then((resp) => {
       dispatch({ type: REGISTRATION_SUCCESS, payload: resp.data })
-      loadUser()
     })
-    .catch(err => dispatch({ type: REGISTRATION_FAIL, payload: err.response.data }))
+    .catch(err => dispatch({
+      type: REGISTRATION_FAIL,
+      payload: err.response ? err.response.data : err.message
+    }))
   }
 
   const signin = async(formData) =>{
@@ -83,7 +92,10 @@ const AuthState = (props) => {
       dispatch({ type: LOGIN_SUCCESS, payload: resp.data })
       loadUser()
     })
-    .catch(err => dispatch({ type: LOGIN_FAIL, payload: `${err.response.data}. Incorrect username or password` }))
+    .catch(err => dispatch({
+      type: LOGIN_FAIL,
+      payload: err.response ? `${err.response.data}. Incorrect username or password` : err.message
+    }))
   }
 
   const logout = () =>{
@@ -103,6 +115,7 @@ const AuthState = (props) => {
         loading: state.loading,
         status: state.status,
         user: state.user,
+        registration: state.registration,
         verifyEmail,
         register,
         clearStatus,
