@@ -102,11 +102,11 @@ const Login = (props) => {
               onChange={onChangeUserData}
               required label="Password" variant="outlined" />
             <br />
-        <Button style={{marginTop: '30px', height: '50px', background: 'blue'}} size="large" type="submit" color="primary" variant="contained">Login</Button>
+        <Button style={{marginTop: '30px', height: '56px', background: 'blue'}} size="large" type="submit" color="primary" variant="contained">Login</Button>
         </Box>
         <div style={{marginTop: '10px', fontSize: '0.9rem!important'}}>
           <Typography>
-              <Link href="#" underline="hover">
+              <Link href="/forgotPassword" underline="hover">
                 {'Forgot password?'}
               </Link>
           </Typography>
@@ -125,8 +125,8 @@ const Login = (props) => {
           </Alert>
         </Snackbar>
       </Stack>
-      <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false, text: ""})}>
-        <Alert onClose={() => setOpsStatus({...statusOps, open: false, text: ""})} severity={statusOps.severity} sx={{ width: '100%' }}>
+      <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false})}>
+        <Alert onClose={() => setOpsStatus({...statusOps, open: false})} severity={statusOps.severity} sx={{ width: '100%' }}>
           {statusOps.text}
         </Alert>
       </Snackbar>

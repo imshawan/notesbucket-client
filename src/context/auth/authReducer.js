@@ -3,6 +3,8 @@ import {
   EMAIL_SENT_FAIL,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAIL,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -41,9 +43,25 @@ const AuthReducer = (state, action) => {
         loading: false,
         user: null,
         status: { success: action.payload.success, message: action.payload.message },
-        registration: "success"
+        events: {...state.events, registration: "success"}
       }
     case REGISTRATION_FAIL:
+      return {
+        ...state,
+        loading: false,
+        status: { success: false, message: action.payload.message ? action.payload.message : action.payload }
+      }
+    case PASSWORD_RESET_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        status: { success: action.payload.success, message: action.payload.message },
+        events: {...state.events, passwordReset: "success"}
+      }
+    case PASSWORD_RESET_FAIL:
       return {
         ...state,
         loading: false,

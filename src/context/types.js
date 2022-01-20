@@ -10,6 +10,9 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 
+export const PASSWORD_RESET_SUCCESS = 'PASSWORD_RESET_SUCCESS';
+export const PASSWORD_RESET_FAIL = 'PASSWORD_RESET_FAIL';
+
 export const CLEAR_STATUS = 'CLEAR_STATUS';
 
 export const GET_NOTES = 'GET_NOTES';

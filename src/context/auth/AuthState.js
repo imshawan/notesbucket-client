@@ -8,6 +8,8 @@ import {
   EMAIL_SENT_FAIL,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAIL,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -29,7 +31,11 @@ const AuthState = (props) => {
     loading: true,
     user: null,
     status: null,
-    registration: null
+    events: {
+      registration: null,
+      passwordReset: null,
+      passwordChange: null
+    }
   }
   const [state, dispatch] = useReducer(authReducer, initialState);
 
@@ -98,6 +104,36 @@ const AuthState = (props) => {
     }))
   }
 
+  const sendForgotPasswordMail = async (payload) =>{
+    axios.request({
+        url: `${process.env.REACT_APP_PROD_URL}/api/account/forgotPassword`,
+        method: 'POST',
+        data: payload,
+        headers: headers
+      }).then((resp) => {
+        dispatch({ type: EMAIL_SENT_SUCCESS, payload: resp.data })
+      })
+      .catch(err => dispatch({
+        type: EMAIL_SENT_FAIL,
+        payload: err.response ? err.response.data : err.message
+      }))
+  }
+
+  const resetPassword = async (payload) =>{
+    axios.request({
+        url: `${process.env.REACT_APP_PROD_URL}/api/account/resetPassword`,
+        method: 'POST',
+        data: payload,
+        headers: headers
+      }).then((resp) => {
+        dispatch({ type: PASSWORD_RESET_SUCCESS, payload: resp.data })
+      })
+      .catch(err => dispatch({
+        type: PASSWORD_RESET_FAIL,
+        payload: err.response ? err.response.data : err.message
+      }))
+  }
+
   const logout = () =>{
       dispatch({ type: LOGOUT })
   }
@@ -115,7 +151,9 @@ const AuthState = (props) => {
         loading: state.loading,
         status: state.status,
         user: state.user,
-        registration: state.registration,
+        events: state.events,
+        sendForgotPasswordMail,
+        resetPassword,
         verifyEmail,
         register,
         clearStatus,
