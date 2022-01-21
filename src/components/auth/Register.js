@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import { Box, TextField } from '@mui/material';
 import { Button, Link, Typography, Avatar } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -10,12 +9,12 @@ import AuthContext from '../../context/auth/authContext'
 import { Alert } from '../layout/Layout';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import CircularProgress from '@mui/material/CircularProgress';
+import { CircularProgress, Backdrop } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const Register = (props) => {
   const authContext = useContext(AuthContext);
-  const { verifyEmail, register, clearStatus, events, status, isAuthenticated } = authContext
+  const { verifyEmail, register, clearStatus, loading, setLoading, events, status, isAuthenticated } = authContext
   
   const [user, setUser] = useState({
     firstname: '',
@@ -48,7 +47,9 @@ const Register = (props) => {
   }, [status, isAuthenticated, props.history])
 
   useEffect(() => {
-    if (!status) return;
+    if (status 
+      && Object.keys(status).length === 0
+      && Object.getPrototypeOf(status) === Object.prototype) return;
     else {
       if (otpOpen) setotpOpen({...otpOpen, open: false})
       if (status.success === true) {
@@ -119,7 +120,8 @@ const Register = (props) => {
       return;
     }
     user.email = email.email;
-    register(user);   
+    register(user);  
+    setLoading(true) 
   };
 
   const onSubmitEmail = (e) => {
@@ -171,6 +173,11 @@ const Register = (props) => {
 
   return (
     <div className='container'>
+      <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}>
+          <CircularProgress color="inherit" />
+      </Backdrop>
       <div className='row justify-content-center'>
         <div className='col-11 col-md-8 col-lg-6 col-xl-5' style={{marginTop: '20px'}}>
 

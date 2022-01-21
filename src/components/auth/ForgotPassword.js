@@ -8,12 +8,12 @@ import AuthContext from '../../context/auth/authContext'
 import { Alert } from '../layout/Layout';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
-import CircularProgress from '@mui/material/CircularProgress';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { CircularProgress, Backdrop } from '@mui/material';
 
 const ForgotPassword = (props) => {
   const authContext = useContext(AuthContext);
-  const { sendForgotPasswordMail, resetPassword, clearStatus, events, status, isAuthenticated } = authContext
+  const { sendForgotPasswordMail, resetPassword, loading, setLoading, clearStatus, events, status, isAuthenticated } = authContext
   
   const [user, setUser] = useState({
     password: '',
@@ -40,7 +40,9 @@ const ForgotPassword = (props) => {
   }, [status, isAuthenticated, props.history])
 
   useEffect(() => {
-    if (!status) return;
+    if (status 
+      && Object.keys(status).length === 0
+      && Object.getPrototypeOf(status) === Object.prototype) return;
     else {
       if (otpOpen) setotpOpen({...otpOpen, open: false})
       if (status.success === true) {
@@ -77,6 +79,10 @@ const ForgotPassword = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (!email.email) {
+      setOpen({...open, open: true, message: "Please enter your registered email Id to proceed", severity: "error"});
+      return;
+    }
     if (!user.password) {
       setOpen({...open, open: true, message: "Password field cannot be blank", severity: "error"});
       return;
@@ -95,6 +101,7 @@ const ForgotPassword = (props) => {
     }
     user.email = email.email;
     resetPassword(user);   
+    setLoading(true)
   };
 
   const onSubmitEmail = (e) => {
@@ -146,6 +153,11 @@ const ForgotPassword = (props) => {
 
   return (
     <div className='container'>
+      <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}>
+          <CircularProgress color="inherit" />
+      </Backdrop>
       <div className='row justify-content-center'>
         <div className='col-11 col-md-8 col-lg-6 col-xl-5' style={{marginTop: '20px'}}>
 
@@ -209,8 +221,8 @@ const ForgotPassword = (props) => {
               </Alert>
             </Snackbar>
           </Stack>
-          <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false, text: ""})}>
-            <Alert onClose={() => setOpsStatus({...statusOps, open: false, text: ""})} severity={statusOps.severity} sx={{ width: '100%' }}>
+          <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false})}>
+            <Alert onClose={() => setOpsStatus({...statusOps, open: false})} severity={statusOps.severity} sx={{ width: '100%' }}>
               {statusOps.text}
             </Alert>
           </Snackbar>

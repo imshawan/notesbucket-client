@@ -7,13 +7,17 @@ import NoteView from './NoteView';
 import NoteCreator from './NoteCreator';
 import SpeedDial from '@mui/material/SpeedDial';
 import AddIcon from '@mui/icons-material/Add';
+import setAuthToken from '../../utils/setAuthToken'
 
 
 const Notes = () => {
     const noteContext = useContext(NoteContext);
     const { notes, filtered, getNotes, loading, setAdd, add } = noteContext 
-
+    
     useEffect(()=>{
+        if (localStorage.token){
+            setAuthToken(localStorage.token)
+          }
         getNotes()
         setAdd(false)
     },[])
@@ -29,32 +33,27 @@ const Notes = () => {
         }).reverse();
     }
 
-    if(notes !== [] && notes.length === 0 && !loading){
-        return <h4>No notes found!</h4>
-    }
-    else{
-        return (
-            <Fragment>
-                {notes !== [] && !loading ?(
-                     <div className='row'>
-                     {
-                         filtered !== null ? filtered.map(note=><NotesCard note={note} key={note._id}/>) 
-                         : sortNotes(notes).map(note=><NotesCard note={note} key={note._id} />)
-                     }
-                     </div>
-                 ) : ''}
-                <NoteView />
-                <NoteCreator />
-                <SpeedDial onClick={showNoteCreator}
-                ariaLabel="SpeedDial basic example" sx={{ position: 'absolute', bottom: 16, right: 16 }} icon={<AddIcon />} />
-                <Backdrop
-                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                    open={loading}>
-                    <CircularProgress color="inherit" />
-                </Backdrop>
-            </Fragment>
-        )
-    }  
+    return (
+        <Fragment>
+            {notes !== [] && notes.length !== 0 && !loading ?(
+                    <div className='row'>
+                    {
+                        filtered !== null ? filtered.map(note=><NotesCard note={note} key={note._id}/>) 
+                        : sortNotes(notes).map(note=><NotesCard note={note} key={note._id} />)
+                    }
+                    </div>
+                ) : (<h4>No notes found!</h4>)}
+            <NoteView />
+            <NoteCreator />
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            <SpeedDial onClick={showNoteCreator}
+            ariaLabel="SpeedDial basic example" sx={{ position: 'absolute', bottom: 16, right: 16 }} icon={<AddIcon />} />
+        </Fragment>
+    )
 }
 
 export default Notes

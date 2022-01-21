@@ -15,6 +15,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  SET_LOADING,
   CLEAR_STATUS
 } from '../types';
 
@@ -28,9 +29,9 @@ const AuthState = (props) => {
   const initialState = {
     token: Token,
     isAuthenticated: Token ? true : false,
-    loading: true,
+    loading: false,
     user: null,
-    status: null,
+    status: {},
     events: {
       registration: null,
       passwordReset: null,
@@ -138,6 +139,9 @@ const AuthState = (props) => {
       dispatch({ type: LOGOUT })
   }
 
+  const setLoading = (value) => {
+    dispatch({type: SET_LOADING, payload: value})
+  }
 
   const clearStatus = () => {
       dispatch({ type: CLEAR_STATUS })
@@ -157,6 +161,7 @@ const AuthState = (props) => {
         verifyEmail,
         register,
         clearStatus,
+        setLoading,
         loadUser,
         signin,
         logout

@@ -1,17 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import {ThemeProvider} from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import AuthContext from '../../context/auth/authContext';
 import { Button, Link, Typography, Avatar } from '@mui/material';
-import { lightTheme, Item, Alert } from '../layout/Layout';
+import { Alert } from '../layout/Layout';
 import LockIcon from '@mui/icons-material/Lock';
+import { CircularProgress, Backdrop } from '@mui/material';
 
 const Login = (props) => {
   const authContext = useContext(AuthContext);
-  const { signin, status, clearStatus, isAuthenticated } = authContext
+  const { signin, status, clearStatus, setLoading, loading, isAuthenticated } = authContext
 
   const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
   const [user, setUser] = useState({
@@ -32,7 +32,9 @@ const Login = (props) => {
   }, [status, isAuthenticated, props.history])
 
   useEffect(() => {
-    if (!status) return;
+    if (status 
+      && Object.keys(status).length === 0
+      && Object.getPrototypeOf(status) === Object.prototype) return;
     else {
       if (status.success === true) {
         setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
@@ -60,7 +62,8 @@ const Login = (props) => {
       setOpen({...open, open: true, message: "Password field cannot be blank", severity: "error"});
       return;
     }
-    signin(user);   
+    signin(user);  
+    setLoading(true); 
   };
 
   const handleClose = (event, reason) => {
@@ -73,6 +76,11 @@ const Login = (props) => {
 
   return (
     <div className='container'>
+      <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}>
+          <CircularProgress color="inherit" />
+      </Backdrop>
       <div className='row justify-content-center'>
         <div className='col-11 col-md-8 col-lg-6 col-xl-5' style={{marginTop: '20px'}}>
 

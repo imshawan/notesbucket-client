@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Avatar } from '@mui/material';
 import { Typography, InputBase} from '@mui/material';
 import { Drawer, List, Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import CONF from '../../app.config';
 import AuthContext from '../../context/auth/authContext'
@@ -55,7 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ResponsiveAppBar = () => {
   const authContext = useContext(AuthContext);
-  const { user, clearStatus, status, isAuthenticated } = authContext
+  const { user, logout, clearStatus, status, isAuthenticated } = authContext
   const [userName, setUserName] = useState('Notesbucket User')
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
@@ -112,25 +114,39 @@ const ResponsiveAppBar = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
+          <ListItem className='justify-content-center mt-2' key={"avtaar"}>
+            <Avatar style={{height: '70px', width: '70px'}} {...stringAvatar(userName)} />
           </ListItem>
-        ))}
+          <ListItem className='justify-content-center mb-2' key={"title"}>
+            <ListItemText style={{textAlign: 'center', fontSize: '22px'}} primary={userName} />
+          </ListItem>
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button key={"Recents"}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <AccessTimeIcon />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={"Recents"} />
           </ListItem>
-        ))}
+          <ListItem button key={"Favourites"}>
+            <ListItemIcon>
+              <FavoriteBorderOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Favourites"} />
+          </ListItem> 
+          <ListItem onClick={() => logout()} button key={"Logout"}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Logout"} />
+          </ListItem>
+          <ListItem button key={"About"}>
+            <ListItemIcon>
+              <InfoOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary={"About"} />
+          </ListItem>
       </List>
     </Box>
   );
@@ -139,8 +155,9 @@ const ResponsiveAppBar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar style={{background: '#0029ff'}} position="static">
         <Toolbar>
-          <IconButton
-            onClick={toggleDrawer("left", true)}
+          {isAuthenticated ? (
+            <IconButton
+            onClick={toggleDrawer(true)}
             size="large"
             edge="start"
             color="inherit"
@@ -149,6 +166,7 @@ const ResponsiveAppBar = () => {
           >
             <MenuIcon />
           </IconButton>
+          ) : ''}
           <Typography
             variant="h6"
             noWrap

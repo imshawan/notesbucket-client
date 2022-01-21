@@ -27,3 +27,5 @@ export const FILTER_NOTES = 'FILTER_NOTES';
 export const CLEAR_FILTER = 'CLEAR_FILTER';
 export const NOTE_ERROR = 'NOTE_ERROR';
 export const CLEAR_NOTES = 'CLEAR_NOTES'
+
+export const SET_LOADING = 'SET_LOADING';
