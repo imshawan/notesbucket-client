@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import NotesCard from './NotesCard';
 import Backdrop from '@mui/material/Backdrop';

@@ -64,7 +64,7 @@ const Register = (props) => {
 
   useEffect(() => {
     if (!events.registration) return;
-    if (events.registration == "success") {
+    if (events.registration === "success") {
       setPopUp("registered");
       setType(true);
     }
@@ -151,7 +151,7 @@ const Register = (props) => {
         return;
       }
       var s = checkSecond((timeArray[1] - 1));
-      if(s == 59){m = m-1}
+      if(s === 59){m = m-1}
       if(m<0){
         return
       }
