@@ -28,20 +28,22 @@ const Notes = () => {
     }
 
     const sortNotesByFileration = (elements) => {
-        if (filtered === "recents") {
+        if (filtered === "none") {
+            return elements.sort((a, b) => {
+                return new Date(a.updatedAt).getTime() - 
+                    new Date(b.updatedAt).getTime()
+            }).reverse();
+        }
+        else if (filtered === "recents") {
             return elements.filter((elem) => {
                 var timeStamp = Math.round(new Date().getTime() / 1000);
                 var filterationTime = timeStamp - (24 * 3600); //24 hours
                 return new Date(elem.updatedAt) >= new Date(filterationTime*1000).getTime();
             })
         }
-        else if (filtered === "none") {
-            return elements.sort((a, b) => {
-                return new Date(a.updatedAt).getTime() - 
-                    new Date(b.updatedAt).getTime()
-            }).reverse();
+        else if (filtered === "favourites") {
+            return elements.filter((elem) => elem.favourite === true)
         }
-
     }
 
     return (

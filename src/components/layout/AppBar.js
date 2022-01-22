@@ -144,7 +144,7 @@ const ResponsiveAppBar = () => {
             </ListItemIcon>
             <ListItemText primary={"Recents"} />
           </ListItem>
-          <ListItem  button key={"Favourites"}>
+          <ListItem onClick={() => setFilter("favourites")} button key={"Favourites"}>
             <ListItemIcon>
               <FavoriteBorderOutlinedIcon />
             </ListItemIcon>

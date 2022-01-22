@@ -51,6 +51,7 @@ const NotesReducer = (state, action) => {
     case UPDATE_NOTE:
       return {
         ...state,
+        note: action.payload.note,
         notes: state.notes.map(note => note._id === action.payload.note._id ? action.payload.note: note),
         loading: false,
         status: { success: action.payload.success, message: action.payload.message }
