@@ -26,6 +26,7 @@ export const SET_CURRENT = 'SET_CURRENT';
 export const SEARCH_NOTES = 'SEARCH_NOTES';
 export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 export const NOTE_ERROR = 'NOTE_ERROR';
-export const CLEAR_NOTES = 'CLEAR_NOTES'
+export const CLEAR_NOTES = 'CLEAR_NOTES';
+export const SET_FILTER = 'SET_FILTER';
 
 export const SET_LOADING = 'SET_LOADING';

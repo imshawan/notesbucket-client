@@ -11,7 +11,8 @@ import {
   SEARCH_NOTES,
   CLEAR_SEARCH,
   CLEAR_STATUS,
-  CLEAR_NOTES
+  CLEAR_NOTES,
+  SET_FILTER
 } from '../types';
 
 const NotesReducer = (state, action) => {
@@ -82,6 +83,11 @@ const NotesReducer = (state, action) => {
         ...state,
         status: null,
         loading: false
+      }
+    case SET_FILTER:
+      return {
+        ...state,
+        filtered: action.payload
       }
     case CLEAR_NOTES:
     default:

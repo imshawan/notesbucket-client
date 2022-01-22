@@ -14,7 +14,8 @@ import {
   SEARCH_NOTES,
   CLEAR_SEARCH,
   NOTE_ERROR,
-  CLEAR_NOTES
+  CLEAR_NOTES,
+  SET_FILTER
 } from '../types';
 
 const headers = {
@@ -30,6 +31,7 @@ const NotesState = (props) => {
     status: null,
     current: null,
     searched: null,
+    filtered: "none",
     loading: true,
     error: null
 }
@@ -121,6 +123,10 @@ const NotesState = (props) => {
     dispatch({ type: CLEAR_CURRENT })
   }
 
+  const setFilter = (type) => {
+    dispatch({ type: SET_FILTER, payload: type })
+  }
+
   const SummerNoteOptions = {
     height: 350,
     dialogsInBody: true,
@@ -144,6 +150,7 @@ const NotesState = (props) => {
       status: state.status,
       current: state.current,
       searched: state.searched,
+      filtered: state.filtered,
       error: state.error,
       loading: state.loading,
       getNotesById,
@@ -156,7 +163,7 @@ const NotesState = (props) => {
       searchNotes,
       clearSearch,
       getNotes,
-     // clearContacts,
+      setFilter,
      SummerNoteOptions
     }}>{props.children}</NotesContext.Provider>
   );

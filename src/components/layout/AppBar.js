@@ -9,6 +9,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import NotesIcon from '@mui/icons-material/Notes';
 
 import CONF from '../../app.config';
 import AuthContext from '../../context/auth/authContext'
@@ -60,7 +61,7 @@ const ResponsiveAppBar = () => {
   const authContext = useContext(AuthContext);
   const { user, logout, clearStatus, status, isAuthenticated } = authContext
   const noteContext = useContext(NoteContext);
-  const { searchNotes, clearSearch } = noteContext 
+  const { searchNotes, setFilter, clearSearch } = noteContext 
   const [userName, setUserName] = useState('Notesbucket User')
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
@@ -131,13 +132,19 @@ const ResponsiveAppBar = () => {
       </List>
       <Divider />
       <List>
-          <ListItem button key={"Recents"}>
+          <ListItem onClick={() => setFilter("none")} button key={"All Notes"}>
+            <ListItemIcon>
+              <NotesIcon />
+            </ListItemIcon>
+            <ListItemText primary={"All Notes"} />
+          </ListItem>
+          <ListItem onClick={() => setFilter("recents")} button key={"Recents"}>
             <ListItemIcon>
               <AccessTimeIcon />
             </ListItemIcon>
             <ListItemText primary={"Recents"} />
           </ListItem>
-          <ListItem button key={"Favourites"}>
+          <ListItem  button key={"Favourites"}>
             <ListItemIcon>
               <FavoriteBorderOutlinedIcon />
             </ListItemIcon>

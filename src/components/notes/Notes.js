@@ -13,7 +13,7 @@ import no_note from '../../assets/images/note.png';
 
 const Notes = () => {
     const noteContext = useContext(NoteContext);
-    const { notes, searched, getNotes, loading, setAdd, add } = noteContext 
+    const { notes, searched, getNotes, filtered, loading, setAdd, add } = noteContext 
     
     useEffect(()=>{
         if (localStorage.token){
@@ -27,11 +27,21 @@ const Notes = () => {
         if (!add) setAdd(true)
     }
 
-    const sortNotes = (elements) => {
-        return elements.sort((a, b) => {
-            return new Date(a.updatedAt).getTime() - 
-                new Date(b.updatedAt).getTime()
-        }).reverse();
+    const sortNotesByFileration = (elements) => {
+        if (filtered === "recents") {
+            return elements.filter((elem) => {
+                var timeStamp = Math.round(new Date().getTime() / 1000);
+                var filterationTime = timeStamp - (24 * 3600); //24 hours
+                return new Date(elem.updatedAt) >= new Date(filterationTime*1000).getTime();
+            })
+        }
+        else if (filtered === "none") {
+            return elements.sort((a, b) => {
+                return new Date(a.updatedAt).getTime() - 
+                    new Date(b.updatedAt).getTime()
+            }).reverse();
+        }
+
     }
 
     return (
@@ -46,7 +56,7 @@ const Notes = () => {
                                 )}
                             </Fragment>
                         ) 
-                        : sortNotes(notes).map(note=><NotesCard note={note} key={note._id} />)
+                        : (filtered ? sortNotesByFileration(notes).map(note=><NotesCard note={note} key={note._id} />) : '')
                     }
                     </div>
                 ) : (
