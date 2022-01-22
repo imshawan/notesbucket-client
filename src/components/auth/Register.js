@@ -121,6 +121,7 @@ const Register = (props) => {
       return;
     }
     user.email = email.email;
+    user.acceptedTerms = check.check;
     register(user);  
     setLoading(true) 
   };
