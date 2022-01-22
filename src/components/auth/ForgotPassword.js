@@ -1,35 +1,29 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react'
-import { Box, TextField } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import { Button, Link, Typography, Avatar } from '@mui/material';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import AuthContext from '../../context/auth/authContext'
 import { Alert } from '../layout/Layout';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { CircularProgress, Backdrop } from '@mui/material';
+import LockResetIcon from '@mui/icons-material/LockReset';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { CircularProgress, Backdrop } from '@mui/material';
 import AppBar from '../../components/layout/AppBar';
 
-const Register = (props) => {
+const ForgotPassword = (props) => {
   const authContext = useContext(AuthContext);
-  const { verifyEmail, register, clearStatus, loading, setLoading, events, status, isAuthenticated } = authContext
+  const { sendForgotPasswordMail, resetPassword, loading, setLoading, clearStatus, events, status, isAuthenticated } = authContext
   
   const [user, setUser] = useState({
-    firstname: '',
-    lastname: '',
-    username: '',
     password: '',
+    password_confirm: '',
     otp: '',
   });
   const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
   const [email, setEmail] = useState({
     email: ''
-  });
-  const [check, setCheck] = useState({
-    check: false
   });
   const [open, setOpen] = useState({
     open: false,
@@ -39,7 +33,6 @@ const Register = (props) => {
 
   const [otpOpen, setotpOpen] = useState({open: false, showTimer: false, disabled: false});
   const [Type, setType] = useState(false);
-  const [PopUp, setPopUp] = useState('');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -65,12 +58,11 @@ const Register = (props) => {
   }, [status])
 
   useEffect(() => {
-    if (!events.registration) return;
-    if (events.registration === "success") {
-      setPopUp("registered");
+    if (!events.passwordReset) return;
+    if (events.passwordReset == "success") {
       setType(true);
     }
-  }, [events.registration])
+  }, [events.passwordReset])
 
   useEffect(() => {
     if (otpOpen.showTimer) {
@@ -79,60 +71,47 @@ const Register = (props) => {
     }
   }, [otpOpen.showTimer])
 
-  const handleClickOpen = (popup) => () => {
-    setPopUp(popup);
-    setType(true);
-  };
-
   const onChangeUserData = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const onChangeEmail = (e) => {
     setEmail({ ...email, [e.target.name]: e.target.value });
   };
-  const onChangeAccept = (e) => {
-    setCheck({ ...check, [e.target.name]: e.target.checked });
-  };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!user.firstname) {
-      setOpen({...open, open: true, message: "Firstname cannot be blank", severity: "error"});
-      return;
-    }
-    if (!user.lastname) {
-      setOpen({...open, open: true, message: "Lastname cannot be blank", severity: "error"});
-      return;
-    }
-    if (!user.username) {
-      setOpen({...open, open: true, message: "Username cannot be blank", severity: "error"});
+    if (!email.email) {
+      setOpen({...open, open: true, message: "Please enter your registered email Id to proceed", severity: "error"});
       return;
     }
     if (!user.password) {
       setOpen({...open, open: true, message: "Password field cannot be blank", severity: "error"});
       return;
     }
+    if (!user.password_confirm) {
+      setOpen({...open, open: true, message: "Confirm your password to continue", severity: "error"});
+      return;
+    }
+    if (user.password !== user.password_confirm) {
+      setOpen({...open, open: true, message: "Passwords do not match", severity: "error"});
+      return;
+    }
     if (!user.otp) {
       setOpen({...open, open: true, message: "Verification code is required", severity: "error"});
       return;
     }
-    if (!check.check){
-      setOpen({...open, open: true, message: "Can't proceed without accepting the terms and conditions", severity: "error"});
-      return;
-    }
     user.email = email.email;
-    user.acceptedTerms = check.check;
-    register(user);  
-    setLoading(true) 
+    resetPassword(user);   
+    setLoading(true)
   };
 
   const onSubmitEmail = (e) => {
     e.preventDefault();
     if (!email.email) {
-      setOpen({...open, open: true, message: "Please enter your email to proceed", severity: "error"});
+      setOpen({...open, open: true, message: "Please enter your registered email Id to proceed", severity: "error"});
       return;
     }
-    verifyEmail(email);
+    sendForgotPasswordMail(email);
     setotpOpen({...otpOpen, open: true});
   };
 
@@ -155,7 +134,7 @@ const Register = (props) => {
         return;
       }
       var s = checkSecond((timeArray[1] - 1));
-      if(s === 59){m = m-1}
+      if(s == 59){m = m-1}
       if(m<0){
         return
       }
@@ -187,10 +166,10 @@ const Register = (props) => {
 
           <div className='justify-content-center' style={{display: 'flex', paddingTop: '16px'}}>
             <Avatar style={{background: 'blue', height: '70px', width: '70px'}}>
-              <HowToRegIcon style={{height: '40px', width: '40px'}} />
+              <LockResetIcon style={{height: '40px', width: '40px', marginRight: '2px'}} />
             </Avatar>
             </div>
-            <h2 className='main-heading' style={{paddingTop: '14px', marginBottom: '35px'}}>Create Account</h2>
+            <h2 className='main-heading' style={{paddingTop: '14px', marginBottom: '35px'}}>Forgot Password</h2>
             <Box onSubmit={onSubmitEmail}
               component="form"
               sx={{
@@ -217,60 +196,26 @@ const Register = (props) => {
             }}
             noValidate
             autoComplete="off">
+
             <TextField id="outlined-basic otp" type="text"
               name="otp"
               value={user.otp}
               onChange={onChangeUserData}
               required label="Verification code" variant="outlined" />
                 <br />
-            <div className='row'>
-            <TextField style={{maxWidth: '49%'}} className='col-12 col-md-6 mb-3 firstname-lastname' id="outlined-basic firstname" type="text"
-              name="firstname"
-              value={user.firstname}
-              onChange={onChangeUserData}
-              required label="Firstname" variant="outlined" />
-            <TextField style={{maxWidth: '49%', marginLeft: '8px'}} className='col-12 col-md-6 firstname-lastname' id="outlined-basic lastname" type="text"
-              name="lastname"
-              value={user.lastname}
-              onChange={onChangeUserData}
-              required label="Lastname" variant="outlined" />
-            </div>
-            <TextField id="outlined-basic username" type="text"
-              name="username"
-              value={user.username}
-              onChange={onChangeUserData}
-              required label="Create Username" variant="outlined" />
-            <TextField id="outlined-basic password" type="password"
+            <TextField id="outlined-basic password" type="text"
               name="password"
               value={user.password}
               onChange={onChangeUserData}
               required label="Create Password" variant="outlined" />
+            <TextField id="outlined-basic password_confirm" type="text"
+              name="password_confirm"
+              value={user.password_confirm}
+              onChange={onChangeUserData}
+              required label="Confirm Password" variant="outlined" />
                 <br />
-            
-                <FormControlLabel style={{textAlign: 'left'}}
-                control={
-                  <Checkbox checked={check.check} onChange={onChangeAccept} name="check" />
-                }
-                label={
-                  <div className='form-footer'>
-                    <span>I hereby confirm that I've read the </span> 
-                    <Link><span onClick={handleClickOpen("privacy")}>Privacy Policy</span></Link>
-                    <span> and choose to accept all the </span>
-                    <Link><span onClick={handleClickOpen("t-and-c")}>Terms and Conditions.</span></Link>
-                  </div>
-                }
-              />
-              <br />
-            <Button style={{ marginTop: '10px', height: '56px', background: 'blue'}} type="submit" size="large" color="primary" variant="contained">Sign up</Button>
+            <Button style={{ marginTop: '30px', height: '56px', background: 'blue' }} type="submit" size="large" color="primary" variant="contained">Change Password</Button>
             </Box>
-            <div style={{marginTop: '10px', marginBottom: '40px'}}>
-              <Typography>
-                Already registered? &nbsp;
-                <Link href="/login" underline="hover">
-                  {'Log in here!'}
-                </Link>
-              </Typography>
-            </div>
 
           <Stack spacing={2} sx={{ width: '100%' }}>
             <Snackbar open={open.open} autoHideDuration={5000} onClose={handleClose}>
@@ -292,33 +237,31 @@ const Register = (props) => {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">{PopUp === 'privacy' ? 'Privacy Policy' : (PopUp === 'registered' ? 'Registration Successful!' : 'Terms and Conditions')}</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">Password reset successful</DialogTitle>
         <DialogContent dividers={true}>
           <DialogContentText
             id="scroll-dialog-description"
             tabIndex={-1}
           >
-           {PopUp === 'privacy' ? 'Some Privacy Policy text' : (PopUp === 'registered' ? (
-             <div style={{textAlign: 'center'}}>
+           <div style={{textAlign: 'center'}}>
               <div className='justify-content-center' style={{display: 'flex', marginBottom: '25px'}}>
                 <CheckCircleIcon style={{color: 'green', fontSize: '7rem'}} />
               </div>
               <div>
-                You have successfully registered for NotesBucket.
+                You have successfully changed your NotesBucket account password.
                 <br /> Please proceed to the login page to login and continue.
               </div>
             </div>
-           ) : 'Some Terms and Conditions text')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={() => setType(false)}>{PopUp === 'registered' ? (
+          <Button variant="outlined" onClick={() => setType(false)}>
             <Typography>
-              <Link href="/login" underline="none">
-                {'Continue to login'}
-              </Link>
+                <Link href="/login" underline="none">
+                  {'Continue to login'}
+                </Link>
             </Typography>
-          ) : 'CLOSE'}</Button>
+          </Button>
         </DialogActions>
       </Dialog>
       </div>
@@ -327,4 +270,4 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+export default ForgotPassword;

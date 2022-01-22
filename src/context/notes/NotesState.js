@@ -11,10 +11,11 @@ import {
   UPDATE_NOTE,
   SET_CURRENT,
   CLEAR_CURRENT,
-  FILTER_NOTES,
-  CLEAR_FILTER,
+  SEARCH_NOTES,
+  CLEAR_SEARCH,
   NOTE_ERROR,
-  CLEAR_NOTES
+  CLEAR_NOTES,
+  SET_FILTER
 } from '../types';
 
 const headers = {
@@ -29,7 +30,8 @@ const NotesState = (props) => {
     add: false,
     status: null,
     current: null,
-    filtered: null,
+    searched: null,
+    filtered: "none",
     loading: true,
     error: null
 }
@@ -89,6 +91,32 @@ const NotesState = (props) => {
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
   }
+  
+  const addToFavourites = async (id) =>{
+    state.loading = true
+    axios.request({
+        url: `${process.env.REACT_APP_PROD_URL}/api/favourites/${id}`,
+        method: 'PUT',
+        data: {},
+        headers: headers
+      }).then((resp) => {
+        dispatch({ type: UPDATE_NOTE, payload: resp.data })
+      })
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+  }
+
+  const removeFavourite = async (id) =>{
+    state.loading = true
+    axios.request({
+        url: `${process.env.REACT_APP_PROD_URL}/api/favourites/${id}`,
+        method: 'DELETE',
+        data: {},
+        headers: headers
+      }).then((resp) => {
+        dispatch({ type: UPDATE_NOTE, payload: resp.data })
+      })
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+  }
 
   const deleteNotesById = async (id) =>{
     state.loading = true
@@ -110,9 +138,19 @@ const NotesState = (props) => {
   const setAdd = (value) => {
     dispatch({ type: INIT_ADD_NOTE, payload: value })
   }
+  const searchNotes = (query) => {
+    dispatch({ type: SEARCH_NOTES, payload: query })
+  }
+  const clearSearch = () =>{
+    dispatch({ type: CLEAR_SEARCH })
+  }
   //Clear current note
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT })
+  }
+
+  const setFilter = (type) => {
+    dispatch({ type: SET_FILTER, payload: type })
   }
 
   const SummerNoteOptions = {
@@ -137,21 +175,24 @@ const NotesState = (props) => {
       add: state.add,
       status: state.status,
       current: state.current,
+      searched: state.searched,
       filtered: state.filtered,
       error: state.error,
       loading: state.loading,
-      getNotesById,
-      createNote,
-      setAdd,
-      setCurrent,
-      clearCurrent,
+      SummerNoteOptions,
+      addToFavourites, 
+      removeFavourite,
       updateNoteById,
       deleteNotesById,
-      // filterContacts,
-      // clearFilter,
+      getNotesById,
+      clearCurrent,
+      searchNotes,
+      clearSearch,
+      createNote,
+      setCurrent,
       getNotes,
-     // clearContacts,
-     SummerNoteOptions
+      setFilter,
+      setAdd
     }}>{props.children}</NotesContext.Provider>
   );
 };

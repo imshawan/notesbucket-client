@@ -10,6 +10,9 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 
+export const PASSWORD_RESET_SUCCESS = 'PASSWORD_RESET_SUCCESS';
+export const PASSWORD_RESET_FAIL = 'PASSWORD_RESET_FAIL';
+
 export const CLEAR_STATUS = 'CLEAR_STATUS';
 
 export const GET_NOTES = 'GET_NOTES';
@@ -20,7 +23,10 @@ export const DELETE_NOTE = 'DELETE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const CLEAR_CURRENT = 'CLEAR_CURRENT';
 export const SET_CURRENT = 'SET_CURRENT';
-export const FILTER_NOTES = 'FILTER_NOTES';
-export const CLEAR_FILTER = 'CLEAR_FILTER';
+export const SEARCH_NOTES = 'SEARCH_NOTES';
+export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 export const NOTE_ERROR = 'NOTE_ERROR';
-export const CLEAR_NOTES = 'CLEAR_NOTES'
+export const CLEAR_NOTES = 'CLEAR_NOTES';
+export const SET_FILTER = 'SET_FILTER';
+
+export const SET_LOADING = 'SET_LOADING';

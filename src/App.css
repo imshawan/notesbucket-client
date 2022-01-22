@@ -4,7 +4,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.App {
+.container {
   text-align: center;
 }
 
@@ -44,6 +44,12 @@ p {
   min-height: 364px;
 }
 
+.no-notes-image {
+    height: 170px;
+    opacity: .2;
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -75,6 +81,9 @@ p {
   .appbar-main {
     height: 80px;
   }
+  .no-notes-image {
+    height: 200px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -84,6 +93,9 @@ p {
   .appbar-main {
     height: 70px;
   }
+  .no-notes-image {
+    height: 180px;
+  }
 }
 
 @media (max-width: 470px) {
@@ -91,6 +103,9 @@ p {
     min-width: 100%!important;
     margin-left: 0px!important;
     margin-right: 0px!important;
+  }
+  .no-notes-image {
+    height: 128px;
   }
 }
 
@@ -102,5 +117,8 @@ p {
   }
   .form-footer {
     font-size: .8rem!important;
+  }
+  .no-notes-image {
+    height: 160px;
   }
 }

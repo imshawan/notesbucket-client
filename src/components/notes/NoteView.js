@@ -3,12 +3,14 @@ import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
 import { Alert } from '../layout/Layout';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import { Button, Tooltip } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/tooltip';
@@ -18,7 +20,8 @@ import 'react-summernote/dist/react-summernote.css'; // import styles
 
 function NoteView() {
     const noteContext = useContext(NoteContext)
-    const { note, status, getNotesById, current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions } = noteContext
+    const { note, status, getNotesById, addToFavourites, removeFavourite, 
+      current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions } = noteContext
     const [open, setOpen] = useState(false)
     const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
     const [editing, setEditing] = useState(false)
@@ -38,6 +41,12 @@ function NoteView() {
       deleteNotesById(note._id);
       clearCurrent()
       setOpen(false)
+    }
+
+    const handleFavourites = (e) => {
+      e.preventDefault();
+      if (note.favourite) removeFavourite(note._id)
+      else addToFavourites(note._id)
     }
 
     useEffect(() => {
@@ -100,18 +109,6 @@ function NoteView() {
           </Modal.Header>
           <Modal.Body style={{padding: '1rem 1.8rem'}}>
             {editing ? (
-            //   <TextField
-            //   id="outlined-multiline-static"
-            //   label="Content"
-            //   name="content"
-            //   onChange={payloadOnChange}
-            //   style={{width: '100%', height: '100%'}}
-            //   multiline
-            //   InputProps={{
-            //     className: "notes-creator-textarea"
-            // }}
-            //   defaultValue={note.content} />
-
                 <ReactSummernote
                   onInit={() => {document.querySelector(".note-editable").innerHTML = note.content}}
                   options={SummerNoteOptions}
@@ -123,14 +120,26 @@ function NoteView() {
           
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="outlined" style={{ marginRight: '10px' }} startIcon={<DeleteIcon />} onClick={() => onDelete()}>DELETE</Button>
-            <Button variant="outlined" style={{ marginRight: '10px' }} type={!editing ? 'submit' : ''} startIcon={modify.icon} onClick={() => setEditing(true)}>{modify.text}</Button>
-            <Button variant="outlined" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>CLOSE</Button>
+            <Tooltip title={note.favourite ? "Remove favourite" : "Add favourite" } placement="top">
+              <Button style={{ marginLeft: '25px', left: 0, position: 'absolute', maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px' }}
+              onClick={handleFavourites}>
+                {note.favourite ? <FavoriteIcon /> :<FavoriteBorderIcon />}
+              </Button>
+            </Tooltip>
+            <Button variant="outlined" style={{ marginRight: '10px' }} startIcon={<DeleteIcon />} onClick={() => onDelete()}>
+              DELETE
+            </Button>
+            <Button variant="outlined" style={{ marginRight: '10px' }} type={!editing ? 'submit' : ''} startIcon={modify.icon} onClick={() => setEditing(true)}>
+              {modify.text}
+            </Button>
+            <Button variant="outlined" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>
+              CLOSE
+            </Button>
           </Modal.Footer>
         </form>
       </Modal>
-        <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false, text: ""})}>
-          <Alert onClose={() => setOpsStatus({...statusOps, open: false, text: ""})} severity={statusOps.severity} sx={{ width: '100%' }}>
+        <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false})}>
+          <Alert onClose={() => setOpsStatus({...statusOps, open: false})} severity={statusOps.severity} sx={{ width: '100%' }}>
             {statusOps.text}
           </Alert>
         </Snackbar>

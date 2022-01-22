@@ -119,8 +119,8 @@ function NoteCreator() {
         </Snackbar>
       </Stack>
       </Modal>
-        <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({open: false, text: ""})}>
-          <Alert onClose={() => setOpsStatus({open: false, text: ""})} severity={statusOps.severity} sx={{ width: '100%' }}>
+        <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({open: false})}>
+          <Alert onClose={() => setOpsStatus({open: false})} severity={statusOps.severity} sx={{ width: '100%' }}>
             {statusOps.text}
           </Alert>
         </Snackbar>

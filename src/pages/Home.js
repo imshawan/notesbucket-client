@@ -1,7 +1,8 @@
 
-import React, { useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 //import Notes from '../'
 import Notes from '../components/notes/Notes'
+import AppBar from '../components/layout/AppBar';
 //import ContactFilter from '../contacts/ContactFilter'
 import AuthContext from '../context/auth/authContext'
 const Home = () => {
@@ -11,11 +12,14 @@ const Home = () => {
         loadUser()
     },[])
     return (
-        <div className='container'>
-            <div className='notes-container'>
-                <Notes></Notes>
+        <Fragment>
+            <AppBar />
+            <div className='container'>
+                <div className='notes-container'>
+                    <Notes></Notes>
+                </div>
             </div>
-        </div>
+        </Fragment>
     )
 }
 
