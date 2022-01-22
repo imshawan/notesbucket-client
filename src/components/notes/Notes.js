@@ -8,6 +8,7 @@ import NoteCreator from './NoteCreator';
 import SpeedDial from '@mui/material/SpeedDial';
 import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
+import no_note from '../../assets/images/note.png';
 
 
 const Notes = () => {
@@ -35,14 +36,20 @@ const Notes = () => {
 
     return (
         <Fragment>
-            {notes !== [] && notes.length !== 0 && !loading ?(
+            {notes && notes.length !== 0 && !loading ?(
                     <div className='row'>
                     {
                         filtered !== null ? filtered.map(note=><NotesCard note={note} key={note._id}/>) 
                         : sortNotes(notes).map(note=><NotesCard note={note} key={note._id} />)
                     }
                     </div>
-                ) : (<h4>No notes found!</h4>)}
+                ) : (
+                    <div style={{height: '80vh'}} className='row justify-content-center'>
+                        <div className='no-note-img' style={{margin: 'auto'}}>
+                            <img className='no-notes-image' src={no_note}></img>
+                        </div>
+                    </div>
+                )}
             <NoteView />
             <NoteCreator />
             <Backdrop
