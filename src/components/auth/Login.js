@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { Fragment, useState, FragmentuseState, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -8,6 +8,7 @@ import { Button, Link, Typography, Avatar } from '@mui/material';
 import { Alert } from '../layout/Layout';
 import LockIcon from '@mui/icons-material/Lock';
 import { CircularProgress, Backdrop } from '@mui/material';
+import AppBar from '../../components/layout/AppBar';
 
 const Login = (props) => {
   const authContext = useContext(AuthContext);
@@ -75,6 +76,8 @@ const Login = (props) => {
   };
 
   return (
+    <Fragment>
+      <AppBar />
     <div className='container'>
       <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -141,6 +144,7 @@ const Login = (props) => {
         </div>
       </div>
     </div>
+    </Fragment>
   );
 };
 

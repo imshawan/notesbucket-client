@@ -13,7 +13,7 @@ import no_note from '../../assets/images/note.png';
 
 const Notes = () => {
     const noteContext = useContext(NoteContext);
-    const { notes, filtered, getNotes, loading, setAdd, add } = noteContext 
+    const { notes, searched, getNotes, loading, setAdd, add } = noteContext 
     
     useEffect(()=>{
         if (localStorage.token){
@@ -39,7 +39,13 @@ const Notes = () => {
             {notes && notes.length !== 0 && !loading ?(
                     <div className='row'>
                     {
-                        filtered !== null ? filtered.map(note=><NotesCard note={note} key={note._id}/>) 
+                        searched ? (
+                            <Fragment>
+                                {searched.length !== 0 ? (searched.map(note=><NotesCard note={note} key={note._id}/>)) : (
+                                    <h3 style={{margin: 'auto'}}>Nothing found</h3>
+                                )}
+                            </Fragment>
+                        ) 
                         : sortNotes(notes).map(note=><NotesCard note={note} key={note._id} />)
                     }
                     </div>

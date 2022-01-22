@@ -23,8 +23,8 @@ export const DELETE_NOTE = 'DELETE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const CLEAR_CURRENT = 'CLEAR_CURRENT';
 export const SET_CURRENT = 'SET_CURRENT';
-export const FILTER_NOTES = 'FILTER_NOTES';
-export const CLEAR_FILTER = 'CLEAR_FILTER';
+export const SEARCH_NOTES = 'SEARCH_NOTES';
+export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 export const NOTE_ERROR = 'NOTE_ERROR';
 export const CLEAR_NOTES = 'CLEAR_NOTES'
 

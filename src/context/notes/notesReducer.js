@@ -8,7 +8,8 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
   FILTER_NOTES,
-  CLEAR_FILTER,
+  SEARCH_NOTES,
+  CLEAR_SEARCH,
   CLEAR_STATUS,
   CLEAR_NOTES
 } from '../types';
@@ -63,8 +64,19 @@ const NotesReducer = (state, action) => {
         ...state,
         current: null
       }
-    case FILTER_NOTES:
-    case CLEAR_FILTER:
+    case SEARCH_NOTES:
+      return{
+        ...state,
+        searched: state.notes.filter(note => {
+            const regex = new RegExp(`${action.payload}`,'gi')
+            return note.title.match(regex)
+        })
+    }
+    case CLEAR_SEARCH:
+      return{
+        ...state,
+        searched: null
+    }
     case CLEAR_STATUS:
       return{
         ...state,

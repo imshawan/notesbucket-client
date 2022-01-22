@@ -19,7 +19,6 @@ if (localStorage.token){
 function App() {
   return (
     <AuthState>
-      <AppBar />
       <NotesState>
         <Router>
           <Fragment>

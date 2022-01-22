@@ -12,6 +12,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import CONF from '../../app.config';
 import AuthContext from '../../context/auth/authContext'
+import NoteContext from '../../context/notes/notesContext';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,6 +59,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const ResponsiveAppBar = () => {
   const authContext = useContext(AuthContext);
   const { user, logout, clearStatus, status, isAuthenticated } = authContext
+  const noteContext = useContext(NoteContext);
+  const { searchNotes, clearSearch } = noteContext 
   const [userName, setUserName] = useState('Notesbucket User')
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
@@ -66,6 +69,11 @@ const ResponsiveAppBar = () => {
     if (!user) return;
     setUserName(`${user.firstname} ${user.lastname}`)
   }, [user])
+
+  useEffect(() => {
+    if (query) searchNotes(query)
+    else clearSearch()
+  }, [query])
 
   function stringToColor(string) {
     let hash = 0;

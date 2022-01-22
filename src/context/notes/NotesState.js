@@ -11,8 +11,8 @@ import {
   UPDATE_NOTE,
   SET_CURRENT,
   CLEAR_CURRENT,
-  FILTER_NOTES,
-  CLEAR_FILTER,
+  SEARCH_NOTES,
+  CLEAR_SEARCH,
   NOTE_ERROR,
   CLEAR_NOTES
 } from '../types';
@@ -29,7 +29,7 @@ const NotesState = (props) => {
     add: false,
     status: null,
     current: null,
-    filtered: null,
+    searched: null,
     loading: true,
     error: null
 }
@@ -110,6 +110,12 @@ const NotesState = (props) => {
   const setAdd = (value) => {
     dispatch({ type: INIT_ADD_NOTE, payload: value })
   }
+  const searchNotes = (query) => {
+    dispatch({ type: SEARCH_NOTES, payload: query })
+  }
+  const clearSearch = () =>{
+    dispatch({ type: CLEAR_SEARCH })
+  }
   //Clear current note
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT })
@@ -137,7 +143,7 @@ const NotesState = (props) => {
       add: state.add,
       status: state.status,
       current: state.current,
-      filtered: state.filtered,
+      searched: state.searched,
       error: state.error,
       loading: state.loading,
       getNotesById,
@@ -147,8 +153,8 @@ const NotesState = (props) => {
       clearCurrent,
       updateNoteById,
       deleteNotesById,
-      // filterContacts,
-      // clearFilter,
+      searchNotes,
+      clearSearch,
       getNotes,
      // clearContacts,
      SummerNoteOptions
