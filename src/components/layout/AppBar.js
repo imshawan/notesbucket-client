@@ -59,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ResponsiveAppBar = () => {
   const authContext = useContext(AuthContext);
-  const { user, logout, clearStatus, status, isAuthenticated } = authContext
+  const { user, logout, isAuthenticated } = authContext
   const noteContext = useContext(NoteContext);
   const { searchNotes, setFilter, clearSearch } = noteContext 
   const [userName, setUserName] = useState('Notesbucket User')
@@ -127,38 +127,40 @@ const ResponsiveAppBar = () => {
             <Avatar style={{height: '70px', width: '70px'}} {...stringAvatar(userName)} />
           </ListItem>
           <ListItem className='justify-content-center mb-2' key={"title"}>
-            <ListItemText style={{textAlign: 'center', fontSize: '22px'}} primary={userName} />
+            <ListItemText style={{textAlign: 'center'}}
+              disableTypography
+              primary={<Typography style={{fontWeight: 500, fontSize: '1.2rem'}} >{userName}</Typography>} />
           </ListItem>
       </List>
       <Divider />
       <List>
           <ListItem onClick={() => setFilter("none")} button key={"All Notes"}>
             <ListItemIcon>
-              <NotesIcon />
+              <NotesIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"All Notes"} />
           </ListItem>
           <ListItem onClick={() => setFilter("recents")} button key={"Recents"}>
             <ListItemIcon>
-              <AccessTimeIcon />
+              <AccessTimeIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"Recents"} />
           </ListItem>
           <ListItem onClick={() => setFilter("favourites")} button key={"Favourites"}>
             <ListItemIcon>
-              <FavoriteBorderOutlinedIcon />
+              <FavoriteBorderOutlinedIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"Favourites"} />
           </ListItem> 
           <ListItem onClick={() => logout()} button key={"Logout"}>
             <ListItemIcon>
-              <LogoutIcon />
+              <LogoutIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"Logout"} />
           </ListItem>
           <ListItem button key={"About"}>
             <ListItemIcon>
-              <InfoOutlinedIcon />
+              <InfoOutlinedIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"About"} />
           </ListItem>
@@ -196,7 +198,7 @@ const ResponsiveAppBar = () => {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Global search…"
               name='search'
               onChange={(e) => setQuery(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
