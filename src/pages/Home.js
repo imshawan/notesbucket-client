@@ -1,10 +1,8 @@
 
-import React, { Fragment, useContext, useEffect } from 'react'
-//import Notes from '../'
+import React, { useContext, useEffect } from 'react'
 import Notes from '../components/notes/Notes'
-import AppBar from '../components/layout/AppBar';
-//import ContactFilter from '../contacts/ContactFilter'
 import AuthContext from '../context/auth/authContext'
+import Queries from '../components/Queries'
 const Home = () => {
     const authContext = useContext(AuthContext);
     const { loadUser } = authContext
@@ -12,14 +10,14 @@ const Home = () => {
         loadUser()
     },[])
     return (
-        <Fragment>
-            <AppBar />
-            <div className='container'>
-                <div className='notes-container'>
-                    <Notes></Notes>
-                </div>
+        <div className='container'>
+            <div className='notes-container'>
+                <Notes></Notes>
             </div>
-        </Fragment>
+            <div>
+                <Queries />
+            </div>
+        </div>
     )
 }
 

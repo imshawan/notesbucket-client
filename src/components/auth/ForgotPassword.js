@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Link, Typography, Avatar } from '@mui/material';
@@ -10,7 +10,6 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import LockResetIcon from '@mui/icons-material/LockReset';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CircularProgress, Backdrop } from '@mui/material';
-import AppBar from '../../components/layout/AppBar';
 
 const ForgotPassword = (props) => {
   const authContext = useContext(AuthContext);
@@ -153,8 +152,6 @@ const ForgotPassword = (props) => {
   }
 
   return (
-    <Fragment>
-      <AppBar />
     <div className='container'>
       <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -266,7 +263,6 @@ const ForgotPassword = (props) => {
       </Dialog>
       </div>
     </div>
-    </Fragment>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Avatar } from '@mui/material';
 import { Typography, InputBase} from '@mui/material';
@@ -11,9 +12,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import NotesIcon from '@mui/icons-material/Notes';
 
-import CONF from '../../app.config';
 import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
+import QueriesContext from '../../context/queries/queriesContext';
+
+import { MainAccent } from '../../app.config';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,10 +61,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ResponsiveAppBar = () => {
-  const authContext = useContext(AuthContext);
-  const { user, logout, clearStatus, status, isAuthenticated } = authContext
-  const noteContext = useContext(NoteContext);
+  const authContext = useContext(AuthContext)
+  const noteContext = useContext(NoteContext)
+  const queriesContext = useContext(QueriesContext)
+  
+  const { user, logout, isAuthenticated } = authContext
   const { searchNotes, setFilter, clearSearch } = noteContext 
+  const { setPopUp } = queriesContext
   const [userName, setUserName] = useState('Notesbucket User')
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
@@ -127,40 +133,42 @@ const ResponsiveAppBar = () => {
             <Avatar style={{height: '70px', width: '70px'}} {...stringAvatar(userName)} />
           </ListItem>
           <ListItem className='justify-content-center mb-2' key={"title"}>
-            <ListItemText style={{textAlign: 'center', fontSize: '22px'}} primary={userName} />
+            <ListItemText style={{textAlign: 'center'}}
+              disableTypography
+              primary={<Typography style={{fontWeight: 500, fontSize: '1.2rem'}} >{userName}</Typography>} />
           </ListItem>
       </List>
       <Divider />
       <List>
           <ListItem onClick={() => setFilter("none")} button key={"All Notes"}>
             <ListItemIcon>
-              <NotesIcon />
+              <NotesIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"All Notes"} />
           </ListItem>
           <ListItem onClick={() => setFilter("recents")} button key={"Recents"}>
             <ListItemIcon>
-              <AccessTimeIcon />
+              <AccessTimeIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"Recents"} />
           </ListItem>
           <ListItem onClick={() => setFilter("favourites")} button key={"Favourites"}>
             <ListItemIcon>
-              <FavoriteBorderOutlinedIcon />
+              <FavoriteBorderOutlinedIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"Favourites"} />
           </ListItem> 
           <ListItem onClick={() => logout()} button key={"Logout"}>
             <ListItemIcon>
-              <LogoutIcon />
+              <LogoutIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"Logout"} />
           </ListItem>
-          <ListItem button key={"About"}>
+          <ListItem onClick={() => setPopUp(true)} button key={"Feedback"}>
             <ListItemIcon>
-              <InfoOutlinedIcon />
+              <InfoOutlinedIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
-            <ListItemText primary={"About"} />
+            <ListItemText primary={"Feedback"} />
           </ListItem>
       </List>
     </Box>
@@ -168,7 +176,7 @@ const ResponsiveAppBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{background: '#0029ff'}} position="static">
+      <AppBar style={{background: MainAccent }} position="static">
         <Toolbar>
           {isAuthenticated ? (
             <IconButton
@@ -191,12 +199,12 @@ const ResponsiveAppBar = () => {
             NotesBucket
           </Typography>
           {isAuthenticated ?
-          (<Search style={{backgroundColor: 'rgba(255, 255, 255, 0.25)'}}>
+          (<Search >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Global search…"
               name='search'
               onChange={(e) => setQuery(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
