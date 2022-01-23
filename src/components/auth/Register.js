@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Box, TextField } from '@mui/material';
 import { Button, Link, Typography, Avatar } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -11,7 +11,6 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { CircularProgress, Backdrop } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import AppBar from '../../components/layout/AppBar';
 
 const Register = (props) => {
   const authContext = useContext(AuthContext);
@@ -174,8 +173,6 @@ const Register = (props) => {
   }
 
   return (
-    <Fragment>
-      <AppBar />
     <div className='container'>
       <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -323,7 +320,6 @@ const Register = (props) => {
       </Dialog>
       </div>
     </div>
-    </Fragment>
   );
 };
 

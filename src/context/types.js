@@ -30,3 +30,6 @@ export const CLEAR_NOTES = 'CLEAR_NOTES';
 export const SET_FILTER = 'SET_FILTER';
 
 export const SET_LOADING = 'SET_LOADING';
+
+export const RESPONSE_SENT = 'RESPONSE_SENT';
+export const RESPONSE_SENDING_FAILED = 'RESPONSE_SENDING_FAILED';

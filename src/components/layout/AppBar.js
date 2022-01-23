@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Avatar } from '@mui/material';
 import { Typography, InputBase} from '@mui/material';
@@ -11,7 +12,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import NotesIcon from '@mui/icons-material/Notes';
 
-import CONF from '../../app.config';
 import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 
