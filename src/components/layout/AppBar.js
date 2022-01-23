@@ -14,6 +14,9 @@ import NotesIcon from '@mui/icons-material/Notes';
 
 import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
+import QueriesContext from '../../context/queries/queriesContext';
+
+import { MainAccent } from '../../app.config';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,10 +61,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ResponsiveAppBar = () => {
-  const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext)
+  const noteContext = useContext(NoteContext)
+  const queriesContext = useContext(QueriesContext)
+  
   const { user, logout, isAuthenticated } = authContext
-  const noteContext = useContext(NoteContext);
   const { searchNotes, setFilter, clearSearch } = noteContext 
+  const { setPopUp } = queriesContext
   const [userName, setUserName] = useState('Notesbucket User')
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
@@ -158,11 +164,11 @@ const ResponsiveAppBar = () => {
             </ListItemIcon>
             <ListItemText primary={"Logout"} />
           </ListItem>
-          <ListItem button key={"About"}>
+          <ListItem onClick={() => setPopUp(true)} button key={"Feedback"}>
             <ListItemIcon>
               <InfoOutlinedIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
-            <ListItemText primary={"About"} />
+            <ListItemText primary={"Feedback"} />
           </ListItem>
       </List>
     </Box>
@@ -170,7 +176,7 @@ const ResponsiveAppBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{background: '#0029ff'}} position="static">
+      <AppBar style={{background: MainAccent }} position="static">
         <Toolbar>
           {isAuthenticated ? (
             <IconButton
@@ -193,7 +199,7 @@ const ResponsiveAppBar = () => {
             NotesBucket
           </Typography>
           {isAuthenticated ?
-          (<Search style={{backgroundColor: 'rgba(255, 255, 255, 0.25)'}}>
+          (<Search >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

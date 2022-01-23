@@ -1,7 +1,7 @@
-const CONF = {
-    bindAddress: "http://localhost:3001/",
-    appName: "NotesBucket",
-    apiUrl: "https://api-notesbucket.herokuapp.com/"
-}
+const MainAccent = "#5C33F6"
+const AppName = "NotesBucket"
 
-export default CONF;
+export {
+    MainAccent,
+    AppName
+}

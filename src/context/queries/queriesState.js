@@ -4,7 +4,9 @@ import QueriesContext from './queriesContext';
 import QueriesReducer from './queriesReducer';
 import {
     RESPONSE_SENT,
-    RESPONSE_SENDING_FAILED
+    RESPONSE_SENDING_FAILED,
+    SET_QUERY_LOADING,
+    SET_OPEN
 } from '../types';
 
 const headers = {
@@ -14,9 +16,9 @@ const headers = {
 
 const QueriesState = (props) => {
   const initialState = {
-    status: null,
-    loading: true,
-    error: null
+    status: {},
+    loading: false,
+    popup: false
 }
   const [state, dispatch] = useReducer(QueriesReducer, initialState);
 
@@ -33,12 +35,22 @@ const QueriesState = (props) => {
       .catch(err => dispatch({ type: RESPONSE_SENDING_FAILED, payload: err.response.data }))
   }
 
+  const setPopUp = (value) => {
+    dispatch({type: SET_OPEN, payload: value})
+  }
+
+  const setQueryLoading = (value) => {
+    dispatch({ type: SET_QUERY_LOADING, payload: value })
+  }
 
   return (
     <QueriesContext.Provider value={{
         status: state.status,
         loading: state.loading,
-        sendQuery
+        popup: state.popup,
+        setQueryLoading,
+        sendQuery,
+        setPopUp
     }}>{props.children}</QueriesContext.Provider>
   );
 };
