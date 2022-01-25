@@ -1,16 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Box, TextField } from '@mui/material';
-import { Button, Link, Typography, Avatar } from '@mui/material';
+import { Button, Link, Typography, Avatar, ThemeProvider } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import AuthContext from '../../context/auth/authContext'
-import { Alert } from '../layout/Layout';
+import { Alert, Theme } from '../layout/Layout';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { CircularProgress, Backdrop } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { MainAccent } from '../../app.config';
+
 
 const Register = (props) => {
   const authContext = useContext(AuthContext);
@@ -180,10 +182,11 @@ const Register = (props) => {
           <CircularProgress color="inherit" />
       </Backdrop>
       <div className='row justify-content-center'>
+        <ThemeProvider theme={Theme}>
         <div className='col-11 col-md-8 col-lg-6 col-xl-5' style={{marginTop: '20px'}}>
 
           <div className='justify-content-center' style={{display: 'flex', paddingTop: '16px'}}>
-            <Avatar style={{background: 'blue', height: '70px', width: '70px'}}>
+            <Avatar style={{ height: '70px', width: '70px', backgroundColor: MainAccent}}>
               <HowToRegIcon style={{height: '40px', width: '40px'}} />
             </Avatar>
             </div>
@@ -201,7 +204,9 @@ const Register = (props) => {
                 onChange={onChangeEmail}
                 disabled={otpOpen.disabled}
                 InputProps={
-                  {endAdornment: <Button id="timer" disabled={otpOpen.disabled} type="submit">{otpOpen.open ? <CircularProgress style={{height: '22px', width: '22px'}} /> : 'Verify'}</Button>}
+                  {endAdornment: <Button id="timer" disabled={otpOpen.disabled} type="submit">
+                    {otpOpen.open ? <CircularProgress style={{height: '22px', width: '22px' }} /> : 'Verify'}
+                    </Button>}
                 }
                 required label="Email" variant="outlined" />
                 <br />
@@ -258,7 +263,7 @@ const Register = (props) => {
                 }
               />
               <br />
-            <Button style={{ marginTop: '10px', height: '56px', background: 'blue'}} type="submit" size="large" color="primary" variant="contained">Sign up</Button>
+            <Button style={{ marginTop: '10px', height: '56px' }} type="submit" size="large" color="primary" variant="contained">Sign up</Button>
             </Box>
             <div style={{marginTop: '10px', marginBottom: '40px'}}>
               <Typography>
@@ -318,6 +323,7 @@ const Register = (props) => {
           ) : 'CLOSE'}</Button>
         </DialogActions>
       </Dialog>
+      </ThemeProvider>
       </div>
     </div>
   );

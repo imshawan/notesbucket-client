@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import NotesCard from './NotesCard';
-import Backdrop from '@mui/material/Backdrop';
+import { Backdrop, ThemeProvider } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import NoteView from './NoteView';
 import NoteCreator from './NoteCreator';
@@ -9,6 +9,8 @@ import SpeedDial from '@mui/material/SpeedDial';
 import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
+import { MainAccent } from '../../app.config';
+import { Theme } from '../layout/Layout';
 
 
 const Notes = () => {
@@ -48,6 +50,7 @@ const Notes = () => {
 
     return (
         <Fragment>
+            <ThemeProvider theme={Theme}>
             {notes && notes.length !== 0 && !loading ?(
                     <div className='row'>
                     {
@@ -70,13 +73,15 @@ const Notes = () => {
                 )}
             <NoteView />
             <NoteCreator />
+
+            <SpeedDial onClick={showNoteCreator}
+            ariaLabel="SpeedDial basic example" sx={{ position: 'absolute', bottom: 16, right: 16 }} icon={<AddIcon />} />
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <SpeedDial onClick={showNoteCreator}
-            ariaLabel="SpeedDial basic example" sx={{ position: 'absolute', bottom: 16, right: 16 }} icon={<AddIcon />} />
+            </ThemeProvider>
         </Fragment>
     )
 }

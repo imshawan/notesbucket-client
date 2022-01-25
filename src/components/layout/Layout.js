@@ -3,6 +3,7 @@ import React from 'react';
 import Paper from '@mui/material/Paper';
 import MuiAlert from '@mui/material/Alert';
 import { createTheme, styled } from '@mui/material/styles';
+import { MainAccentHex } from '../../app.config';
 
 const lightTheme = createTheme({ palette: { mode: 'light' } });
 const Item = styled(Paper)(({ theme }) => ({
@@ -16,4 +17,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export { lightTheme, Item, Alert };
+const Theme = createTheme({
+    palette: {
+      primary: {
+          main: MainAccentHex
+    },
+    },
+  });
+
+export { lightTheme, Item, Alert, Theme };

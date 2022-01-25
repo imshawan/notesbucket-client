@@ -154,7 +154,7 @@ const NotesState = (props) => {
   }
 
   const SummerNoteOptions = {
-    height: 350,
+    height: 360,
     dialogsInBody: true,
     tabDisable: true,
     dialogsFade: true,
