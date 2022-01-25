@@ -1,15 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Button, Link, Typography, Avatar } from '@mui/material';
+import { Button, Link, Typography, Avatar, ThemeProvider } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import AuthContext from '../../context/auth/authContext'
-import { Alert } from '../layout/Layout';
+import { Alert, Theme } from '../layout/Layout';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CircularProgress, Backdrop } from '@mui/material';
+import { MainAccent } from '../../app.config';
 
 const ForgotPassword = (props) => {
   const authContext = useContext(AuthContext);
@@ -159,10 +160,11 @@ const ForgotPassword = (props) => {
           <CircularProgress color="inherit" />
       </Backdrop>
       <div className='row justify-content-center'>
+      <ThemeProvider theme={Theme}>
         <div className='col-11 col-md-8 col-lg-6 col-xl-5' style={{marginTop: '20px'}}>
 
           <div className='justify-content-center' style={{display: 'flex', paddingTop: '16px'}}>
-            <Avatar style={{background: 'blue', height: '70px', width: '70px'}}>
+            <Avatar style={{backgroundColor: MainAccent, height: '70px', width: '70px'}}>
               <LockResetIcon style={{height: '40px', width: '40px', marginRight: '2px'}} />
             </Avatar>
             </div>
@@ -180,7 +182,7 @@ const ForgotPassword = (props) => {
                 onChange={onChangeEmail}
                 disabled={otpOpen.disabled}
                 InputProps={
-                  {endAdornment: <Button id="timer" disabled={otpOpen.disabled} type="submit">{otpOpen.open ? <CircularProgress style={{height: '22px', width: '22px'}} /> : 'Verify'}</Button>}
+                  {endAdornment: <Button id="timer" disabled={otpOpen.disabled} type="submit">{otpOpen.open ? <CircularProgress style={{height: '22px', width: '22px' }} /> : 'Verify'}</Button>}
                 }
                 required label="Email" variant="outlined" />
                 <br />
@@ -211,8 +213,15 @@ const ForgotPassword = (props) => {
               onChange={onChangeUserData}
               required label="Confirm Password" variant="outlined" />
                 <br />
-            <Button style={{ marginTop: '30px', height: '56px', background: 'blue' }} type="submit" size="large" color="primary" variant="contained">Change Password</Button>
+            <Button style={{ marginTop: '30px', height: '56px' }} type="submit" size="large" color="primary" variant="contained">Change Password</Button>
             </Box>
+            <div style={{marginTop: '10px', marginBottom: '40px'}}>
+              <Typography>
+                <Link href="/" underline="hover">
+                  {'Back to home'}
+                </Link>
+              </Typography>
+            </div>
 
           <Stack spacing={2} sx={{ width: '100%' }}>
             <Snackbar open={open.open} autoHideDuration={5000} onClose={handleClose}>
@@ -261,6 +270,7 @@ const ForgotPassword = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+      </ThemeProvider>
       </div>
     </div>
   );

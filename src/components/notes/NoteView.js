@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
-import { Alert } from '../layout/Layout';
+import { Alert, Theme } from '../layout/Layout';
 import TextField from '@mui/material/TextField';
-import { Button, Tooltip } from '@mui/material';
+import { Button, Tooltip, ThemeProvider } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -17,6 +17,7 @@ import 'bootstrap/js/dist/tooltip';
 import 'bootstrap/dist/css/bootstrap.css';
 import ReactSummernote from 'react-summernote';
 import 'react-summernote/dist/react-summernote.css'; // import styles
+import { MainAccent } from '../../app.config';
 
 function NoteView() {
     const noteContext = useContext(NoteContext)
@@ -93,6 +94,7 @@ function NoteView() {
         backdrop="static"
         keyboard={false}
       >
+        <ThemeProvider theme={Theme}>
         <form onSubmit={submitPayload}>
           <Modal.Header style={{padding: '1.3rem 2rem'}}>
             <Modal.Title style={{width: '100%', marginTop: '10px'}} id="contained-modal-title-vcenter">
@@ -121,22 +123,23 @@ function NoteView() {
           </Modal.Body>
           <Modal.Footer>
             <Tooltip title={note.favourite ? "Remove favourite" : "Add favourite" } placement="top">
-              <Button style={{ marginLeft: '25px', left: 0, position: 'absolute', maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px' }}
+              <Button style={{ marginLeft: '25px', left: 0, position: 'absolute', maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
               onClick={handleFavourites}>
                 {note.favourite ? <FavoriteIcon /> :<FavoriteBorderIcon />}
               </Button>
             </Tooltip>
-            <Button variant="outlined" style={{ marginRight: '10px' }} startIcon={<DeleteIcon />} onClick={() => onDelete()}>
+            <Button variant="contained" style={{ marginRight: '10px' }} startIcon={<DeleteIcon />} onClick={() => onDelete()}>
               DELETE
             </Button>
-            <Button variant="outlined" style={{ marginRight: '10px' }} type={!editing ? 'submit' : ''} startIcon={modify.icon} onClick={() => setEditing(true)}>
+            <Button variant="contained" style={{ marginRight: '10px' }} type={!editing ? 'submit' : ''} startIcon={modify.icon} onClick={() => setEditing(true)}>
               {modify.text}
             </Button>
-            <Button variant="outlined" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>
+            <Button variant="contained" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>
               CLOSE
             </Button>
           </Modal.Footer>
         </form>
+        </ ThemeProvider>
       </Modal>
         <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false})}>
           <Alert onClose={() => setOpsStatus({...statusOps, open: false})} severity={statusOps.severity} sx={{ width: '100%' }}>

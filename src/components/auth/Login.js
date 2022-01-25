@@ -5,9 +5,10 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import AuthContext from '../../context/auth/authContext';
 import { Button, Link, Typography, Avatar } from '@mui/material';
-import { Alert } from '../layout/Layout';
+import { Alert, Theme } from '../layout/Layout';
 import LockIcon from '@mui/icons-material/Lock';
-import { CircularProgress, Backdrop } from '@mui/material';
+import { CircularProgress, Backdrop, ThemeProvider } from '@mui/material';
+import { MainAccent } from '../../app.config';
 
 const Login = (props) => {
   const authContext = useContext(AuthContext);
@@ -82,10 +83,11 @@ const Login = (props) => {
           <CircularProgress color="inherit" />
       </Backdrop>
       <div className='row justify-content-center'>
+      <ThemeProvider theme={Theme}>
         <div className='col-11 col-md-8 col-lg-6 col-xl-5' style={{marginTop: '20px'}}>
 
         <div style={{display: 'flex', justifyContent: 'center', paddingTop: '16px'}}>
-        <Avatar style={{background: 'blue', height: '70px', width: '70px'}}>
+        <Avatar style={{backgroundColor: MainAccent, height: '70px', width: '70px'}}>
           <LockIcon style={{height: '40px', width: '40px'}} />
         </Avatar>
         </div>
@@ -110,7 +112,7 @@ const Login = (props) => {
               onChange={onChangeUserData}
               required label="Password" variant="outlined" />
             <br />
-        <Button style={{marginTop: '30px', height: '56px', background: 'blue'}} size="large" type="submit" color="primary" variant="contained">Login</Button>
+        <Button style={{marginTop: '30px', height: '56px' }} size="large" type="submit" color="primary" variant="contained">Login</Button>
         </Box>
         <div style={{marginTop: '10px', fontSize: '0.9rem!important'}}>
           <Typography>
@@ -139,6 +141,7 @@ const Login = (props) => {
         </Alert>
       </Snackbar>
         </div>
+        </ThemeProvider>
       </div>
     </div>
   );

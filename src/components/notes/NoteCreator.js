@@ -2,10 +2,10 @@ import React, { Fragment, useState, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import { Button, ThemeProvider } from '@mui/material/';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CloseIcon from '@mui/icons-material/Close';
-import { Alert } from '../layout/Layout';
+import { Alert, Theme } from '../layout/Layout';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import 'bootstrap/js/dist/modal';
@@ -86,6 +86,7 @@ function NoteCreator() {
         backdrop="static"
         keyboard={false}
       >
+        <ThemeProvider theme={Theme}>
         <form onSubmit={submitPayload}>
           <Modal.Header style={{padding: '1rem 1.8rem'}}>
             <Modal.Title style={{width: '100%', marginTop: '10px'}} id="contained-modal-title-vcenter">
@@ -107,10 +108,11 @@ function NoteCreator() {
               />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="outlined" style={{ marginRight: '10px' }} type="submit" startIcon={<NoteAddIcon />}>CREATE</Button>
-            <Button variant="outlined" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>DISCARD</Button>
+            <Button variant="contained" style={{ marginRight: '10px' }} type="submit" startIcon={<NoteAddIcon />}>CREATE</Button>
+            <Button variant="contained" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>DISCARD</Button>
           </Modal.Footer>
         </form>
+        </ThemeProvider>
         <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={alert.open} autoHideDuration={5000} onClose={handleClose}>
           <Alert onClose={handleClose} severity={alert.severity} sx={{ width: '100%' }}>
