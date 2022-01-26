@@ -42,9 +42,10 @@ p {
 .notes-card {
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(255, 255, 255, 0.8);
 }
-.notes-title textarea {
+.notes-title textarea, .notes-title {
   font-weight: 600;
 }
+
 .notes-creator-textarea textarea {
   min-height: 364px;
 }

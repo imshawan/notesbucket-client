@@ -122,7 +122,9 @@ function NoteView() {
               InputProps={{
                 className: "notes-title"
             }}
-              multiline />) : (note.title)}
+              multiline />) : (<div className='notes-title'>
+                {note.title}
+              </div>)}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>

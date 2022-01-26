@@ -61,7 +61,8 @@ const ProfileState = (props) => {
         status: state.status,
         loading: state.loading,
         popup: state.popup,
-        sendQuery,
+        getUserProfile,
+        upateUserProfile
     }}>{props.children}</ProfileContext.Provider>
   );
 };
