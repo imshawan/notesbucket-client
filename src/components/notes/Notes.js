@@ -22,6 +22,7 @@ const Notes = () => {
           }
         getNotes()
         setAdd(false)
+        // eslint-disable-next-line
     },[])
 
     const showNoteCreator = () => {

@@ -3,7 +3,7 @@ import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
 import { Alert, Theme, OptionsMenu } from '../layout/Layout';
 import TextField from '@mui/material/TextField';
-import { Button, Tooltip, ThemeProvider } from '@mui/material';
+import { Button, ThemeProvider } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
