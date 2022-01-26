@@ -88,7 +88,7 @@ function NoteCreator() {
       >
         <ThemeProvider theme={Theme}>
         <form onSubmit={submitPayload}>
-          <Modal.Header style={{padding: '1rem 1.8rem'}}>
+          <Modal.Header>
             <Modal.Title style={{width: '100%', marginTop: '10px'}} id="contained-modal-title-vcenter">
               <TextField style={{width: '100%'}} id="outlined-textarea"
                     label="Title"
@@ -101,7 +101,7 @@ function NoteCreator() {
                     multiline />
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{padding: '1rem 1.8rem'}}>
+          <Modal.Body>
               <ReactSummernote
                 options={SummerNoteOptions}
                 onChange={(editorText) => setEditorContent(editorText)}

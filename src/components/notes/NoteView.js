@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
-import { Alert, Theme } from '../layout/Layout';
+import { Alert, Theme, OptionsMenu } from '../layout/Layout';
 import TextField from '@mui/material/TextField';
 import { Button, Tooltip, ThemeProvider } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
@@ -18,11 +18,21 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ReactSummernote from 'react-summernote';
 import 'react-summernote/dist/react-summernote.css'; // import styles
 
+import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 function NoteView() {
     const noteContext = useContext(NoteContext)
     const { note, status, getNotesById, addToFavourites, removeFavourite, 
       current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions } = noteContext
     const [open, setOpen] = useState(false)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const menu = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+
     const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
     const [editing, setEditing] = useState(false)
     const [modify, setModify] = useState({text: "EDIT", icon: <EditIcon />})
@@ -33,7 +43,6 @@ function NoteView() {
       e.preventDefault();
       if (!noteTitle && !editorContent) return;
       updateNoteById(note._id, {title: noteTitle, content: editorContent})
-      setOpen(false)
     }
 
     const onDelete = () =>{
@@ -41,12 +50,19 @@ function NoteView() {
       deleteNotesById(note._id);
       clearCurrent()
       setOpen(false)
+      setAnchorEl(null);
+    }
+
+    const closeModal = () => {
+      setOpen(false)
+      setAnchorEl(null);
     }
 
     const handleFavourites = (e) => {
       e.preventDefault();
       if (note.favourite) removeFavourite(note._id)
       else addToFavourites(note._id)
+      setAnchorEl(null);
     }
 
     useEffect(() => {
@@ -92,10 +108,11 @@ function NoteView() {
         centered
         backdrop="static"
         keyboard={false}
+        fullscreen
       >
         <ThemeProvider theme={Theme}>
         <form onSubmit={submitPayload}>
-          <Modal.Header style={{padding: '1.3rem 2rem'}}>
+          <Modal.Header>
             <Modal.Title style={{width: '100%', marginTop: '10px'}} id="contained-modal-title-vcenter">
               {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"
               label="Title"
@@ -108,7 +125,7 @@ function NoteView() {
               multiline />) : (note.title)}
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{padding: '1rem 1.8rem'}}>
+          <Modal.Body>
             {editing ? (
                 <ReactSummernote
                   onInit={() => {document.querySelector(".note-editable").innerHTML = note.content}}
@@ -121,20 +138,45 @@ function NoteView() {
           
           </Modal.Body>
           <Modal.Footer>
-            <Tooltip title={note.favourite ? "Remove favourite" : "Add favourite" } placement="top">
-              <Button style={{ marginLeft: '25px', left: 0, position: 'absolute', maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
-              onClick={handleFavourites}>
-                {note.favourite ? <FavoriteIcon /> :<FavoriteBorderIcon />}
+            <div>
+              <Button
+                id="demo-customized-button"
+                aria-controls={menu ? 'demo-customized-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={menu ? 'true' : undefined}
+                variant="contained"
+                disableElevation
+                style={{ marginRight: '6px' }} 
+                endIcon={<KeyboardArrowDownIcon />}
+                onClick={handleClick}> 
+                Options
               </Button>
-            </Tooltip>
-            <Button variant="contained" style={{ marginRight: '10px' }} startIcon={<DeleteIcon />} onClick={() => onDelete()}>
-              DELETE
-            </Button>
+              <OptionsMenu
+                id="demo-customized-menu"
+                MenuListProps={{
+                  'aria-labelledby': 'demo-customized-button',
+                }}
+                anchorEl={anchorEl}
+                open={menu}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem onClick={handleFavourites} disableRipple>
+                {note.favourite ? <FavoriteIcon /> :<FavoriteBorderIcon />}
+                {note.favourite ? "Remove favourite" : "Add favourite" }
+                </MenuItem>
+                <MenuItem onClick={() => onDelete()} disableRipple>
+                  <DeleteIcon />
+                  Delete
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem onClick={closeModal} disableRipple>
+                  <CloseIcon />
+                  {editing ? 'Discard' : 'Close'}
+                </MenuItem>
+              </OptionsMenu>
+            </div>
             <Button variant="contained" style={{ marginRight: '10px' }} type={!editing ? 'submit' : ''} startIcon={modify.icon} onClick={() => setEditing(true)}>
               {modify.text}
-            </Button>
-            <Button variant="contained" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>
-              CLOSE
             </Button>
           </Modal.Footer>
         </form>

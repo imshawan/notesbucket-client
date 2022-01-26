@@ -9,7 +9,7 @@ const Home = () => {
 
     useEffect(()=>{
         loadUser()
-    })
+    }, [])
     return (
         <div className='container'>
             <div className='notes-container'>

@@ -22,7 +22,7 @@ const Notes = () => {
           }
         getNotes()
         setAdd(false)
-    })
+    },[])
 
     const showNoteCreator = () => {
         if (!add) setAdd(true)
