@@ -59,7 +59,7 @@ const ForgotPassword = (props) => {
 
   useEffect(() => {
     if (!events.passwordReset) return;
-    if (events.passwordReset == "success") {
+    if (events.passwordReset === "success") {
       setType(true);
     }
   }, [events.passwordReset])
@@ -134,7 +134,7 @@ const ForgotPassword = (props) => {
         return;
       }
       var s = checkSecond((timeArray[1] - 1));
-      if(s == 59){m = m-1}
+      if(s === 59){m = m-1}
       if(m<0){
         return
       }

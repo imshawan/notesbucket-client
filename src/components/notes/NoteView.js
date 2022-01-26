@@ -17,7 +17,6 @@ import 'bootstrap/js/dist/tooltip';
 import 'bootstrap/dist/css/bootstrap.css';
 import ReactSummernote from 'react-summernote';
 import 'react-summernote/dist/react-summernote.css'; // import styles
-import { MainAccent } from '../../app.config';
 
 function NoteView() {
     const noteContext = useContext(NoteContext)

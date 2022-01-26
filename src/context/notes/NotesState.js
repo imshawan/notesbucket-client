@@ -14,7 +14,6 @@ import {
   SEARCH_NOTES,
   CLEAR_SEARCH,
   NOTE_ERROR,
-  CLEAR_NOTES,
   SET_FILTER
 } from '../types';
 

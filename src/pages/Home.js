@@ -6,9 +6,10 @@ import Queries from '../components/Queries'
 const Home = () => {
     const authContext = useContext(AuthContext);
     const { loadUser } = authContext
+
     useEffect(()=>{
         loadUser()
-    },[])
+    })
     return (
         <div className='container'>
             <div className='notes-container'>

@@ -9,7 +9,6 @@ import SpeedDial from '@mui/material/SpeedDial';
 import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
-import { MainAccent } from '../../app.config';
 import { Theme } from '../layout/Layout';
 
 
@@ -23,7 +22,7 @@ const Notes = () => {
           }
         getNotes()
         setAdd(false)
-    },[])
+    })
 
     const showNoteCreator = () => {
         if (!add) setAdd(true)
