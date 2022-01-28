@@ -15,6 +15,7 @@ import NotesIcon from '@mui/icons-material/Notes';
 import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
+import ProfileContext from '../../context/userprofile/profileContext';
 
 import { MainAccent } from '../../app.config';
 
@@ -64,10 +65,12 @@ const ResponsiveAppBar = () => {
   const authContext = useContext(AuthContext)
   const noteContext = useContext(NoteContext)
   const queriesContext = useContext(QueriesContext)
+  const profileContext = useContext(ProfileContext);
   
   const { user, logout, isAuthenticated } = authContext
   const { searchNotes, setFilter, clearSearch } = noteContext 
   const { setPopUp } = queriesContext
+  const { setProfilePopup } = profileContext
   const [userName, setUserName] = useState('Notesbucket User')
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
@@ -130,7 +133,7 @@ const ResponsiveAppBar = () => {
     >
       <List>
           <ListItem className='justify-content-center mt-2' key={"avtaar"}>
-            <IconButton>
+            <IconButton onClick={() => setProfilePopup(true)}>
             <Avatar style={{height: '70px', width: '70px'}} {...stringAvatar(userName)} />
             </IconButton>
           </ListItem>

@@ -11,7 +11,8 @@ const ProfileReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                status: { success: action.payload.success, message: action.payload.message }
+                profile: action.payload.profile
+                //status: { success: action.payload.success, message: action.payload.message }
             }
         case PROFILE_UPDATED:
             return {
@@ -28,7 +29,7 @@ const ProfileReducer = (state, action) => {
         case SET_PROFILE_OPEN:
             return {
                 ...state,
-                popup: action.payload
+                profile_open: action.payload
             }
         default:
             return state;
