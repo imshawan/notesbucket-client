@@ -8,6 +8,7 @@ import { ListItemButton, Typography } from '@mui/material';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
+import stringAvatar from '../../utils/generateAvatar';
   
 const NotesCard = ({ note }) => {
     const { _id, title, updatedAt } = note;
@@ -23,9 +24,7 @@ const NotesCard = ({ note }) => {
             <List>
               <ListItemButton className='notes-card' style={{borderRadius: '10px'}}>
                   <ListItemAvatar>
-                    <Avatar>
-                      <NoteAltIcon />
-                    </Avatar>
+                    <Avatar {...stringAvatar(title, 1)} />
                   </ListItemAvatar>
                   <ListItemText 
                     primary={

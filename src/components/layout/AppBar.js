@@ -16,6 +16,7 @@ import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
 import ProfileContext from '../../context/userprofile/profileContext';
+import stringAvatar from '../../utils/generateAvatar';
 
 import { MainAccent } from '../../app.config';
 
@@ -85,37 +86,6 @@ const ResponsiveAppBar = () => {
     else clearSearch()
   }, [query])
 
-  function stringToColor(string) {
-    let hash = 0;
-    let i;
-  
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-  
-    let color = '#';
-  
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.substr(-2);
-    }
-    /* eslint-enable no-bitwise */
-  
-    return color;
-  }
-  
-  function stringAvatar(name) {
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-        height: '40px',
-        width: '40px'
-      },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    };
-  }
-
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -132,12 +102,12 @@ const ResponsiveAppBar = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-          <ListItem className='justify-content-center mt-2' key={"avtaar"}>
+          <ListItem style={{paddingBottom: '0px'}} className='justify-content-center mt-1' key={"avtaar"}>
             <IconButton onClick={() => setProfilePopup(true)}>
-            <Avatar style={{height: '70px', width: '70px'}} {...stringAvatar(userName)} />
+            <Avatar style={{height: '70px', width: '70px', fontWeight: 600, fontSize: '28px'}} {...stringAvatar(userName)} />
             </IconButton>
           </ListItem>
-          <ListItem className='justify-content-center mb-2' key={"title"}>
+          <ListItem style={{paddingTop: '0px'}} className='justify-content-center mb-1' key={"title"}>
             <ListItemText style={{textAlign: 'center'}}
               disableTypography
               primary={<Typography style={{fontWeight: 500, fontSize: '1.2rem'}} >{userName}</Typography>} />
