@@ -130,7 +130,9 @@ const ResponsiveAppBar = () => {
     >
       <List>
           <ListItem className='justify-content-center mt-2' key={"avtaar"}>
+            <IconButton>
             <Avatar style={{height: '70px', width: '70px'}} {...stringAvatar(userName)} />
+            </IconButton>
           </ListItem>
           <ListItem className='justify-content-center mb-2' key={"title"}>
             <ListItemText style={{textAlign: 'center'}}

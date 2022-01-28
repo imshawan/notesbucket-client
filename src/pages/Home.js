@@ -6,9 +6,11 @@ import Queries from '../components/Queries'
 const Home = () => {
     const authContext = useContext(AuthContext);
     const { loadUser } = authContext
+
     useEffect(()=>{
         loadUser()
-    },[])
+        // eslint-disable-next-line
+    }, [])
     return (
         <div className='container'>
             <div className='notes-container'>

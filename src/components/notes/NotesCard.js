@@ -4,7 +4,7 @@ import NoteContext from '../../context/notes/notesContext'
 import TimeFormatter from '../../utils/timeFormatter';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
+import { ListItemButton, Typography } from '@mui/material';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
@@ -27,8 +27,12 @@ const NotesCard = ({ note }) => {
                       <NoteAltIcon />
                     </Avatar>
                   </ListItemAvatar>
-                  <ListItemText
-                    primary={(title.length > 30) ? `${title.slice(0, 30)}...` : title}
+                  <ListItemText 
+                    primary={
+                    <Typography style={{ fontWeight: 500 }}>
+                      {(title.length > 30) ? `${title.slice(0, 30)}...` : title}
+                    </Typography>
+                  }
                     secondary={TimeFormatter(updatedAt)}
                   />
               </ListItemButton>
