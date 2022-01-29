@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import ProfileContext from '../context/userprofile/profileContext';
 import AuthContext from '../context/auth/authContext';
@@ -10,17 +9,20 @@ import { Alert, Theme } from '../components/layout/Layout';
 import { Modal } from 'react-bootstrap';
 import { CircularProgress, Backdrop, ThemeProvider } from '@mui/material';
 import { MainAccent } from '../app.config';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CloseIcon from '@mui/icons-material/Close';
-import { InputLabel, MenuItem, Select, FormControl } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { InputLabel, MenuItem, Select, FormControl, Tooltip } from '@mui/material';
+import Countries from '../utils/countries';
 
-const Profile = (props) => {
+const Profile = () => {
   const profileContext = useContext(ProfileContext);
   const authContext = useContext(AuthContext);
-  const { status, loading, profile_open, setProfilePopup, profile, getUserProfile, upateUserProfile, upateUserData } = profileContext
-  const { loadUser } = authContext
+  const { status, loading, profile_open, setProfilePopup, profile, setLoading,
+    getUserProfile, upateUserProfile, upateUserData } = profileContext
+  const { updateUser } = authContext
 
   const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
+  const [button, setButton] = useState({btn1: false, btn2: false})
   const [UserData, setUserData] = useState({
     firstname: '',
     lastname: '',
@@ -36,7 +38,6 @@ const Profile = (props) => {
   },[])
 
   useEffect(() => {
-      console.log(profile)
       setUserData({...UserData, ...profile})
   }, [profile])
 
@@ -54,20 +55,55 @@ const Profile = (props) => {
     }
   }, [status])
 
-  
+  const handleButtons = (btn) => {
+    setButton({...button, [btn] : true})
+  }
 
   const onChangeUserData = (e) => {
     setUserData({ ...UserData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const closeProfile = () => {
+    setButton({...button, btn1: false, btn2: false})
+    setProfilePopup(false)
+  }
+
+  const onSubmitPersonal = (e) => {
     e.preventDefault();
-    console.log(UserData)
+    upateUserData({
+      firstname: UserData.firstname,
+      lastname: UserData.lastname,
+    })
+    setLoading(true)
+    setButton({...button, btn1: false})
+    updateUser({
+      firstname: UserData.firstname,
+      lastname: UserData.lastname,
+    })
+  };
+
+  const onSubmiBasic = (e) => {
+    e.preventDefault();
+    upateUserProfile({
+      gender: UserData.gender,
+      country: UserData.country,
+      dob: UserData.dob,
+      role: UserData.role
+    })
+    setLoading(true)
+    setButton({...button, btn2: false})
   };
 
   const convert = (dateTimeString) => {
     return JSON.stringify(new Date(dateTimeString)).slice(1,11)
   }
+
+  const countries = Countries.map(({ name }, index) => {
+    return (
+    <MenuItem key={index} value={name}>
+      {name}
+    </MenuItem>
+    )})
 
   return (
     <div className='container'>
@@ -79,78 +115,95 @@ const Profile = (props) => {
       <ThemeProvider theme={Theme}>
           <div className='row justify-content-center'>
             <Modal show={profile_open}
-            onHide={() => setProfilePopup(false)}
+            onHide={closeProfile}
             size="l" centered backdrop="static" keyboard={false}>
-              <div style={{display: 'flex', right: 0, position: 'absolute', padding: '16px'}}>
-                <IconButton onClick={() => setProfilePopup(false)}>
+              <div className='mb-4' style={{height: '60px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+                    <span style={{ fontWeight: 600, fontSize: '20px', padding: '16px', color: '#fff'}}>
+                        View Profile
+                    </span>
+              </div>
+              <div style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
+                <IconButton style={{ color: '#fff' }} onClick={closeProfile}>
                   <CloseIcon />
                 </IconButton>
               </div>
-                <div style={{padding: '1rem 1.8rem'}}>
-                    <div style={{ paddingTop: '16px', display: 'flex'}} className='justify-content-center'>
-                        <Avatar style={{backgroundColor: MainAccent, height: '70px', width: '70px'}}>
-                            <AccountCircleIcon style={{height: '40px', width: '40px'}} />
-                        </Avatar>
-                    </div>
-                    <div style={{ paddingTop: '16px', display: 'flex'}} className='justify-content-center'>
-                      <span style={{ fontWeight: 600}}>{`@${UserData.username}`}</span>
-                    </div>
-                  </div>
                 <Modal.Body style={{padding: '1rem 1.8rem', paddingBottom: '2rem', paddingTop: '0px'}}>
-                    <h4 style={{paddingTop: '14px', marginBottom: '25px', fontWeight: 600 }}>Personal details</h4>
-                    <Box onSubmit={onSubmit}
+                  <div style={{display: 'flex'}}>
+                    <h5 className='mb-2' style={{paddingTop: '14px', fontWeight: 600 }}>Personal details</h5>
+                    <span>
+                    {!button.btn1 ? (<Tooltip title="Edit" placement="bottom" arrow>
+                      <IconButton onClick={() => handleButtons('btn1')}>
+                        <EditIcon style={{ height: '15px', width: '15px'}} />
+                      </IconButton>
+                    </ Tooltip>) : ''}
+                    </span>
+                  </div>
+                    <Box onSubmit={onSubmitPersonal}
                     component="form" sx={{'& > :not(style)': {  m: 1, marginLeft: '0px', width: '100%' }}}
                     noValidate
                     autoComplete="off">
                         <div className='row justify-content-center'>
                             <div className='col-12 col-md-6'>
-                                <TextField id="outlined-basic 1" type="text"
+                                <TextField className="input-fields" id="outlined-basic 1" type="text"
                                     style={{ width: '100%', marginBottom: '10px'}}
                                     name="firstname"
                                     value={UserData.firstname}
                                     onChange={onChangeUserData}
-                                    required label="Firstname" variant="outlined" />
+                                    disabled={!button.btn1}
+                                    label="Firstname" variant="outlined" />
                             </div>
                             <div className='col-12 col-md-6'>
-                            <TextField id="outlined-basic 2" type="text"
+                            <TextField className="input-fields" id="outlined-basic 2" type="text"
                                 style={{ width: '100%'}}
                                 name="lastname"
                                 value={UserData.lastname}
                                 onChange={onChangeUserData}
-                                required label="Lastname" variant="outlined" />
+                                disabled={!button.btn1}
+                                label="Lastname" variant="outlined" />
                             </div>
                         </div>
                         <div className='row justify-content-center'>
                             <div className='col-12'>
-                              <TextField id="outlined-basic 2" type="text"
+                              <TextField className="input-fields" id="outlined-basic 2" type="text"
                                   style={{ width: '100%'}}
                                   name="email"
                                   value={UserData.email}
                                   onChange={onChangeUserData}
-                                  required label="Email" variant="outlined" />
+                                  disabled
+                                  label="Email" variant="outlined" />
                             </div>
                         </div>
-                        <div className='row'>
+                        {button.btn1 ? (<div className='row'>
                           <Button className='mt-2' style={{background: MainAccent,  marginLeft: '16px', width: '100px'}} type="submit" variant="contained">
                               Save
                           </Button>
-                        </div>
+                        </div>) : ''}
                     </Box>
-                    <h4 style={{paddingTop: '14px', marginBottom: '25px', fontWeight: 600 }}>Other details</h4>
-                    <Box onSubmit={onSubmit}
+                    <div style={{display: 'flex'}}>
+                      <h5 className='mb-2' style={{paddingTop: '14px', fontWeight: 600 }}>Other details</h5>
+                      <span>
+                      {!button.btn2 ? (<Tooltip title="Edit" placement="top" arrow>
+                        <IconButton onClick={() => handleButtons('btn2')} >
+                          <EditIcon style={{ height: '15px', width: '15px'}} />
+                        </IconButton>
+                      </ Tooltip>) : ''}
+                      </span>
+                    </div>
+                    <Box onSubmit={onSubmiBasic}
                     component="form" sx={{'& > :not(style)': {  m: 1, marginLeft: '0px', width: '100%' }}}
                     noValidate
                     autoComplete="off">
                         <div className='row justify-content-center'>
                             <div className='col-12'>
-                                <TextField
+                                <TextField className="input-fields"
                                   id="dob"
                                   name="dob"
                                   label="Birthday"
                                   type="date"
                                   defaultValue={convert(UserData.dob)}
+                                  disabled={!button.btn2}
                                   onChange={onChangeUserData}
-                                  sx={{ width: '100%' }}
+                                  sx={{ width: '100%', marginBottom: '10px' }}
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
@@ -159,11 +212,12 @@ const Profile = (props) => {
                         </div>
                         <div className='row justify-content-center'>
                             <div className='col-12 mb-2 col-md-6'>
-                              <TextField id="outlined-basic 2" type="text"
+                              <TextField className="input-fields" id="outlined-basic 2" type="text"
                                   style={{ width: '100%'}}
                                   name="role"
                                   value={UserData.role}
                                   onChange={onChangeUserData}
+                                  disabled={!button.btn2}
                                   required label="Role" variant="outlined" />
                             </div>
                             <div className='col-12 col-md-6'>
@@ -175,6 +229,7 @@ const Profile = (props) => {
                                     name="gender"
                                     value={UserData.gender}
                                     label="Gender"
+                                    disabled={!button.btn2}
                                     onChange={onChangeUserData}
                                   >
                                     <MenuItem value={'Male'}>Male</MenuItem>
@@ -184,11 +239,29 @@ const Profile = (props) => {
                                 </FormControl>
                             </div>
                         </div>
-                        <div className='row'>
+                        <div className='row' >
+                          <div className='col-12'>
+                                <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Country</InputLabel>
+                                  <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    name="country"
+                                    value={UserData.country}
+                                    label="Country"
+                                    disabled={!button.btn2}
+                                    onChange={onChangeUserData}
+                                  >
+                                    {countries}
+                                  </Select>
+                                </FormControl>
+                            </div>
+                        </div>
+                        {button.btn2 ? (<div className='row'>
                           <Button className='mt-2' style={{background: MainAccent,  marginLeft: '16px', width: '100px'}} type="submit" variant="contained">
                               Save
                           </Button>
-                        </div>
+                        </div>) : ''}
                     </Box>
 
 

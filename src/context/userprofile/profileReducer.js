@@ -2,7 +2,8 @@ import {
     PROFILE_LOADED,
     PROFILE_UPDATED,
     PROFILE_OPS_FAILED,
-    SET_PROFILE_OPEN
+    SET_PROFILE_OPEN,
+    SET_PROFILE_LOADING
 } from '../types';
 
 const ProfileReducer = (state, action) => {
@@ -18,7 +19,7 @@ const ProfileReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                status: { success: action.payload.status, message: action.payload.message }
+                status: { success: action.payload.success, message: action.payload.message }
             }
         case PROFILE_OPS_FAILED:
             return {
@@ -30,6 +31,11 @@ const ProfileReducer = (state, action) => {
             return {
                 ...state,
                 profile_open: action.payload
+            }
+        case SET_PROFILE_LOADING:
+            return {
+                ...state,
+                loading: action.payload
             }
         default:
             return state;

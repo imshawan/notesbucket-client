@@ -6,7 +6,8 @@ import {
     PROFILE_LOADED,
     PROFILE_UPDATED,
     PROFILE_OPS_FAILED,
-    SET_PROFILE_OPEN
+    SET_PROFILE_OPEN,
+    SET_PROFILE_LOADING
 } from '../types';
 
 const headers = {
@@ -24,7 +25,6 @@ const ProfileState = (props) => {
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
 
   const getUserProfile = async () =>{
-    state.loading = true
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/user/profile`,
         method: 'GET',
@@ -40,7 +40,6 @@ const ProfileState = (props) => {
   }
 
   const upateUserProfile = async (payload) =>{
-    state.loading = true
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/user/profile`,
         method: 'PUT',
@@ -56,7 +55,6 @@ const ProfileState = (props) => {
   }
 
   const upateUserData = async (payload) =>{
-    state.loading = true
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/user`,
         method: 'PUT',
@@ -75,6 +73,9 @@ const ProfileState = (props) => {
     dispatch({type: SET_PROFILE_OPEN, payload: value})
   }
   
+  const setLoading = (value) => {
+    dispatch({type: SET_PROFILE_LOADING, payload: value})
+  }
 
   return (
     <ProfileContext.Provider value={{
@@ -85,7 +86,8 @@ const ProfileState = (props) => {
         upateUserProfile,
         setProfilePopup,
         getUserProfile,
-        upateUserData
+        upateUserData,
+        setLoading
     }}>{props.children}</ProfileContext.Provider>
   );
 };

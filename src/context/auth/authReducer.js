@@ -10,6 +10,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   SET_LOADING,
+  UPDATE_USER,
   LOGOUT,
   CLEAR_STATUS
 } from '../types';
@@ -34,6 +35,11 @@ const AuthReducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         loading: false,
+        user: action.payload
+      }
+    case UPDATE_USER:
+      return {
+        ...state,
         user: action.payload
       }
     case REGISTRATION_SUCCESS:

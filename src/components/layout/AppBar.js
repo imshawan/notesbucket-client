@@ -104,7 +104,7 @@ const ResponsiveAppBar = () => {
       <List>
           <ListItem style={{paddingBottom: '0px'}} className='justify-content-center mt-1' key={"avtaar"}>
             <IconButton onClick={() => setProfilePopup(true)}>
-            <Avatar style={{height: '70px', width: '70px', fontWeight: 600, fontSize: '28px'}} {...stringAvatar(userName)} />
+            <Avatar style={{height: '70px', width: '70px', fontWeight: 500, fontSize: '28px'}} {...stringAvatar(userName)} />
             </IconButton>
           </ListItem>
           <ListItem style={{paddingTop: '0px'}} className='justify-content-center mb-1' key={"title"}>
