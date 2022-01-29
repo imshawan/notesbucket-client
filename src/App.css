@@ -30,6 +30,13 @@ body {
 p {
   margin-bottom: 0px!important;
 }
+.modal-content {
+  border: 0px!important;
+}
+.Mui-disabled {
+  -webkit-text-fill-color:rgba(0, 0, 0, 1)!important;
+}
+
 .notes-container {
   margin-top: 1rem;
 }

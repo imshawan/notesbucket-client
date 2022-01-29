@@ -14,6 +14,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  UPDATE_USER,
   LOGOUT,
   SET_LOADING,
   CLEAR_STATUS
@@ -147,6 +148,10 @@ const AuthState = (props) => {
       dispatch({ type: CLEAR_STATUS })
   }
 
+  const updateUser = (userData) => {
+    dispatch({ type: UPDATE_USER, payload: userData})
+  }
+
   return (
     <AuthContext.Provider value={
       {
@@ -159,6 +164,7 @@ const AuthState = (props) => {
         sendForgotPasswordMail,
         resetPassword,
         verifyEmail,
+        updateUser,
         register,
         clearStatus,
         setLoading,
