@@ -135,7 +135,7 @@ const FeedbackModal = () => {
             </Snackbar>
         </Stack>
         <Backdrop
-            sx={{ color: MainAccent, zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={loading}>
             <CircularProgress color="inherit" />
         </Backdrop>
