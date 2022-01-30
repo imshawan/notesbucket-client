@@ -112,9 +112,9 @@ function NoteView() {
       >
         <ThemeProvider theme={Theme}>
         <form onSubmit={submitPayload}>
-          <Modal.Header>
-            <Modal.Title style={{width: '100%', marginTop: '10px'}} id="contained-modal-title-vcenter">
-              {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"
+          <div className='mb-1' style={{height: '64px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <span style={{ width: '100%', fontWeight: 600, fontSize: '20px', padding: '16px'}}>
+                {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"
               label="Title"
               name="title"
               onChange={(e) => setNoteTitle(e.target.value)}
@@ -125,19 +125,22 @@ function NoteView() {
               multiline />) : (<div className='notes-title'>
                 {note.title}
               </div>)}
-            </Modal.Title>
-          </Modal.Header>
+                </span>
+          </div>
           <Modal.Body>
+            <p style={{ overflow: 'auto' }}>
             {editing ? (
                 <ReactSummernote
-                  onInit={() => {document.querySelector(".note-editable").innerHTML = note.content}}
+                  onInit={() => {
+                    document.querySelector(".note-editable").innerHTML = note.content
+                  }}
                   options={SummerNoteOptions}
                   onChange={(editorText) => setEditorContent(editorText)}
                 />
             ) : (
               <p dangerouslySetInnerHTML={{ __html: note.content }}></p>
             )}
-          
+          </p>
           </Modal.Body>
           <Modal.Footer>
             <div>

@@ -2,7 +2,7 @@
 
 :root {
   --primary: #0063FF;
-  --secondary: #ffffff;
+  --secondary: rgba(92, 51, 246, .2);
 }
 
 * {
@@ -36,9 +36,19 @@ p {
 .Mui-disabled {
   -webkit-text-fill-color:rgba(0, 0, 0, 1)!important;
 }
-
+.menu-text {
+  margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    display: block;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
 .notes-container {
   margin-top: 1rem;
+}
+.note-editable {
+  overflow: hidden;
 }
 #outlined-basic {
   height: 16px;

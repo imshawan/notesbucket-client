@@ -1,11 +1,11 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Box, TextField, Backdrop, CircularProgress } from '@mui/material';
 import { Modal } from 'react-bootstrap';
-import Button from '@mui/material/Button';
+import { Button, IconButton } from '@mui/material';
 import QueriesContext from '../context/queries/queriesContext';
 import { MainAccent } from '../app.config';
-import { Alert } from './layout/Layout';
-import { Stack, Snackbar } from '@mui/material';
+import { Alert, Theme } from './layout/Layout';
+import { Stack, Snackbar, ThemeProvider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -75,6 +75,7 @@ const FeedbackModal = () => {
 
     return(
         <Fragment>
+            <ThemeProvider theme={Theme}>
         <Modal
             show={show}
             onHide={() => setPopUp(false)}
@@ -83,11 +84,16 @@ const FeedbackModal = () => {
             backdrop="static"
             keyboard={false}
             >
-            <Modal.Header style={{padding: '1rem 1.8rem'}}>
-                <Modal.Title style={{width: '100%', marginTop: '10px', fontWeight: 600, fontSize: '2rem'}} id="contained-modal-title-vcenter">
+            <div className='mb-4' style={{height: '64px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+                    <span style={{ fontWeight: 600, fontSize: '20px', padding: '16px', color: '#fff'}}>
                     Send us your thoughts
-                </Modal.Title>
-            </Modal.Header>
+                    </span>
+              </div>
+              <div style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
+                <IconButton style={{ color: '#fff' }} onClick={() => setPopUp(false)}>
+                  <CloseIcon />
+                </IconButton>
+              </div>
             <div className='justify-content-center'>
                 <Modal.Body style={{padding: '1rem 1.8rem'}}>
                     <Box component="form"
@@ -119,10 +125,6 @@ const FeedbackModal = () => {
                 <Button onClick={onQuerySubmit} style={{background: MainAccent,  marginRight: '10px', width: '100px'}} variant="contained" startIcon={<SendIcon />}>
                     Send
                 </Button>
-                <Button onClick={() => setPopUp(false)} style={{background: MainAccent,  marginRight: '18px', width: '100px'}} 
-                variant="contained" startIcon={<CloseIcon />}>
-                    Close
-                </Button>
             </Modal.Footer>
         </Modal>
         <Stack spacing={2} sx={{ width: '100%' }}>
@@ -137,6 +139,7 @@ const FeedbackModal = () => {
             open={loading}>
             <CircularProgress color="inherit" />
         </Backdrop>
+        </ThemeProvider>
     </Fragment>
     )
 }

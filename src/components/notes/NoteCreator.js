@@ -88,9 +88,9 @@ function NoteCreator() {
       >
         <ThemeProvider theme={Theme}>
         <form onSubmit={submitPayload}>
-          <Modal.Header>
-            <Modal.Title style={{width: '100%', marginTop: '10px'}} id="contained-modal-title-vcenter">
-              <TextField style={{width: '100%'}} id="outlined-textarea"
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <span style={{ width: '100%', fontWeight: 600, fontSize: '20px', padding: '16px', color: '#fff'}}>
+                <TextField style={{width: '100%'}} id="outlined-textarea"
                     label="Title"
                     name="title"
                     onChange={(e) => setNoteTitle(e.target.value)}
@@ -99,8 +99,8 @@ function NoteCreator() {
                         className: "notes-title"
                     }}
                     multiline />
-            </Modal.Title>
-          </Modal.Header>
+                </span>
+          </div>
           <Modal.Body>
               <ReactSummernote
                 options={SummerNoteOptions}

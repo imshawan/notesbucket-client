@@ -17,10 +17,10 @@ const Home = () => {
             <div className='notes-container'>
                 <Notes></Notes>
             </div>
-            <div>
+            <div className='queries-container'>
                 <Queries />
             </div>
-            <div>
+            <div className='profile-container'>
                 <Profile />
             </div>
         </div>

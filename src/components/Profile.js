@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import ProfileContext from '../context/userprofile/profileContext';
 import AuthContext from '../context/auth/authContext';
-import { Button, IconButton, Typography, Avatar } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { Alert, Theme } from '../components/layout/Layout';
 import { Modal } from 'react-bootstrap';
 import { CircularProgress, Backdrop, ThemeProvider } from '@mui/material';
@@ -117,7 +117,7 @@ const Profile = () => {
             <Modal show={profile_open}
             onHide={closeProfile}
             size="l" centered backdrop="static" keyboard={false}>
-              <div className='mb-4' style={{height: '60px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+              <div className='mb-4' style={{height: '64px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
                     <span style={{ fontWeight: 600, fontSize: '20px', padding: '16px', color: '#fff'}}>
                         View Profile
                     </span>
