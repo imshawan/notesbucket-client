@@ -2,7 +2,7 @@
 
 :root {
   --primary: #0063FF;
-  --secondary: #ffffff;
+  --secondary: rgba(92, 51, 246, .2);
 }
 
 * {
@@ -39,6 +39,9 @@ p {
 
 .notes-container {
   margin-top: 1rem;
+}
+.note-editable {
+  overflow: hidden;
 }
 #outlined-basic {
   height: 16px;

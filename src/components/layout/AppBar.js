@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Avatar } from '@mui/material';
-import { Typography, InputBase} from '@mui/material';
+import { Typography, InputBase, ThemeProvider} from '@mui/material';
 import { Drawer, List, Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
@@ -17,6 +17,8 @@ import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
 import ProfileContext from '../../context/userprofile/profileContext';
 import stringAvatar from '../../utils/generateAvatar';
+
+import {Theme} from './Layout';
 
 import { MainAccent } from '../../app.config';
 
@@ -75,6 +77,7 @@ const ResponsiveAppBar = () => {
   const [userName, setUserName] = useState('Notesbucket User')
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
+  const [Selected, setSelected] = useState(0)
 
   useEffect(() => {
     if (!user) return;
@@ -101,9 +104,10 @@ const ResponsiveAppBar = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
+      <ThemeProvider theme={Theme}>
       <List>
           <ListItem style={{paddingBottom: '0px'}} className='justify-content-center mt-1' key={"avtaar"}>
-            <IconButton onClick={() => setProfilePopup(true)}>
+            <IconButton onClick={() => {setProfilePopup(true); setSelected(1); }}>
             <Avatar style={{height: '70px', width: '70px', fontWeight: 500, fontSize: '28px'}} {...stringAvatar(userName)} />
             </IconButton>
           </ListItem>
@@ -115,19 +119,19 @@ const ResponsiveAppBar = () => {
       </List>
       <Divider />
       <List>
-          <ListItem onClick={() => setFilter("none")} button key={"All Notes"}>
+          <ListItem onClick={() => { setFilter("none"); setSelected(1); }} selected={Selected === 1} button key={"All Notes"}>
             <ListItemIcon>
               <NotesIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"All Notes"} />
           </ListItem>
-          <ListItem onClick={() => setFilter("recents")} button key={"Recents"}>
+          <ListItem onClick={() => { setFilter("recents"); setSelected(2); }} selected={Selected === 2} button key={"Recents"}>
             <ListItemIcon>
               <AccessTimeIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"Recents"} />
           </ListItem>
-          <ListItem onClick={() => setFilter("favourites")} button key={"Favourites"}>
+          <ListItem onClick={() => { setFilter("favourites"); setSelected(3); }} selected={Selected === 3} button key={"Favourites"}>
             <ListItemIcon>
               <FavoriteBorderOutlinedIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
@@ -139,13 +143,14 @@ const ResponsiveAppBar = () => {
             </ListItemIcon>
             <ListItemText primary={"Logout"} />
           </ListItem>
-          <ListItem onClick={() => setPopUp(true)} button key={"Feedback"}>
+          <ListItem onClick={() => { setPopUp(true); setSelected(4); }} selected={Selected === 4} button key={"Feedback"}>
             <ListItemIcon>
               <InfoOutlinedIcon style={{fontSize: '1.8rem'}}/>
             </ListItemIcon>
             <ListItemText primary={"Feedback"} />
           </ListItem>
       </List>
+      </ThemeProvider>
     </Box>
   );
 
