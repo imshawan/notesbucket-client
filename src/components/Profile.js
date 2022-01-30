@@ -42,7 +42,6 @@ const Profile = () => {
   }, [profile])
 
   useEffect(() => {
-    console.log(status)
     if (status 
       && Object.keys(status).length === 0
       && Object.getPrototypeOf(status) === Object.prototype) return;

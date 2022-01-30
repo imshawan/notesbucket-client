@@ -11,6 +11,8 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import NotesIcon from '@mui/icons-material/Notes';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import ReportIcon from '@mui/icons-material/Report';
 
 import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
@@ -153,6 +155,33 @@ const ResponsiveAppBar = () => {
             <ListItemText disableTypography className='menu-text' primary={"Feedback"} />
           </ListItem>
       </List>
+      {/* Footer section */}
+      <div style={{ width: '100%', bottom: '18px', position: 'absolute'}}>
+        <div className='d-flex justify-content-center'>
+          <Tooltip title="Raise an issue" placement="top" arrow>
+            <IconButton                
+              target="_blank"
+              component="a"
+              href="https://github.com/imshawan/notesbucket-client/issues">
+                <ReportIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="GitHub" placement="top" arrow>
+            <IconButton                
+              target="_blank"
+              component="a"
+              href="https://github.com/imshawan/NotesBucket">
+                <GitHubIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+        <div className='d-flex justify-content-center' style={{ width: '100%'}}>
+          <div  style={{ textAlign: 'center', fontSize: '10px', width: '80%'}}>
+          Raise an issue here. Contribute to this project on GitHub.
+          </div>
+        </div>
+      </div>
+
       </ThemeProvider>
     </Box>
   );
