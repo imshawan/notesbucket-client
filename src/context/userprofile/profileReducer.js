@@ -12,8 +12,8 @@ const ProfileReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                profile: action.payload.profile
-                //status: { success: action.payload.success, message: action.payload.message }
+                profile: action.payload.profile,
+                status: {}
             }
         case PROFILE_UPDATED:
             return {
