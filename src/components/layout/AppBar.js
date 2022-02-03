@@ -116,10 +116,11 @@ const ResponsiveAppBar = () => {
             </Tooltip>
           </ListItem>
           <ListItem style={{paddingTop: '0px'}} className='justify-content-center mb-1' key={"title"}>
+            {console.log(user)}
             <ListItemText style={{textAlign: 'center'}}
               disableTypography
               primary={<Typography style={{fontWeight: 500, fontSize: '1.2rem'}} >{userName}</Typography>}
-              secondary={<Typography style={{fontWeight: 400, fontSize: '0.9rem'}} >{`@${user.username}`}</Typography>} />
+              secondary={user ? (<Typography style={{fontWeight: 400, fontSize: '0.9rem'}} >{`@${user.username}`}</Typography>) : ''} />
           </ListItem>
       </List>
 
