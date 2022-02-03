@@ -55,6 +55,7 @@ const ForgotPassword = (props) => {
       }
       clearStatus()
     }
+    // eslint-disable-next-line
   }, [status])
 
   useEffect(() => {
@@ -66,9 +67,10 @@ const ForgotPassword = (props) => {
 
   useEffect(() => {
     if (otpOpen.showTimer) {
-      document.getElementById('timer').innerHTML = "05:00";
+      document.getElementById('timer').innerHTML = "04:59";
       startTimer();
     }
+    // eslint-disable-next-line
   }, [otpOpen.showTimer])
 
   const onChangeUserData = (e) => {

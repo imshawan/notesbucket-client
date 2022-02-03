@@ -73,6 +73,7 @@ function NoteView() {
       if (status.success === false) {
         setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
       }
+      // eslint-disable-next-line
     }, [status])
 
     useEffect(()=>{
@@ -80,6 +81,7 @@ function NoteView() {
         getNotesById(current._id)
         clearCurrent()
       }
+      // eslint-disable-next-line
     },[current])
 
     useEffect(() => {

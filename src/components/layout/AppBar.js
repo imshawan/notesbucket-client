@@ -89,6 +89,7 @@ const ResponsiveAppBar = () => {
   useEffect(() => {
     if (query) searchNotes(query)
     else clearSearch()
+    // eslint-disable-next-line
   }, [query])
 
   const toggleDrawer = (open) => (event) => {

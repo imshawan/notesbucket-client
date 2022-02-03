@@ -63,6 +63,7 @@ function NoteCreator() {
       if (status.success === false) {
         setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
       }
+      // eslint-disable-next-line
     }, [status])
     
     useEffect(() => {
@@ -75,6 +76,7 @@ function NoteCreator() {
           setNoteTitle("")
           setEditorContent("")
         }
+        // eslint-disable-next-line
     }, [open])
 
     return (

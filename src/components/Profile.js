@@ -39,6 +39,7 @@ const Profile = () => {
 
   useEffect(() => {
       setUserData({...UserData, ...profile})
+      // eslint-disable-next-line
   }, [profile])
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const Profile = () => {
         setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
       }
     }
+    // eslint-disable-next-line
   }, [status])
 
   const handleButtons = (btn) => {
