@@ -9,6 +9,7 @@ import { Alert, Theme } from '../layout/Layout';
 import LockIcon from '@mui/icons-material/Lock';
 import { CircularProgress, Backdrop, ThemeProvider } from '@mui/material';
 import { MainAccent } from '../../app.config';
+import signin_svg from '../../assets/images/undraw_remotely.svg';
 
 const Login = (props) => {
   const authContext = useContext(AuthContext);
@@ -45,6 +46,7 @@ const Login = (props) => {
       }
       clearStatus();
     }
+    // eslint-disable-next-line
   }, [status])
 
   
@@ -82,16 +84,23 @@ const Login = (props) => {
           open={loading}>
           <CircularProgress color="inherit" />
       </Backdrop>
-      <div className='row justify-content-center'>
+      <div className='row justify-content-center' style={{marginTop: '7%'}}>
       <ThemeProvider theme={Theme}>
-        <div className='col-11 col-md-8 col-lg-6 col-xl-5' style={{marginTop: '20px'}}>
+      <div style={{marginLeft: '-15px'}} className="col-md-6 d-none mt-4 d-lg-block d-xl-block">
+        <img src={signin_svg} alt="signin" className="img-fluid"
+        style={{maxHeight: '400px'}}
+         />
+      </div>
+      <div className="col-md-6">
+        <div className="row justify-content-center">
+        <div className='col-11 col-md-12 col-lg-9 col-xl-9'>
 
         <div style={{display: 'flex', justifyContent: 'center', paddingTop: '16px'}}>
         <Avatar style={{backgroundColor: MainAccent, height: '70px', width: '70px'}}>
           <LockIcon style={{height: '40px', width: '40px'}} />
         </Avatar>
         </div>
-        <h2 className='main-heading' style={{paddingTop: '14px', marginBottom: '25px'}}>Sign In</h2>
+        <h2 className='main-heading' style={{paddingTop: '14px', marginBottom: '20px'}}>Welcome!</h2>
         <Box onSubmit={onSubmit}
         component="form"
         sx={{
@@ -140,6 +149,8 @@ const Login = (props) => {
           {statusOps.text}
         </Alert>
       </Snackbar>
+        </div>
+        </div>
         </div>
         </ThemeProvider>
       </div>

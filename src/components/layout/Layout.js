@@ -3,7 +3,7 @@ import React from 'react';
 import { Paper, Menu, alpha } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { createTheme, styled } from '@mui/material/styles';
-import { MainAccentHex } from '../../app.config';
+import { MainAccent, secondary } from '../../app.config';
 
 const lightTheme = createTheme({ palette: { mode: 'light' } });
 const Item = styled(Paper)(({ theme }) => ({
@@ -20,8 +20,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const Theme = createTheme({
     palette: {
       primary: {
-          main: MainAccentHex
-    },
+          main: MainAccent,
+        },
+        secondary: {
+          main: secondary
+        }
     },
   });
 

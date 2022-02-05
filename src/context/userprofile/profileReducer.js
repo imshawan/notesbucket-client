@@ -25,7 +25,7 @@ const ProfileReducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                status: { success: false, message: action.payload }
+                status: action.payload ? { success: false, message: action.payload } : {},
             }
         case SET_PROFILE_OPEN:
             return {

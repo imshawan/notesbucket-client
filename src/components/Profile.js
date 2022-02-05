@@ -39,6 +39,7 @@ const Profile = () => {
 
   useEffect(() => {
       setUserData({...UserData, ...profile})
+      // eslint-disable-next-line
   }, [profile])
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const Profile = () => {
         setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
       }
     }
+    // eslint-disable-next-line
   }, [status])
 
   const handleButtons = (btn) => {
@@ -79,6 +81,7 @@ const Profile = () => {
     updateUser({
       firstname: UserData.firstname,
       lastname: UserData.lastname,
+      username: UserData.username
     })
   };
 
@@ -119,7 +122,7 @@ const Profile = () => {
             size="l" centered backdrop="static" keyboard={false}>
               <div className='mb-4' style={{height: '64px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
                     <span style={{ fontWeight: 600, fontSize: '20px', padding: '16px', color: '#fff'}}>
-                        View Profile
+                        Profile information
                     </span>
               </div>
               <div style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
@@ -218,7 +221,7 @@ const Profile = () => {
                                   value={UserData.role}
                                   onChange={onChangeUserData}
                                   disabled={!button.btn2}
-                                  required label="Role" variant="outlined" />
+                                  label="Role" variant="outlined" />
                             </div>
                             <div className='col-12 col-md-6'>
                               <FormControl fullWidth>

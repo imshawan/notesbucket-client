@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import NoteContext from '../../context/notes/notesContext'
 import TimeFormatter from '../../utils/timeFormatter';
-import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import List from '@mui/material/List';
 import { ListItemButton, Typography } from '@mui/material';
 import ListItemAvatar from '@mui/material/ListItemAvatar';

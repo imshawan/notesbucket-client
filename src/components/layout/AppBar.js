@@ -73,7 +73,7 @@ const ResponsiveAppBar = () => {
   const profileContext = useContext(ProfileContext);
   
   const { user, logout, isAuthenticated } = authContext
-  const { searchNotes, setFilter, clearSearch } = noteContext 
+  const { searchNotes, setFilter, clearSearch, notes } = noteContext 
   const { setPopUp } = queriesContext
   const { setProfilePopup } = profileContext
   const [userName, setUserName] = useState('Notesbucket User')
@@ -89,6 +89,7 @@ const ResponsiveAppBar = () => {
   useEffect(() => {
     if (query) searchNotes(query)
     else clearSearch()
+    // eslint-disable-next-line
   }, [query])
 
   const toggleDrawer = (open) => (event) => {
@@ -116,10 +117,11 @@ const ResponsiveAppBar = () => {
             </Tooltip>
           </ListItem>
           <ListItem style={{paddingTop: '0px'}} className='justify-content-center mb-1' key={"title"}>
+            {console.log(user)}
             <ListItemText style={{textAlign: 'center'}}
               disableTypography
               primary={<Typography style={{fontWeight: 500, fontSize: '1.2rem'}} >{userName}</Typography>}
-              secondary={<Typography style={{fontWeight: 400, fontSize: '0.9rem'}} >{`@${user.username}`}</Typography>} />
+              secondary={user ? (<Typography style={{fontWeight: 400, fontSize: '0.9rem'}} >{`@${user.username}`}</Typography>) : ''} />
           </ListItem>
       </List>
 
@@ -128,7 +130,14 @@ const ResponsiveAppBar = () => {
             <ListItemIcon>
               <NotesIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
-            <ListItemText disableTypography className='menu-text' primary={"All Notes"} />
+            <ListItemText disableTypography className='menu-text' primary={
+              <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
+                All Notes 
+                {notes ? (<div className='badge'>
+                  <div style={{marginTop: '1px'}}>{notes.length}</div>
+                </div>) : ''}
+              </div>
+            } />
           </ListItem>
           <ListItem onClick={() => { setFilter("recents"); setSelected(2); }} selected={Selected === 2} button key={"Recents"}>
             <ListItemIcon>
@@ -140,7 +149,14 @@ const ResponsiveAppBar = () => {
             <ListItemIcon>
               <FavoriteBorderOutlinedIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
-            <ListItemText disableTypography className='menu-text' primary={"Favourites"} />
+            <ListItemText disableTypography className='menu-text' primary={
+              <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
+                Favourites
+                {notes ? (<div className='badge'>
+                  <div style={{marginTop: '1px'}}>{notes.filter(note => note.favourite === true).length}</div>
+                </div>) : ''}
+              </div>
+            } />
           </ListItem> 
           <ListItem onClick={() => logout()} button key={"Logout"}>
             <ListItemIcon>

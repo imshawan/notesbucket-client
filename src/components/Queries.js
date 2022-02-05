@@ -42,6 +42,7 @@ const FeedbackModal = () => {
           setPopUp(false)
           setMessage({ name: '', email: '', message: '' })
         }
+        // eslint-disable-next-line
       }, [status])
 
     const handleClose = (event, reason) => {

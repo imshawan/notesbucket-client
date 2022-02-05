@@ -67,7 +67,7 @@ const Notes = () => {
                 ) : (
                     <div style={{height: '80vh'}} className='row justify-content-center'>
                         <div className='no-note-img' style={{margin: 'auto'}}>
-                            <img className='no-notes-image' src={no_note}></img>
+                            <img className='no-notes-image' src={no_note} alt="Nothing here..."></img>
                         </div>
                     </div>
                 )}

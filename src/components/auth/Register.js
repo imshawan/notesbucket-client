@@ -63,6 +63,7 @@ const Register = (props) => {
       }
       clearStatus()
     }
+    // eslint-disable-next-line
   }, [status])
 
   useEffect(() => {
@@ -75,9 +76,10 @@ const Register = (props) => {
 
   useEffect(() => {
     if (otpOpen.showTimer) {
-      document.getElementById('timer').innerHTML = "05:00";
+      document.getElementById('timer').innerHTML = "04:59";
       startTimer();
     }
+    // eslint-disable-next-line
   }, [otpOpen.showTimer])
 
   const handleClickOpen = (popup) => () => {
@@ -190,7 +192,7 @@ const Register = (props) => {
               <HowToRegIcon style={{height: '40px', width: '40px'}} />
             </Avatar>
             </div>
-            <h2 className='main-heading' style={{paddingTop: '14px', marginBottom: '35px'}}>Create Account</h2>
+            <h2 className='main-heading' style={{paddingTop: '14px', marginBottom: '20px'}}>Create Account</h2>
             <Box onSubmit={onSubmitEmail}
               component="form"
               sx={{
@@ -219,12 +221,11 @@ const Register = (props) => {
             }}
             noValidate
             autoComplete="off">
-            <TextField id="outlined-basic otp" type="text"
+            {otpOpen.showTimer ? (<TextField id="outlined-basic otp" type="text"
               name="otp"
               value={user.otp}
               onChange={onChangeUserData}
-              required label="Verification code" variant="outlined" />
-                <br />
+              required label="Verification code" variant="outlined" />) : ''}
             <div className='row'>
             <TextField style={{maxWidth: '49%'}} className='col-12 col-md-6 mb-3 firstname-lastname' id="outlined-basic firstname" type="text"
               name="firstname"
