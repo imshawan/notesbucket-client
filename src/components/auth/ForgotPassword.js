@@ -170,7 +170,7 @@ const ForgotPassword = (props) => {
               <LockResetIcon style={{height: '40px', width: '40px', marginRight: '2px'}} />
             </Avatar>
             </div>
-            <h2 className='main-heading' style={{paddingTop: '14px', marginBottom: '35px'}}>Forgot Password</h2>
+            <h2 className='main-heading' style={{paddingTop: '14px', marginBottom: '20px'}}>Forgot Password</h2>
             <Box onSubmit={onSubmitEmail}
               component="form"
               sx={{
@@ -198,12 +198,11 @@ const ForgotPassword = (props) => {
             noValidate
             autoComplete="off">
 
-            <TextField id="outlined-basic otp" type="text"
+            {otpOpen.showTimer ? (<TextField id="outlined-basic otp" type="text"
               name="otp"
               value={user.otp}
               onChange={onChangeUserData}
-              required label="Verification code" variant="outlined" />
-                <br />
+              required label="Verification code" variant="outlined" />) : ''}
             <TextField id="outlined-basic password" type="text"
               name="password"
               value={user.password}
