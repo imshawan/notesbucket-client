@@ -7,6 +7,7 @@ import {
   GET_NOTES_BY_ID,
   ADD_NOTE,
   INIT_ADD_NOTE,
+  SET_LOADING,
   DELETE_NOTE,
   UPDATE_NOTE,
   SET_CURRENT,
@@ -32,6 +33,7 @@ const NotesState = (props) => {
     searched: null,
     filtered: "none",
     loading: true,
+    note_loading: false,
     error: null
 }
   const [state, dispatch] = useReducer(notesReducer, initialState);
@@ -62,7 +64,6 @@ const NotesState = (props) => {
   }
 
   const getNotesById = async (id) =>{
-    state.loading = true
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/notes/${id}`,
         method: 'GET',
@@ -148,6 +149,10 @@ const NotesState = (props) => {
     dispatch({ type: CLEAR_CURRENT })
   }
 
+  const setLoading = (value) => {
+    dispatch({ type: SET_LOADING, payload: value})
+  }
+
   const setFilter = (type) => {
     dispatch({ type: SET_FILTER, payload: type })
   }
@@ -183,6 +188,7 @@ const NotesState = (props) => {
       removeFavourite,
       updateNoteById,
       deleteNotesById,
+      setLoading,
       getNotesById,
       clearCurrent,
       searchNotes,

@@ -12,11 +12,12 @@ import stringAvatar from '../../utils/generateAvatar';
 const NotesCard = ({ note }) => {
     const { _id, title, updatedAt } = note;
     const noteContext = useContext(NoteContext)
-    const { setCurrent } = noteContext
+    const { setCurrent, setLoading } = noteContext
 
     const viewNote =(e)=>{
       e.preventDefault()
       setCurrent(note)
+      setLoading(true)
     }
     return (
         <div className='col-12 col-md-6 col-lg-4' onClick={viewNote} id={_id}>

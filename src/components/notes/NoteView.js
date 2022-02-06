@@ -3,7 +3,7 @@ import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
 import { Alert, Theme, OptionsMenu } from '../layout/Layout';
 import TextField from '@mui/material/TextField';
-import { Button, ThemeProvider } from '@mui/material';
+import { Button, ThemeProvider, CircularProgress } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -27,6 +27,7 @@ function NoteView() {
     const { note, status, getNotesById, addToFavourites, removeFavourite, 
       current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions } = noteContext
     const [open, setOpen] = useState(false)
+    const [isSaving, setisSaving] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const menu = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -43,6 +44,7 @@ function NoteView() {
       e.preventDefault();
       if (!noteTitle && !editorContent) return;
       updateNoteById(note._id, {title: noteTitle, content: editorContent})
+      setisSaving(true)
     }
 
     const onDelete = () =>{
@@ -50,12 +52,13 @@ function NoteView() {
       deleteNotesById(note._id);
       clearCurrent()
       setOpen(false)
-      setAnchorEl(null);
+      setAnchorEl(null)
     }
 
     const closeModal = () => {
       setOpen(false)
-      setAnchorEl(null);
+      setAnchorEl(null)
+      clearCurrent()
     }
 
     const handleFavourites = (e) => {
@@ -67,6 +70,7 @@ function NoteView() {
 
     useEffect(() => {
       if (!status) return;
+      setisSaving(false)
       if (status.success === true) {
         setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
       }
@@ -182,8 +186,8 @@ function NoteView() {
                 </MenuItem>
               </OptionsMenu>
             </div>
-            <Button variant="contained" style={{ marginRight: '10px' }} type={!editing ? 'submit' : ''} startIcon={modify.icon} onClick={() => setEditing(true)}>
-              {modify.text}
+            <Button variant="contained" style={{ marginRight: '10px', minWidth: '88px' }} type={!editing ? 'submit' : ''} startIcon={modify.icon} onClick={() => setEditing(true)}>
+              { isSaving ? <CircularProgress style={{width: '24px', height: '24px', color: '#fff'}} /> : modify.text }
             </Button>
           </Modal.Footer>
         </form>

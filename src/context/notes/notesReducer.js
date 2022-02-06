@@ -3,6 +3,7 @@ import {
   GET_NOTES_BY_ID,
   ADD_NOTE,
   INIT_ADD_NOTE,
+  SET_LOADING,
   DELETE_NOTE,
   UPDATE_NOTE,
   SET_CURRENT,
@@ -73,6 +74,11 @@ const NotesReducer = (state, action) => {
             return note.title.match(regex)
         })
     }
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload
+      }
     case CLEAR_SEARCH:
       return{
         ...state,
