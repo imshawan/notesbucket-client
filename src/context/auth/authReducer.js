@@ -105,8 +105,6 @@ const AuthReducer = (state, action) => {
       localStorage.removeItem('token')
       return {
         ...state,
-        notes: [],
-        note: {},
         token: null,
         isAuthenticated: false,
         loading: false,

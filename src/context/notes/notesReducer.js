@@ -96,6 +96,13 @@ const NotesReducer = (state, action) => {
         filtered: action.payload
       }
     case CLEAR_NOTES:
+      return {
+        ...state,
+        notes: [],
+        note: null,
+        current: null,
+        searched: null
+      }
     default:
       return state;
   }

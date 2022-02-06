@@ -73,13 +73,18 @@ const ResponsiveAppBar = () => {
   const profileContext = useContext(ProfileContext);
   
   const { user, logout, isAuthenticated } = authContext
-  const { searchNotes, setFilter, clearSearch, notes } = noteContext 
+  const { searchNotes, setFilter, clearSearch, notes, clearNotes } = noteContext 
   const { setPopUp } = queriesContext
   const { setProfilePopup } = profileContext
   const [userName, setUserName] = useState('Notesbucket User')
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
   const [Selected, setSelected] = useState(1)
+
+  const logMeOut = () => {
+    clearNotes()
+    logout()
+  }
 
   useEffect(() => {
     if (!user) return;
@@ -117,7 +122,6 @@ const ResponsiveAppBar = () => {
             </Tooltip>
           </ListItem>
           <ListItem style={{paddingTop: '0px'}} className='justify-content-center mb-1' key={"title"}>
-            {console.log(user)}
             <ListItemText style={{textAlign: 'center'}}
               disableTypography
               primary={<Typography style={{fontWeight: 500, fontSize: '1.2rem'}} >{userName}</Typography>}
@@ -125,8 +129,8 @@ const ResponsiveAppBar = () => {
           </ListItem>
       </List>
 
-      <List>
-          <ListItem onClick={() => { setFilter("none"); setSelected(1); }} selected={Selected === 1} button key={"All Notes"}>
+      <List style={{width: '95%'}}>
+          <ListItem className="drawer-list" onClick={() => { setFilter("none"); setSelected(1); }} selected={Selected === 1} button key={"All Notes"}>
             <ListItemIcon>
               <NotesIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
@@ -139,13 +143,13 @@ const ResponsiveAppBar = () => {
               </div>
             } />
           </ListItem>
-          <ListItem onClick={() => { setFilter("recents"); setSelected(2); }} selected={Selected === 2} button key={"Recents"}>
+          <ListItem className="drawer-list" onClick={() => { setFilter("recents"); setSelected(2); }} selected={Selected === 2} button key={"Recents"}>
             <ListItemIcon>
               <AccessTimeIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={"Recents"} />
           </ListItem>
-          <ListItem onClick={() => { setFilter("favourites"); setSelected(3); }} selected={Selected === 3} button key={"Favourites"}>
+          <ListItem className="drawer-list" onClick={() => { setFilter("favourites"); setSelected(3); }} selected={Selected === 3} button key={"Favourites"}>
             <ListItemIcon>
               <FavoriteBorderOutlinedIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
@@ -158,13 +162,13 @@ const ResponsiveAppBar = () => {
               </div>
             } />
           </ListItem> 
-          <ListItem onClick={() => logout()} button key={"Logout"}>
+          <ListItem className="drawer-list" onClick={() => logMeOut()} button key={"Logout"}>
             <ListItemIcon>
               <LogoutIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={"Logout"} />
           </ListItem>
-          <ListItem onClick={() => setPopUp(true)} button key={"Feedback"}>
+          <ListItem className="drawer-list" onClick={() => setPopUp(true)} button key={"Feedback"}>
             <ListItemIcon>
               <InfoOutlinedIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>

@@ -14,13 +14,14 @@ import { Theme } from '../layout/Layout';
 
 const Notes = () => {
     const noteContext = useContext(NoteContext);
-    const { notes, searched, getNotes, filtered, loading, setAdd, add } = noteContext 
+    const { notes, searched, getNotes, filtered, loading, setAdd, add, setLoading } = noteContext 
     
     useEffect(()=>{
         if (localStorage.token){
             setAuthToken(localStorage.token)
           }
         getNotes()
+        setLoading(true)
         setAdd(false)
         // eslint-disable-next-line
     },[])

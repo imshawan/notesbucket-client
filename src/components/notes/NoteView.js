@@ -25,7 +25,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 function NoteView() {
     const noteContext = useContext(NoteContext)
     const { note, status, getNotesById, addToFavourites, removeFavourite, 
-      current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions } = noteContext
+      current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions, setLoading } = noteContext
     const [open, setOpen] = useState(false)
     const [isSaving, setisSaving] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
@@ -52,6 +52,7 @@ function NoteView() {
       deleteNotesById(note._id);
       clearCurrent()
       setOpen(false)
+      setLoading(true)
       setAnchorEl(null)
     }
 
@@ -89,7 +90,8 @@ function NoteView() {
     },[current])
 
     useEffect(() => {
-      if (note.content) {
+      console.log(note)
+      if (note && note.content) {
       setEditing(false)
       setOpen(true)
       }
@@ -105,8 +107,7 @@ function NoteView() {
         setEditorContent("")
       }
     }, [editing])
-
-    return (
+    if (note) return (
       <Fragment>
       <Modal show={open}
         size="xl"
@@ -186,8 +187,8 @@ function NoteView() {
                 </MenuItem>
               </OptionsMenu>
             </div>
-            <Button variant="contained" style={{ marginRight: '10px', minWidth: '88px' }} type={!editing ? 'submit' : ''} startIcon={modify.icon} onClick={() => setEditing(true)}>
-              { isSaving ? <CircularProgress style={{width: '24px', height: '24px', color: '#fff'}} /> : modify.text }
+            <Button variant="contained" style={{ marginRight: '10px', minWidth: '88px' }} type={!editing ? 'submit' : ''} startIcon={ isSaving ? '' : modify.icon} onClick={() => setEditing(true)}>
+              { isSaving ? <CircularProgress style={{width: '24px', height: '24px', color: '#fff', margin: 'auto'}} /> : modify.text }
             </Button>
           </Modal.Footer>
         </form>
@@ -200,6 +201,7 @@ function NoteView() {
         </Snackbar>
       </Fragment>
     );
+    else return (<></>)
   }
   
 
