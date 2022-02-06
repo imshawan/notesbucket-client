@@ -125,14 +125,14 @@ function NoteView() {
         </div>
         <form className='mt-3' onSubmit={submitPayload}>
           <div className='mt-4 pb-0' style={{minHeigt: '64px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <span style={{ width: '100%', fontWeight: 600, fontSize: '20px', padding: '16px'}}>
+                <span style={{ width: '100%', padding: '16px'}}>
                 {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"
               label="Title"
               name="title"
               onChange={(e) => setNoteTitle(e.target.value)}
               defaultValue={note.title}
               InputProps={{
-                className: "notes-title"
+                className: "notes-input-title"
             }}
               multiline />) : (<div className='notes-title'>
                 {note.title}
