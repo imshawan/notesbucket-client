@@ -51,7 +51,7 @@ const Notes = () => {
     return (
         <Fragment>
             <ThemeProvider theme={Theme}>
-            {notes && notes.length !== 0 && !loading ?(
+            {notes && notes.length !== 0 ?(
                     <div className='row'>
                     {
                         searched ? (
