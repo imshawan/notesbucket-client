@@ -3,7 +3,7 @@ import NoteContext from '../../context/notes/notesContext';
 import { Modal } from 'react-bootstrap';
 import { Alert, Theme, OptionsMenu } from '../layout/Layout';
 import TextField from '@mui/material/TextField';
-import { Button, ThemeProvider, CircularProgress } from '@mui/material';
+import { Button, ThemeProvider, CircularProgress, IconButton } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -19,7 +19,7 @@ import ReactSummernote from 'react-summernote';
 import 'react-summernote/dist/react-summernote.css'; // import styles
 
 import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function NoteView() {
@@ -118,8 +118,13 @@ function NoteView() {
         fullscreen
       >
         <ThemeProvider theme={Theme}>
-        <form onSubmit={submitPayload}>
-          <div className='mb-1' style={{height: '64px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <div style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
+          <IconButton onClick={closeModal}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+        <form className='mt-3' onSubmit={submitPayload}>
+          <div className='mt-4 pb-0' style={{minHeigt: '64px', width: '100%', display: 'flex', justifyContent: 'center' }}>
                 <span style={{ width: '100%', fontWeight: 600, fontSize: '20px', padding: '16px'}}>
                 {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"
               label="Title"
@@ -134,7 +139,7 @@ function NoteView() {
               </div>)}
                 </span>
           </div>
-          <Modal.Body>
+          <Modal.Body className='pt-0'>
             <p style={{ overflow: 'auto' }}>
             {editing ? (
                 <ReactSummernote
@@ -180,11 +185,7 @@ function NoteView() {
                   <DeleteIcon />
                   Delete
                 </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={closeModal} disableRipple>
-                  <CloseIcon />
-                  {editing ? 'Discard' : 'Close'}
-                </MenuItem>
+                {/* <Divider sx={{ my: 0.5 }} /> */}
               </OptionsMenu>
             </div>
             <Button variant="contained" style={{ marginRight: '10px', minWidth: '88px' }} type={!editing ? 'submit' : ''} startIcon={ isSaving ? '' : modify.icon} onClick={() => setEditing(true)}>
