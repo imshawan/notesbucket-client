@@ -18,7 +18,7 @@ import 'react-summernote/dist/react-summernote.css'; // import styles
 
 function NoteCreator() {
     const noteContext = useContext(NoteContext)
-    const { createNote, status, add, setAdd, SummerNoteOptions } = noteContext
+    const { createNote, status, add, setAdd, SummerNoteOptions, setLoading } = noteContext
     const [open, setOpen] = useState(false)
     const [statusOps, setOpsStatus] = useState({open: false, text: ""})
     const [noteTitle, setNoteTitle] = useState("")
@@ -45,6 +45,7 @@ function NoteCreator() {
         }
         createNote({title: noteTitle, content: editorContent})
         setOpen(false)
+        setLoading(true)
     }
     
     const handleClose = (event, reason) => {

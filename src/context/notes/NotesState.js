@@ -11,6 +11,7 @@ import {
   DELETE_NOTE,
   UPDATE_NOTE,
   SET_CURRENT,
+  CLEAR_NOTES,
   CLEAR_CURRENT,
   SEARCH_NOTES,
   CLEAR_SEARCH,
@@ -32,9 +33,7 @@ const NotesState = (props) => {
     current: null,
     searched: null,
     filtered: "none",
-    loading: true,
-    note_loading: false,
-    error: null
+    loading: true
 }
   const [state, dispatch] = useReducer(notesReducer, initialState);
 
@@ -51,7 +50,6 @@ const NotesState = (props) => {
   }
 
   const createNote = async (payload) =>{
-    state.loading = true
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/notes`,
         method: 'POST',
@@ -76,7 +74,6 @@ const NotesState = (props) => {
   }
 
   const updateNoteById = async (id, payload) =>{
-    state.loading = true
     var data = {}
     if (payload.title) data.title = payload.title
     if (payload.content) data.content = payload.content
@@ -93,7 +90,6 @@ const NotesState = (props) => {
   }
   
   const addToFavourites = async (id) =>{
-    state.loading = true
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/favourites/${id}`,
         method: 'PUT',
@@ -106,7 +102,6 @@ const NotesState = (props) => {
   }
 
   const removeFavourite = async (id) =>{
-    state.loading = true
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/favourites/${id}`,
         method: 'DELETE',
@@ -119,7 +114,6 @@ const NotesState = (props) => {
   }
 
   const deleteNotesById = async (id) =>{
-    state.loading = true
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/notes/${id}`,
         method: 'DELETE',
@@ -147,6 +141,9 @@ const NotesState = (props) => {
   //Clear current note
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT })
+  }
+  const clearNotes = () => {
+    dispatch({ type: CLEAR_NOTES })
   }
 
   const setLoading = (value) => {
@@ -181,7 +178,6 @@ const NotesState = (props) => {
       current: state.current,
       searched: state.searched,
       filtered: state.filtered,
-      error: state.error,
       loading: state.loading,
       SummerNoteOptions,
       addToFavourites, 
@@ -195,8 +191,9 @@ const NotesState = (props) => {
       clearSearch,
       createNote,
       setCurrent,
-      getNotes,
+      clearNotes,
       setFilter,
+      getNotes,
       setAdd
     }}>{props.children}</NotesContext.Provider>
   );
