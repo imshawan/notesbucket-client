@@ -29,4 +29,4 @@ const stringAvatar = (name, count=2) => {
         };
     }
 
-export default stringAvatar;
+export  { stringAvatar, stringToColor };

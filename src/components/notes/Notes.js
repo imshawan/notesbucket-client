@@ -1,11 +1,9 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import NotesCard from './NotesCard';
-import { Backdrop, ThemeProvider } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Backdrop, ThemeProvider, CircularProgress, SpeedDial } from '@mui/material';
 import NoteView from './NoteView';
 import NoteCreator from './NoteCreator';
-import SpeedDial from '@mui/material/SpeedDial';
 import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
@@ -53,18 +51,27 @@ const Notes = () => {
         <Fragment>
             <ThemeProvider theme={Theme}>
             {notes && notes.length !== 0 ?(
-                    <div className='row'>
+                    <Fragment>
                     {
                         searched ? (
-                            <Fragment>
+                            <div className='row'>
                                 {searched.length !== 0 ? (searched.map(note=><NotesCard note={note} key={note._id}/>)) : (
-                                    <h3 style={{margin: 'auto'}}>Nothing found</h3>
+                                    <h3 style={{margin: 'auto'}}>Nothing found!</h3>
                                 )}
-                            </Fragment>
+                            </div>
                         ) 
-                        : (filtered ? sortNotesByFileration(notes).map(note=><NotesCard note={note} key={note._id} />) : '')
+                        : (filtered ? (
+                            <Fragment>
+                                <div className='pb-2' style={{fontSize: '38px', textAlign: 'left', margin: '5px', fontWeight: 600}}>
+                                    {filtered === 'none' ? 'notes' : filtered}
+                                </div>
+                                <div className='row'>
+                                    {sortNotesByFileration(notes).map(note=><NotesCard note={note} key={note._id} />)}
+                                </div>
+                            </ Fragment>
+                            ) : '')
                     }
-                    </div>
+                    </Fragment>
                 ) : (
                     <div style={{height: '80vh'}} className='row justify-content-center'>
                         <div className='no-note-img' style={{margin: 'auto'}}>

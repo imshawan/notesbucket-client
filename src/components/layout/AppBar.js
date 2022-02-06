@@ -18,7 +18,7 @@ import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
 import ProfileContext from '../../context/userprofile/profileContext';
-import stringAvatar from '../../utils/generateAvatar';
+import {stringAvatar} from '../../utils/generateAvatar';
 
 import {Theme} from './Layout';
 
@@ -26,10 +26,11 @@ import { MainAccent } from '../../app.config';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  // borderRadius: theme.shape.borderRadius,
+  borderRadius: '28px',
+  backgroundColor: alpha(theme.palette.common.black, 0.05),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.black, 0.15),
   },
   marginLeft: 0,
   width: '100%',
@@ -47,6 +48,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: '#000'
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -58,9 +60,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '12ch',
+      width: '26ch',
       '&:focus': {
-        width: '20ch',
+        width: '34ch',
       },
     },
   },
@@ -124,12 +126,12 @@ const ResponsiveAppBar = () => {
           <ListItem style={{paddingTop: '0px'}} className='justify-content-center mb-1' key={"title"}>
             <ListItemText style={{textAlign: 'center'}}
               disableTypography
-              primary={<Typography style={{fontWeight: 500, fontSize: '1.2rem'}} >{userName}</Typography>}
+              primary={<Typography style={{fontWeight: 600, fontSize: '1.2rem'}} >{userName}</Typography>}
               secondary={user ? (<Typography style={{fontWeight: 400, fontSize: '0.9rem'}} >{`@${user.username}`}</Typography>) : ''} />
           </ListItem>
       </List>
 
-      <List style={{width: '95%'}}>
+      <List style={{width: '95%', fontWeight: 600, fontSize: '16px'}}>
           <ListItem className="drawer-list" onClick={() => { setFilter("none"); setSelected(1); }} selected={Selected === 1} button key={"All Notes"}>
             <ListItemIcon>
               <NotesIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
@@ -208,7 +210,7 @@ const ResponsiveAppBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{background: MainAccent }} position="static">
+      <AppBar style={isAuthenticated ? { background: '#fff', boxShadow: 'none', marginTop: '6px' } : { background: MainAccent}} position="static">
         <Toolbar>
           {isAuthenticated ? (
             <IconButton
@@ -219,10 +221,12 @@ const ResponsiveAppBar = () => {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <MenuIcon style={{color: '#000'}} />
           </IconButton>
           ) : ''}
           <Typography
+          style={isAuthenticated ? {color: '#000'} : {color: '#fff'}}
+            className='app-header'
             variant="h6"
             noWrap
             component="div"
@@ -231,18 +235,19 @@ const ResponsiveAppBar = () => {
             NotesBucket
           </Typography>
           {isAuthenticated ?
-          (<Search >
+          (<Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Global search…"
               name='search'
+              style={{color: '#000', fontWeight: 600, lineHeight: '4.2'}}
               onChange={(e) => setQuery(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>) : (
-            <div className='app-header d-block d-sm-none d-md-none d-lg-none d-xl-none css-dudo9s-MuiTypography-root'>
+            <div className='app-header d-block d-sm-none d-md-none d-lg-none d-xl-none css-dudo9s-MuiTypography-root' style={{color: '#fff'}}>
               NotesBucket
             </div>
           ) }

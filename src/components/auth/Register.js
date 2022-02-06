@@ -315,7 +315,7 @@ const Register = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={() => setType(false)}>{PopUp === 'registered' ? (
+          <Button variant="contained" onClick={() => setType(false)}>{PopUp === 'registered' ? (
             <Typography>
               <Link href="/login" underline="none">
                 {'Continue to login'}
