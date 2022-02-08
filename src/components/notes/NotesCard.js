@@ -22,7 +22,7 @@ const NotesCard = ({ note }) => {
     return (
         <div className='col-12 col-md-6 col-lg-4' onClick={viewNote} id={_id}>
             <List>
-              <ListItemButton className='notes-card' style={{borderRadius: '10px', background: `${stringToColor(title)}20`}}>
+              <ListItemButton className='notes-card' style={{borderRadius: '10px', background: `${stringToColor(title)}30`}}>
                   <ListItemAvatar>
                     <Avatar {...stringAvatar(title, 1)} />
                   </ListItemAvatar>

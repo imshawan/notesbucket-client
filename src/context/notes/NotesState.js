@@ -58,7 +58,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: ADD_NOTE, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
   const getNotesById = async (id) =>{

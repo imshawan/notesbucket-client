@@ -155,7 +155,7 @@ const ForgotPassword = (props) => {
   }
 
   return (
-    <div className='container'>
+    <div className='container' style={{ marginTop: '5rem' }}>
       <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loading}>

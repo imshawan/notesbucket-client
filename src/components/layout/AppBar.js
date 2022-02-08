@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react'
-
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Avatar } from '@mui/material';
 import { Typography, InputBase, ThemeProvider} from '@mui/material';
@@ -18,10 +17,9 @@ import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
 import ProfileContext from '../../context/userprofile/profileContext';
-import {stringAvatar} from '../../utils/generateAvatar';
 
-import {Theme} from './Layout';
-
+import { stringAvatar } from '../../utils/generateAvatar';
+import { Theme } from './Layout';
 import { MainAccent } from '../../app.config';
 
 const Search = styled('div')(({ theme }) => ({
@@ -60,9 +58,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '26ch',
+      width: '28ch',
       '&:focus': {
-        width: '34ch',
+        width: '36ch',
       },
     },
   },
@@ -210,8 +208,8 @@ const ResponsiveAppBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={isAuthenticated ? { background: '#fff', boxShadow: 'none', marginTop: '6px' } : { background: MainAccent}} position="static">
-        <Toolbar>
+      <AppBar style={isAuthenticated ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
+        <Toolbar style={{ marginTop: '6px' }}>
           {isAuthenticated ? (
             <IconButton
             onClick={toggleDrawer(true)}

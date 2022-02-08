@@ -54,7 +54,7 @@ const Notes = () => {
                     <Fragment>
                     {
                         searched ? (
-                            <div className='row'>
+                            <div className='row' style={{ paddingTop: '45px' }}>
                                 {searched.length !== 0 ? (searched.map(note=><NotesCard note={note} key={note._id}/>)) : (
                                     <h3 style={{margin: 'auto'}}>Nothing found!</h3>
                                 )}
@@ -62,10 +62,10 @@ const Notes = () => {
                         ) 
                         : (filtered ? (
                             <Fragment>
-                                <div className='pb-2' style={{fontSize: '38px', textAlign: 'left', margin: '5px', fontWeight: 600}}>
+                                <div className='pb-2 filteration-header'>
                                     {filtered === 'none' ? 'notes' : filtered}
                                 </div>
-                                <div className='row'>
+                                <div className='row' style={{ paddingTop: '90px' }}>
                                     {sortNotesByFileration(notes).map(note=><NotesCard note={note} key={note._id} />)}
                                 </div>
                             </ Fragment>
@@ -83,7 +83,7 @@ const Notes = () => {
             <NoteCreator />
 
             <SpeedDial onClick={showNoteCreator}
-            ariaLabel="SpeedDial basic example" sx={{ position: 'absolute', bottom: 16, right: 16 }} icon={<AddIcon />} />
+            ariaLabel="SpeedDial basic example" sx={{ position: 'fixed', bottom: 16, right: 16 }} icon={<AddIcon />} />
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={loading}>

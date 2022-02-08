@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react';
 import NoteContext from '../../context/notes/notesContext';
-import { Modal } from 'react-bootstrap';
 import { Alert, Theme, OptionsMenu } from '../layout/Layout';
 import TextField from '@mui/material/TextField';
 import { Button, ThemeProvider, CircularProgress, IconButton } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -21,6 +21,9 @@ import 'react-summernote/dist/react-summernote.css'; // import styles
 import MenuItem from '@mui/material/MenuItem';
 // import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import { MainAccent } from '../../app.config';
 
 function NoteView() {
     const noteContext = useContext(NoteContext)
@@ -40,8 +43,15 @@ function NoteView() {
     const [noteTitle, setNoteTitle] = useState("")
     const [editorContent, setEditorContent] = useState("")
 
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     const submitPayload = (e) => {
       e.preventDefault();
+      if (!editing) {
+        setEditing(true)
+        return;
+      }
       if (!noteTitle && !editorContent) return;
       updateNoteById(note._id, {title: noteTitle, content: editorContent})
       setisSaving(true)
@@ -90,7 +100,6 @@ function NoteView() {
     },[current])
 
     useEffect(() => {
-      console.log(note)
       if (note && note.content) {
       setEditing(false)
       setOpen(true)
@@ -109,92 +118,98 @@ function NoteView() {
     }, [editing])
     if (note) return (
       <Fragment>
-      <Modal show={open}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        backdrop="static"
-        keyboard={false}
-        fullscreen
-      >
         <ThemeProvider theme={Theme}>
-        <div style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
-          <IconButton onClick={closeModal}>
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <form className='mt-3' onSubmit={submitPayload}>
-          <div className='mt-4 pb-0' style={{minHeigt: '64px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <span style={{ width: '100%', padding: '16px'}}>
-                {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"
-              label="Title"
-              name="title"
-              onChange={(e) => setNoteTitle(e.target.value)}
-              defaultValue={note.title}
-              InputProps={{
-                className: "notes-input-title"
-            }}
-              multiline />) : (<div className='notes-title'>
-                {note.title}
-              </div>)}
+          <Dialog open={open}
+          fullScreen={fullScreen}
+          fullWidth={true}
+          maxWidth={'md'}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+          >
+            <DialogTitle style={{ height: '58px', background: MainAccent, marginTop: '-2px' }} id="scroll-dialog-title">
+              <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+                <span style={{ fontWeight: 600, fontSize: '20px', color: '#fff'}}>
+                    {editing ? 'Editing note' : 'Viewing note'}
                 </span>
-          </div>
-          <Modal.Body className='pt-0'>
-            <p style={{ overflow: 'auto' }}>
-            {editing ? (
-                <ReactSummernote
-                  onInit={() => {
-                    document.querySelector(".note-editable").innerHTML = note.content
-                  }}
-                  options={SummerNoteOptions}
-                  onChange={(editorText) => setEditorContent(editorText)}
-                />
-            ) : (
-              <p dangerouslySetInnerHTML={{ __html: note.content }}></p>
-            )}
-          </p>
-          </Modal.Body>
-          <Modal.Footer>
-            <div>
-              <Button
-                id="demo-customized-button"
-                aria-controls={menu ? 'demo-customized-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={menu ? 'true' : undefined}
-                variant="contained"
-                disableElevation
-                style={{ marginRight: '6px' }} 
-                endIcon={<KeyboardArrowDownIcon />}
-                onClick={handleClick}> 
-                Options
-              </Button>
-              <OptionsMenu
-                id="demo-customized-menu"
-                MenuListProps={{
-                  'aria-labelledby': 'demo-customized-button',
+                <span style={{display: 'flex', right: 0, position: 'absolute', marginRight: '10px', marginTop: '-4px'}}>
+                  <IconButton style={{ color: '#fff' }} onClick={closeModal}>
+                    <CloseIcon />
+                  </IconButton>
+                </span>
+              </div>
+            </DialogTitle>
+            <DialogContent className='pt-3' dividers={true}>
+              <div className='pb-2' style={{minHeigt: '64px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <span style={{ width: '100%'}}>
+                    {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"
+                  label="Title"
+                  name="title"
+                  onChange={(e) => setNoteTitle(e.target.value)}
+                  defaultValue={note.title}
+                  InputProps={{
+                    className: "notes-input-title"
                 }}
-                anchorEl={anchorEl}
-                open={menu}
-                onClose={() => setAnchorEl(null)}
-              >
-                <MenuItem onClick={handleFavourites} disableRipple>
-                {note.favourite ? <FavoriteIcon /> :<FavoriteBorderIcon />}
-                {note.favourite ? "Remove favourite" : "Add favourite" }
-                </MenuItem>
-                <MenuItem onClick={() => onDelete()} disableRipple>
-                  <DeleteIcon />
-                  Delete
-                </MenuItem>
-                {/* <Divider sx={{ my: 0.5 }} /> */}
-              </OptionsMenu>
-            </div>
-            <Button variant="contained" style={{ marginRight: '10px', minWidth: '88px' }} type={!editing ? 'submit' : ''} startIcon={ isSaving ? '' : modify.icon} onClick={() => setEditing(true)}>
-              { isSaving ? <CircularProgress style={{width: '24px', height: '24px', color: '#fff', margin: 'auto'}} /> : modify.text }
-            </Button>
-          </Modal.Footer>
-        </form>
+                  multiline />) : (<div className='notes-title'>
+                    {note.title}
+                  </div>)}
+                    </span>
+              </div>
+              <div className='pt-0'>
+                <p style={{ overflow: 'auto' }}>
+                {editing ? (
+                    <ReactSummernote
+                      onInit={() => {
+                        document.querySelector(".note-editable").innerHTML = note.content
+                      }}
+                      options={SummerNoteOptions}
+                      onChange={(editorText) => setEditorContent(editorText)}
+                    />
+                ) : (
+                  <p dangerouslySetInnerHTML={{ __html: note.content }}></p>
+                )}
+              </p>
+              </div>
+              </DialogContent>
+              <DialogActions>
+                <div>
+                  <Button
+                    id="demo-customized-button"
+                    aria-controls={menu ? 'demo-customized-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={menu ? 'true' : undefined}
+                    variant="contained"
+                    disableElevation
+                    style={{ marginRight: '6px' }} 
+                    endIcon={<KeyboardArrowDownIcon />}
+                    onClick={handleClick}> 
+                    Options
+                  </Button>
+                  <OptionsMenu
+                    id="demo-customized-menu"
+                    MenuListProps={{
+                      'aria-labelledby': 'demo-customized-button',
+                    }}
+                    anchorEl={anchorEl}
+                    open={menu}
+                    onClose={() => setAnchorEl(null)}
+                  >
+                    <MenuItem onClick={handleFavourites} disableRipple>
+                    {note.favourite ? <FavoriteIcon /> :<FavoriteBorderIcon />}
+                    {note.favourite ? "Remove favourite" : "Add favourite" }
+                    </MenuItem>
+                    <MenuItem onClick={() => onDelete()} disableRipple>
+                      <DeleteIcon />
+                      Delete
+                    </MenuItem>
+                    {/* <Divider sx={{ my: 0.5 }} /> */}
+                  </OptionsMenu>
+                </div>
+                <Button variant="contained" style={{ marginRight: '10px', minWidth: '88px' }} startIcon={ isSaving ? '' : modify.icon} onClick={submitPayload}>
+                  { isSaving ? <CircularProgress style={{width: '24px', height: '24px', color: '#fff', margin: 'auto'}} /> : modify.text }
+                </Button>
+              </DialogActions>
+          </Dialog>
         </ ThemeProvider>
-      </Modal>
         <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false})}>
           <Alert onClose={() => setOpsStatus({...statusOps, open: false})} severity={statusOps.severity} sx={{ width: '100%' }}>
             {statusOps.text}
