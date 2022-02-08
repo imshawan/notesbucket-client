@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import NoteContext from '../../context/notes/notesContext';
-import { Modal } from 'react-bootstrap';
-import TextField from '@mui/material/TextField';
-import { Button, ThemeProvider } from '@mui/material/';
+import { TextField, IconButton } from '@mui/material';
+import { Button, ThemeProvider, useMediaQuery, useTheme } from '@mui/material/';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Theme } from '../layout/Layout';
@@ -14,6 +14,7 @@ import 'bootstrap/js/dist/tooltip';
 import 'bootstrap/dist/css/bootstrap.css';
 import ReactSummernote from 'react-summernote';
 import 'react-summernote/dist/react-summernote.css'; // import styles
+import { MainAccent } from '../../app.config';
 
 
 function NoteCreator() {
@@ -28,7 +29,10 @@ function NoteCreator() {
         message: '',
         severity: 'error'
       });
-    
+      
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     const submitPayload = (e) => {
         e.preventDefault();
         if (!noteTitle && !editorContent) {
@@ -82,48 +86,58 @@ function NoteCreator() {
 
     return (
       <Fragment>
-      <Modal show={open}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        backdrop="static"
-        keyboard={false}
-      >
         <ThemeProvider theme={Theme}>
-        <form onSubmit={submitPayload}>
+      <Dialog open={open}
+          fullScreen={fullScreen}
+          fullWidth={true}
+          maxWidth={'md'}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+          >
+        <DialogTitle style={{ height: '58px', background: MainAccent, marginTop: '-2px' }} id="scroll-dialog-title">
+        <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+          <span style={{ fontWeight: 600, fontSize: '20px', color: '#fff'}}>
+              Create note
+          </span>
+          <span style={{display: 'flex', right: 0, position: 'absolute', marginRight: '10px', marginTop: '-4px'}}>
+            <IconButton style={{ color: '#fff' }} onClick={() => setOpen(false)}>
+              <CloseIcon />
+            </IconButton>
+          </span>
+        </div>
+        </DialogTitle>
+        <DialogContent className='pt-3' dividers={true}>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <span style={{ width: '100%', fontWeight: 600, fontSize: '20px', padding: '16px', color: '#fff'}}>
-                <TextField style={{width: '100%'}} id="outlined-textarea"
-                    label="Title"
-                    name="title"
-                    onChange={(e) => setNoteTitle(e.target.value)}
-                    placeholder='Title of your note'
-                    InputProps={{
-                        className: "notes-title"
-                    }}
-                    multiline />
-                </span>
+            <span className='pt-1 pb-2' style={{ width: '100%', fontWeight: 600, fontSize: '20px', color: '#fff'}}>
+              <TextField style={{width: '100%'}} id="outlined-textarea"
+                  label="Title"
+                  name="title"
+                  onChange={(e) => setNoteTitle(e.target.value)}
+                  placeholder='Title of your note'
+                  InputProps={{
+                      className: "notes-input-title"
+                  }}
+                  multiline />
+            </span>
           </div>
-          <Modal.Body>
-              <ReactSummernote
-                options={SummerNoteOptions}
-                onChange={(editorText) => setEditorContent(editorText)}
-              />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="contained" style={{ marginRight: '10px' }} type="submit" startIcon={<NoteAddIcon />}>CREATE</Button>
-            <Button variant="contained" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>DISCARD</Button>
-          </Modal.Footer>
-        </form>
-        </ThemeProvider>
+          <ReactSummernote
+            options={SummerNoteOptions}
+            onChange={(editorText) => setEditorContent(editorText)}/>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>DISCARD</Button>
+          <Button variant="contained" style={{ marginRight: '10px' }} onClick={submitPayload} startIcon={<NoteAddIcon />}>CREATE</Button>
+        </DialogActions>
+      </Dialog>
+      </ThemeProvider>
         <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={alert.open} autoHideDuration={5000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity={alert.severity} sx={{ width: '100%' }}>
-            {alert.message}
-          </Alert>
-        </Snackbar>
-      </Stack>
-      </Modal>
+          <Snackbar open={alert.open} autoHideDuration={5000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={alert.severity} sx={{ width: '100%' }}>
+              {alert.message}
+            </Alert>
+          </Snackbar>
+        </Stack>
+      
         <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({open: false})}>
           <Alert onClose={() => setOpsStatus({open: false})} severity={statusOps.severity} sx={{ width: '100%' }}>
             {statusOps.text}

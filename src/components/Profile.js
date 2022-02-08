@@ -4,14 +4,14 @@ import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import ProfileContext from '../context/userprofile/profileContext';
 import AuthContext from '../context/auth/authContext';
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Alert, Theme } from '../components/layout/Layout';
-import { Modal } from 'react-bootstrap';
 import { CircularProgress, Backdrop, ThemeProvider } from '@mui/material';
 import { MainAccent } from '../app.config';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import { InputLabel, MenuItem, Select, FormControl, Tooltip } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent } from '@mui/material';
 import Countries from '../utils/countries';
 
 const Profile = () => {
@@ -31,6 +31,9 @@ const Profile = () => {
     dob: '',
     role: ''
   });
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     getUserProfile()
@@ -117,20 +120,23 @@ const Profile = () => {
       </Backdrop>
       <ThemeProvider theme={Theme}>
           <div className='row justify-content-center'>
-            <Modal show={profile_open}
-            onHide={closeProfile}
-            size="l" centered backdrop="static" keyboard={false}>
-              <div className='mb-4' style={{height: '64px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
-                    <span style={{ fontWeight: 600, fontSize: '20px', padding: '16px', color: '#fff'}}>
-                        Profile information
-                    </span>
+          <Dialog open={profile_open}
+          fullScreen={fullScreen}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description">
+            <DialogTitle className='p-0' id="scroll-dialog-title">
+              <div style={{height: '58px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+                <span style={{ fontWeight: 600, fontSize: '20px', padding: '14px', color: '#fff'}}>
+                    Profile information
+                </span>
+                <span style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
+                  <IconButton style={{ color: '#fff' }} onClick={closeProfile}>
+                    <CloseIcon />
+                  </IconButton>
+                </span>
               </div>
-              <div style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
-                <IconButton style={{ color: '#fff' }} onClick={closeProfile}>
-                  <CloseIcon />
-                </IconButton>
-              </div>
-                <Modal.Body style={{padding: '1rem 1.8rem', paddingBottom: '2rem', paddingTop: '0px'}}>
+            </DialogTitle>
+            <DialogContent className='pt-3' dividers={true}>
                   <div style={{display: 'flex'}}>
                     <h5 className='mb-2' style={{paddingTop: '14px', fontWeight: 600 }}>Personal details</h5>
                     <span>
@@ -268,8 +274,8 @@ const Profile = () => {
                     </Box>
 
 
-                </Modal.Body>
-            </Modal>
+                </DialogContent>
+            </Dialog>
             </div>
         </ThemeProvider>
         <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false})}>

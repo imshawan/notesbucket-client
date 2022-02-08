@@ -9,9 +9,10 @@
     let date = new Date(timestamp);
     const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
     if (!seconds) return "Just now";
-    if (seconds < 0) return "Undefined";
+    if (seconds < 0) return "Just now";
 
     const interval = intervals.find(i => i.seconds < seconds);
+    if (!interval) return "Just now";
     const count = Math.floor(seconds / interval.seconds);
     return `${count} ${interval.label}${count !== 1 ? 's' : ''} ago`;
 }

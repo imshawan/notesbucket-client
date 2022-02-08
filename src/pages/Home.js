@@ -13,7 +13,7 @@ const Home = () => {
         // eslint-disable-next-line
     }, [])
     return (
-        <div className='container'>
+        <div className='container mt-5'>
             <div className='notes-container'>
                 <Notes></Notes>
             </div>

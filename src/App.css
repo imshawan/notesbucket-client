@@ -46,6 +46,19 @@ p {
 .notes-container {
   margin-top: 1rem;
 }
+.filteration-header {
+  height: 80px;
+  margin: -5px;
+  margin-top: 16px;
+  font-size: 38px;
+  text-align: left;
+  font-weight: 600;
+  background: #fff;
+  position: fixed;
+  z-index: 5;
+  width: 100%;
+  padding: 5px;
+}
 .note-editable {
   overflow: hidden;
 }
@@ -53,7 +66,8 @@ p {
   height: 16px;
 }
 .notes-card {
-  transition: .3s;
+  transition: .3s!important;
+  height: 76px;
 }
 .notes-card {
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(255, 255, 255, 0.8);
@@ -86,7 +100,7 @@ button {
   border-radius: 10px;
 }
 
-.Mui-selected, .drawer-list {
+.drawer-list {
   border-radius: 0 24px 24px 0!important;
   margin-bottom: 4px!important;
 }

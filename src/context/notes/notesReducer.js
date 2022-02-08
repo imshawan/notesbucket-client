@@ -12,6 +12,7 @@ import {
   CLEAR_SEARCH,
   CLEAR_STATUS,
   CLEAR_NOTES,
+  NOTE_ERROR,
   SET_FILTER
 } from '../types';
 
@@ -55,6 +56,12 @@ const NotesReducer = (state, action) => {
         notes: state.notes.map(note => note._id === action.payload.note._id ? action.payload.note: note),
         loading: false,
         status: { success: action.payload.success, message: action.payload.message }
+      }
+    case NOTE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        status: { success: false, message: action.payload }
       }
     case SET_CURRENT:
       return {

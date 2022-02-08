@@ -1,11 +1,11 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Box, TextField, Backdrop, CircularProgress } from '@mui/material';
-import { Modal } from 'react-bootstrap';
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import QueriesContext from '../context/queries/queriesContext';
 import { MainAccent } from '../app.config';
 import { Alert, Theme } from './layout/Layout';
 import { Stack, Snackbar, ThemeProvider } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -13,6 +13,8 @@ const FeedbackModal = () => {
     const queriesContext = useContext(QueriesContext)
     const { sendQuery, status, popup, loading, setQueryLoading, setPopUp } = queriesContext
     const [show, setShow] = useState(false)
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [Message, setMessage] = useState({
         name: '',
         email: '',
@@ -77,26 +79,24 @@ const FeedbackModal = () => {
     return(
         <Fragment>
             <ThemeProvider theme={Theme}>
-        <Modal
-            show={show}
-            onHide={() => setPopUp(false)}
-            size="l"
-            centered
-            backdrop="static"
-            keyboard={false}
-            >
-            <div className='mb-4' style={{height: '64px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
-                    <span style={{ fontWeight: 600, fontSize: '20px', padding: '16px', color: '#fff'}}>
-                    Send us your thoughts
-                    </span>
+            <Dialog open={show}
+            fullScreen={fullScreen}
+            aria-labelledby="scroll-dialog-title"
+            aria-describedby="scroll-dialog-description">
+                <DialogTitle className='p-0' id="scroll-dialog-title">
+              <div style={{height: '58px', width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+                <span style={{ fontWeight: 600, fontSize: '20px', padding: '14px', color: '#fff'}}>
+                Send us your thoughts
+                </span>
+                <span style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
+                  <IconButton style={{ color: '#fff' }} onClick={() => setPopUp(false)}>
+                    <CloseIcon />
+                  </IconButton>
+                </span>
               </div>
-              <div style={{display: 'flex', right: 0, position: 'absolute', padding: '9px'}}>
-                <IconButton style={{ color: '#fff' }} onClick={() => setPopUp(false)}>
-                  <CloseIcon />
-                </IconButton>
-              </div>
+            </DialogTitle>
+            <DialogContent className='pt-3' dividers={true}>
             <div className='justify-content-center'>
-                <Modal.Body style={{padding: '1rem 1.8rem'}}>
                     <Box component="form"
                     sx={{
                         '& > :not(style)': { m: 1, marginLeft: '0px', width: '100%' },
@@ -120,14 +120,15 @@ const FeedbackModal = () => {
                             onChange={onMessageDataChange}
                             required label="Your message" variant="outlined" />
                     </Box>
-                </Modal.Body>
+
             </div>
-            <Modal.Footer>
+            </DialogContent>
+            <DialogActions>
                 <Button onClick={onQuerySubmit} style={{background: MainAccent,  marginRight: '10px', width: '100px'}} variant="contained" startIcon={<SendIcon />}>
                     Send
                 </Button>
-            </Modal.Footer>
-        </Modal>
+            </DialogActions>
+        </Dialog>
         <Stack spacing={2} sx={{ width: '100%' }}>
             <Snackbar open={alertOpen.open} autoHideDuration={5000} onClose={handleClose}>
             <Alert onClose={handleClose} severity={alertOpen.severity} sx={{ width: '100%' }}>

@@ -150,15 +150,15 @@ const Register = (props) => {
     try {
       var presentTime = document.getElementById("timer").innerHTML;
       var timeArray = presentTime.split((/[:]+/));
-      var m = parseInt(timeArray[0]);
-      if (m === 0 && parseInt(timeArray[1]) === 0)
+      var m = timeArray[0];
+      if (m === '0' && timeArray[1] === '0')
       {
         setotpOpen(elem => { return {...elem, ...{showTimer: false}}})
         document.getElementById("timer").style.color = "red";
         return;
       }
       var s = checkSecond((timeArray[1] - 1));
-      if(s === 59){m = m-1}
+      if(s === '59'){m = m-1}
       if(m<0){
         return
       }
@@ -177,7 +177,7 @@ const Register = (props) => {
   }
 
   return (
-    <div className='container'>
+    <div className='container' style={{ marginTop: '4rem' }}>
       <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loading}>
@@ -273,6 +273,11 @@ const Register = (props) => {
                   {'Log in here!'}
                 </Link>
               </Typography>
+              <Typography>
+                <Link href="/" underline="hover">
+                  {'Back to home'}
+                </Link>
+              </Typography>
             </div>
 
           <Stack spacing={2} sx={{ width: '100%' }}>
@@ -317,7 +322,7 @@ const Register = (props) => {
         <DialogActions>
           <Button variant="contained" onClick={() => setType(false)}>{PopUp === 'registered' ? (
             <Typography>
-              <Link href="/login" underline="none">
+              <Link style={{ color: '#fff' }} href="/login" underline="none">
                 {'Continue to login'}
               </Link>
             </Typography>
