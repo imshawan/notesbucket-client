@@ -62,7 +62,7 @@ const Shared = (props) => {
                 </div>
                 </div>
             ) : (error ? (
-                <div style={{ textAlign: 'left' }} className='row justify-content-center'>
+                <div style={{ textAlign: 'left' }} className='row justify-content-center m-2'>
                     <div className="alert alert-danger" role="alert">
                         <h4 style={{ fontWeight: 600 }} className="alert-heading mt-2 mb-3">Oh snap! You got an error!</h4>
                         <p>The note that you requested was not found on this link. The possible reason for this error can be either: </p>

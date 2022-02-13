@@ -62,6 +62,8 @@ const NotesReducer = (state, action) => {
     case SHAREING_SUCCESS:
       return {
         ...state,
+        notes: state.notes.map(note => note._id === action.payload.id ? { 
+          ...note, shared: (action.payload.token ? true : false) } : note),
         shared_content: action.payload,
         loading: false,
         status: { success: action.payload.success, message: action.payload.message }

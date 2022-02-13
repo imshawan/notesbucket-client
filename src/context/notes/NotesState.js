@@ -124,7 +124,7 @@ const NotesState = (props) => {
         data: payload,
         headers: headers
       }).then((resp) => {
-        dispatch({ type: SHAREING_SUCCESS, payload: resp.data })
+        dispatch({ type: SHAREING_SUCCESS, payload: { ...resp.data, id: id } })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data.message : err.message}))
   }

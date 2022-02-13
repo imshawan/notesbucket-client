@@ -12,6 +12,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import NotesIcon from '@mui/icons-material/Notes';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ReportIcon from '@mui/icons-material/Report';
+import ShareIcon from '@mui/icons-material/Share';
 
 import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
@@ -162,6 +163,20 @@ const ResponsiveAppBar = () => {
               </div>
             } />
           </ListItem> 
+          <ListItem className="drawer-list" onClick={() => { setFilter("shared"); setSelected(4); }} selected={Selected === 4} button key={"Shared"}>
+            <ListItemIcon>
+              <ShareIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
+            </ListItemIcon>
+            <ListItemText disableTypography className='menu-text' primary={
+              <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
+                Shared
+                {notes ? (<div className='badge'>
+                  <div style={{marginTop: '1px'}}>{notes.filter(note => note.shared === true).length}</div>
+                </div>) : ''}
+              </div>
+            } />
+          </ListItem> 
+
           <ListItem className="drawer-list" onClick={() => logMeOut()} button key={"Logout"}>
             <ListItemIcon>
               <LogoutIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
