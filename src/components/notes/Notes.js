@@ -4,6 +4,7 @@ import NotesCard from './NotesCard';
 import { Backdrop, ThemeProvider, CircularProgress, SpeedDial } from '@mui/material';
 import NoteView from './NoteView';
 import NoteCreator from './NoteCreator';
+import Shareing from './Shareing';
 import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
@@ -81,6 +82,7 @@ const Notes = () => {
                 )}
             <NoteView />
             <NoteCreator />
+            <Shareing />
 
             <SpeedDial onClick={showNoteCreator}
             ariaLabel="SpeedDial basic example" sx={{ position: 'fixed', bottom: 16, right: 16 }} icon={<AddIcon />} />

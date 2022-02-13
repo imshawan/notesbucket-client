@@ -11,6 +11,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
 import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/tooltip';
@@ -27,7 +28,7 @@ import { MainAccent } from '../../app.config';
 
 function NoteView() {
     const noteContext = useContext(NoteContext)
-    const { note, status, getNotesById, addToFavourites, removeFavourite, 
+    const { note, status, getNotesById, addToFavourites, removeFavourite, setShareing,
       current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions, setLoading } = noteContext
     const [open, setOpen] = useState(false)
     const [isSaving, setisSaving] = useState(false)
@@ -70,6 +71,12 @@ function NoteView() {
       setOpen(false)
       setAnchorEl(null)
       clearCurrent()
+    }
+
+    const handleShare = (value) => {
+      setShareing(value)
+      setOpen(false)
+      setAnchorEl(null)
     }
 
     const handleFavourites = (e) => {
@@ -196,6 +203,10 @@ function NoteView() {
                     <MenuItem onClick={handleFavourites} disableRipple>
                     {note.favourite ? <FavoriteIcon /> :<FavoriteBorderIcon />}
                     {note.favourite ? "Remove favourite" : "Add favourite" }
+                    </MenuItem>
+                    <MenuItem onClick={() => handleShare(true)} disableRipple>
+                      <ShareIcon />
+                      Share
                     </MenuItem>
                     <MenuItem onClick={() => onDelete()} disableRipple>
                       <DeleteIcon />
