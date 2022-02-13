@@ -29,6 +29,8 @@ export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 export const NOTE_ERROR = 'NOTE_ERROR';
 export const CLEAR_NOTES = 'CLEAR_NOTES';
 export const SET_FILTER = 'SET_FILTER';
+export const SHAREING_SUCCESS = 'SHAREING_SUCCESS';
+export const INIT_SHARE_NOTE = 'INIT_SHARE_NOTE';
 
 export const SET_LOADING = 'SET_LOADING';
 

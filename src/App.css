@@ -151,6 +151,9 @@ button {
   .no-notes-image {
     height: 180px;
   }
+  .shared-note-head {
+    font-size: 28px;
+  }
 }
 
 @media (max-width: 470px) {

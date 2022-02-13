@@ -15,6 +15,8 @@ import {
   CLEAR_CURRENT,
   SEARCH_NOTES,
   CLEAR_SEARCH,
+  SHAREING_SUCCESS,
+  INIT_SHARE_NOTE,
   NOTE_ERROR,
   SET_FILTER
 } from '../types';
@@ -28,6 +30,8 @@ const NotesState = (props) => {
   const initialState = {
     notes: [],
     note: {},
+    sharing: false,
+    shared_content: {},
     add: false,
     status: null,
     current: null,
@@ -113,6 +117,18 @@ const NotesState = (props) => {
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
   }
 
+  const shareNote = async (id, payload) =>{
+    axios.request({
+        url: `${process.env.REACT_APP_PROD_URL}/api/share/${id}`,
+        method: 'PUT',
+        data: payload,
+        headers: headers
+      }).then((resp) => {
+        dispatch({ type: SHAREING_SUCCESS, payload: resp.data })
+      })
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data.message : err.message}))
+  }
+
   const deleteNotesById = async (id) =>{
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/notes/${id}`,
@@ -131,6 +147,9 @@ const NotesState = (props) => {
   }
   const setAdd = (value) => {
     dispatch({ type: INIT_ADD_NOTE, payload: value })
+  }
+  const setShareing = (value) => {
+    dispatch({ type: INIT_SHARE_NOTE, payload: value })
   }
   const searchNotes = (query) => {
     dispatch({ type: SEARCH_NOTES, payload: query })
@@ -173,10 +192,12 @@ const NotesState = (props) => {
     <NotesContext.Provider value={{
       notes: state.notes,
       note: state.note,
+      sharing: state.sharing,
       add: state.add,
       status: state.status,
       current: state.current,
       searched: state.searched,
+      shared_content: state.shared_content,
       filtered: state.filtered,
       loading: state.loading,
       SummerNoteOptions,
@@ -185,6 +206,7 @@ const NotesState = (props) => {
       updateNoteById,
       deleteNotesById,
       setLoading,
+      setShareing,
       getNotesById,
       clearCurrent,
       searchNotes,
@@ -193,6 +215,7 @@ const NotesState = (props) => {
       setCurrent,
       clearNotes,
       setFilter,
+      shareNote,
       getNotes,
       setAdd
     }}>{props.children}</NotesContext.Provider>

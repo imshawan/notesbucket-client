@@ -12,6 +12,8 @@ import {
   CLEAR_SEARCH,
   CLEAR_STATUS,
   CLEAR_NOTES,
+  SHAREING_SUCCESS,
+  INIT_SHARE_NOTE,
   NOTE_ERROR,
   SET_FILTER
 } from '../types';
@@ -56,6 +58,18 @@ const NotesReducer = (state, action) => {
         notes: state.notes.map(note => note._id === action.payload.note._id ? action.payload.note: note),
         loading: false,
         status: { success: action.payload.success, message: action.payload.message }
+      }
+    case SHAREING_SUCCESS:
+      return {
+        ...state,
+        shared_content: action.payload,
+        loading: false,
+        status: { success: action.payload.success, message: action.payload.message }
+      }
+    case INIT_SHARE_NOTE: 
+      return {
+        ...state,
+        sharing: action.payload
       }
     case NOTE_ERROR:
       return {
