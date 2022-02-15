@@ -50,7 +50,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: GET_NOTES, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
   const createNote = async (payload) =>{
@@ -74,7 +74,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: GET_NOTES_BY_ID, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
   const updateNoteById = async (id, payload) =>{
@@ -90,7 +90,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: UPDATE_NOTE, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
   
   const addToFavourites = async (id) =>{
@@ -102,7 +102,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: UPDATE_NOTE, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
   const removeFavourite = async (id) =>{
@@ -114,7 +114,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: UPDATE_NOTE, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
   const shareNote = async (id, payload) =>{
@@ -138,7 +138,7 @@ const NotesState = (props) => {
       }).then((resp) => {
         dispatch({ type: DELETE_NOTE, payload: resp.data })
       })
-      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response.data }))
+      .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
   //Set current note

@@ -95,6 +95,7 @@ function NoteView() {
       if (status.success === false) {
         setOpsStatus({...statusOps, open: true, severity: "error", text: status.message})
       }
+      console.log(status)
       // eslint-disable-next-line
     }, [status])
 
@@ -134,7 +135,7 @@ function NoteView() {
           aria-describedby="scroll-dialog-description"
           >
             <DialogTitle style={{ height: '58px', background: MainAccent, marginTop: '-2px' }} id="scroll-dialog-title">
-              <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+              <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center', marginTop: '-2px' }}>
                 <span style={{ fontWeight: 600, fontSize: '20px', color: '#fff'}}>
                     {editing ? 'Editing note' : 'Viewing note'}
                 </span>

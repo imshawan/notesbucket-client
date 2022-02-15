@@ -95,7 +95,7 @@ function NoteCreator() {
           aria-describedby="scroll-dialog-description"
           >
         <DialogTitle style={{ height: '58px', background: MainAccent, marginTop: '-2px' }} id="scroll-dialog-title">
-        <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+        <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center', marginTop: '-2px' }}>
           <span style={{ fontWeight: 600, fontSize: '20px', color: '#fff'}}>
               Create note
           </span>
