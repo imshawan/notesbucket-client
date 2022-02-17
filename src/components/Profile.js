@@ -198,7 +198,7 @@ const Profile = () => {
                       </ Tooltip>) : ''}
                       </span>
                     </div>
-                    <Box onSubmit={onSubmiBasic}
+                    <Box onSubmit={onSubmiBasic} className='mb-3'
                     component="form" sx={{'& > :not(style)': {  m: 1, marginLeft: '0px', width: '100%' }}}
                     noValidate
                     autoComplete="off">
@@ -272,8 +272,6 @@ const Profile = () => {
                           </Button>
                         </div>) : ''}
                     </Box>
-
-
                 </DialogContent>
             </Dialog>
             </div>

@@ -18,8 +18,8 @@ import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
 import ProfileContext from '../../context/userprofile/profileContext';
-
-import { stringAvatar } from '../../utils/generateAvatar';
+// eslint-disable-next-line
+import { stringAvatar, stringToColor } from '../../utils/generateAvatar';
 import { Theme } from './Layout';
 import { MainAccent } from '../../app.config';
 
@@ -117,16 +117,16 @@ const ResponsiveAppBar = () => {
       <List>
           <ListItem style={{paddingBottom: '0px'}} className='justify-content-center mt-1' key={"avtaar"}>
             <Tooltip title="View profile" placement="bottom" arrow>
-              <IconButton onClick={() => {setProfilePopup(true); setSelected(1); }}>
-              <Avatar style={{height: '70px', width: '70px', fontWeight: 500, fontSize: '28px'}} {...stringAvatar(userName)} />
-              </IconButton>
+                  <IconButton onClick={() => {setProfilePopup(true); setSelected(1); }} style={{ boxShadow: 'rgb(0 0 0 / 20%) 0px 10px 15px' }}>
+                  <Avatar style={{height: '70px', width: '70px', fontWeight: 500, fontSize: '28px'}} {...stringAvatar(userName)} />
+                  </IconButton>
             </Tooltip>
           </ListItem>
           <ListItem style={{paddingTop: '0px'}} className='justify-content-center mb-1' key={"title"}>
             <ListItemText style={{textAlign: 'center'}}
               disableTypography
               primary={<Typography style={{fontWeight: 600, fontSize: '1.2rem'}} >{userName}</Typography>}
-              secondary={user ? (<Typography style={{fontWeight: 400, fontSize: '0.9rem'}} >{`@${user.username}`}</Typography>) : ''} />
+              secondary={user ? (<Typography style={{fontWeight: 400, fontSize: '0.8rem'}} >{`@${user.username}`}</Typography>) : ''} />
           </ListItem>
       </List>
 
@@ -137,7 +137,7 @@ const ResponsiveAppBar = () => {
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={
               <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
-                All Notes 
+                <span className='drawer-text'>All Notes</span>
                 {notes ? (<div className='badge'>
                   <div style={{marginTop: '1px'}}>{notes.length}</div>
                 </div>) : ''}
@@ -148,7 +148,7 @@ const ResponsiveAppBar = () => {
             <ListItemIcon>
               <AccessTimeIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
-            <ListItemText disableTypography className='menu-text' primary={"Recents"} />
+            <ListItemText disableTypography className='menu-text' primary={<span className='drawer-text'>Recents</span>} />
           </ListItem>
           <ListItem className="drawer-list" onClick={() => { setFilter("favourites"); setSelected(3); }} selected={Selected === 3} button key={"Favourites"}>
             <ListItemIcon>
@@ -156,7 +156,7 @@ const ResponsiveAppBar = () => {
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={
               <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
-                Favourites
+                <span className='drawer-text'>Favourites</span>
                 {notes ? (<div className='badge'>
                   <div style={{marginTop: '1px'}}>{notes.filter(note => note.favourite === true).length}</div>
                 </div>) : ''}
@@ -169,7 +169,7 @@ const ResponsiveAppBar = () => {
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={
               <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
-                Shared
+                <span className='drawer-text'>Shared</span>
                 {notes ? (<div className='badge'>
                   <div style={{marginTop: '1px'}}>{notes.filter(note => note.shared === true).length}</div>
                 </div>) : ''}
@@ -181,13 +181,13 @@ const ResponsiveAppBar = () => {
             <ListItemIcon>
               <LogoutIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
-            <ListItemText disableTypography className='menu-text' primary={"Logout"} />
+            <ListItemText disableTypography className='menu-text' primary={<span className='drawer-text'>Logout</span>} />
           </ListItem>
           <ListItem className="drawer-list" onClick={() => setPopUp(true)} button key={"Feedback"}>
             <ListItemIcon>
               <InfoOutlinedIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
-            <ListItemText disableTypography className='menu-text' primary={"Feedback"} />
+            <ListItemText disableTypography className='menu-text' primary={<span className='drawer-text'>Feedback</span>} />
           </ListItem>
       </List>
       {/* Footer section */}

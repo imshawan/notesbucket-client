@@ -20,6 +20,7 @@ function NoteView(props) {
     const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
     const [editing, setEditing] = useState(false)
     const [modify, setModify] = useState({text: "GENERATE LINK", icon: <PublicIcon />})
+    const [disabled, setDisabled] = useState(false)
 
     const submitPayload = (e) => {
       e.preventDefault();
@@ -71,9 +72,11 @@ function NoteView(props) {
     useEffect(() => {
         if (shared_content.token) {
             setCurrentNote({ ...currentNote, access_token: `${window.location.protocol}//${window.location.host}/shared/${shared_content.token}` })
+            setDisabled(false)
           }
       else {
           setCurrentNote({ ...currentNote, access_token: '' })
+          setDisabled(true)
       }
       // eslint-disable-next-line
     }, [shared_content])
@@ -98,7 +101,7 @@ function NoteView(props) {
           aria-describedby="scroll-dialog-description"
           >
             <DialogTitle style={{ height: '58px', background: MainAccent, marginTop: '-2px' }} id="scroll-dialog-title">
-              <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center' }}>
+              <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center', marginTop: '-2px' }}>
                 <span style={{ fontWeight: 600, fontSize: '20px', color: '#fff'}}>
                     Share note
                 </span>
@@ -112,7 +115,7 @@ function NoteView(props) {
             <DialogContent className='pt-3' dividers={true}>
               <div className='pb-2' style={{minHeigt: '64px', width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <span style={{ width: '100%', fontWeight: 600}}>
-                    {currentNote.title}
+                    Title: {currentNote.title}
                     </span>
               </div>
               <div className='pt-0'>
@@ -121,11 +124,12 @@ function NoteView(props) {
                     autoFocus
                     margin="dense"
                     id="link"
-                    label="Sharable link"
                     type="text"
                     defaultValue={currentNote.access_token}
                     value={currentNote.access_token}
                     fullWidth
+                    disabled={disabled}
+                    placeholder={disabled ? 'Click on generate to generate a shareable link' : 'Shareable link'}
                     variant="standard"/>
               </p>
               </div>
