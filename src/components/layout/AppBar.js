@@ -268,6 +268,7 @@ const ResponsiveAppBar = () => {
         <Drawer
             anchor="left"
             open={drawer}
+            PaperProps={ {style: { borderTopRightRadius: '10px', borderBottomRightRadius: '10px' }}}
             onClose={toggleDrawer(false)}>
             <MenuList />
         </Drawer>

@@ -25,6 +25,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { MainAccent } from '../../app.config';
+import swal from "sweetalert";
 
 function NoteView() {
     const noteContext = useContext(NoteContext)
@@ -53,17 +54,29 @@ function NoteView() {
         setEditing(true)
         return;
       }
-      if (!noteTitle && !editorContent) return;
+      if (!noteTitle && !editorContent) {
+        setOpsStatus({...statusOps, open: true,
+          severity: "info", text: "The note is already saved and updated to it's latest"})
+        return;
+      }
       updateNoteById(note._id, {title: noteTitle, content: editorContent})
       setisSaving(true)
     }
 
     const onDelete = () =>{
-      if (!window.confirm("Are you sure to delete this note?")) return;
-      deleteNotesById(note._id);
-      clearCurrent()
-      setOpen(false)
-      setLoading(true)
+      swal({
+        title: "Are you sure?",
+        text: "This will delete this document from our servers and the action cannot be undone",
+        buttons: true,
+        dangerMode: true,
+      }).then((value) => {
+        if (value) {
+          deleteNotesById(note._id)
+          clearCurrent()
+          setOpen(false)
+          setLoading(true)
+        }
+      })
       setAnchorEl(null)
     }
 
@@ -71,6 +84,10 @@ function NoteView() {
       setOpen(false)
       setAnchorEl(null)
       clearCurrent()
+    }
+
+    const closeAlerts = () => {
+      setOpsStatus({...statusOps, open: false})
     }
 
     const handleShare = (value) => {
@@ -222,8 +239,8 @@ function NoteView() {
               </DialogActions>
           </Dialog>
         </ ThemeProvider>
-        <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={() => setOpsStatus({...statusOps, open: false})}>
-          <Alert onClose={() => setOpsStatus({...statusOps, open: false})} severity={statusOps.severity} sx={{ width: '100%' }}>
+        <Snackbar open={statusOps.open} autoHideDuration={6000} onClose={closeAlerts}>
+          <Alert onClose={closeAlerts} severity={statusOps.severity} sx={{ width: '100%' }}>
             {statusOps.text}
           </Alert>
         </Snackbar>
