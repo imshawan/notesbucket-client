@@ -104,6 +104,10 @@ button {
   border-radius: 0 24px 24px 0!important;
   margin-bottom: 4px!important;
 }
+.drawer-text {
+  font-size: .9rem;
+  margin-top: 1px;
+}
 
 .App-logo {
   height: 40vmin;

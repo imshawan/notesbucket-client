@@ -10,6 +10,15 @@ import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
 import { Theme } from '../layout/Layout';
 
+const Default = () => {
+    return (
+        <div style={{height: '90vh'}} className='row justify-content-center'>
+            <div className='no-note-img' style={{margin: 'auto'}}>
+                <img className='no-notes-image' src={no_note} alt="Nothing here..."></img>
+            </div>
+        </div>
+    )
+}
 
 const Notes = () => {
     const noteContext = useContext(NoteContext);
@@ -46,6 +55,22 @@ const Notes = () => {
         else if (filtered === "favourites") {
             return elements.filter((elem) => elem.favourite === true)
         }
+        else if (filtered === "shared") {
+            return elements.filter((elem) => elem.shared === true)
+        }
+    }
+
+    const RenderNotes = () => {
+        var filteredNotes = sortNotesByFileration(notes)
+        return (
+            <Fragment>
+            {filteredNotes.length && filteredNotes !== [] ? (
+                <div className='row' style={{ paddingTop: '90px' }}>
+                    {filteredNotes.map(note => <NotesCard note={note} key={note._id} />)}
+                </div>
+                ) : <Default />}
+            </Fragment>
+        )
     }
 
     return (
@@ -65,20 +90,14 @@ const Notes = () => {
                             <Fragment>
                                 <div className='pb-2 filteration-header'>
                                     {filtered === 'none' ? 'notes' : filtered}
-                                </div>
-                                <div className='row' style={{ paddingTop: '90px' }}>
-                                    {sortNotesByFileration(notes).map(note=><NotesCard note={note} key={note._id} />)}
-                                </div>
+                                </div>                     
+                                    <RenderNotes />
                             </ Fragment>
                             ) : '')
                     }
                     </Fragment>
                 ) : (
-                    <div style={{height: '80vh'}} className='row justify-content-center'>
-                        <div className='no-note-img' style={{margin: 'auto'}}>
-                            <img className='no-notes-image' src={no_note} alt="Nothing here..."></img>
-                        </div>
-                    </div>
+                    <Default />
                 )}
             <NoteView />
             <NoteCreator />
