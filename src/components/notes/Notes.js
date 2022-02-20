@@ -1,14 +1,14 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import NotesCard from './NotesCard';
-import { Backdrop, ThemeProvider, CircularProgress, SpeedDial, IconButton, Tooltip } from '@mui/material';
+import { Backdrop, ThemeProvider, CircularProgress, SpeedDial, IconButton, Tooltip, Snackbar } from '@mui/material';
 import NoteView from './NoteView';
 import NoteCreator from './NoteCreator';
 import Shareing from './Shareing';
 import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
-import { Theme } from '../layout/Layout';
+import { Theme, Alert } from '../layout/Layout';
 import SyncIcon from '@mui/icons-material/Sync';
 
 const Default = () => {
@@ -24,6 +24,7 @@ const Default = () => {
 const Notes = () => {
     const noteContext = useContext(NoteContext);
     const { notes, searched, getNotes, filtered, loading, setAdd, add, setLoading } = noteContext
+    const [statusOps, setOpsStatus] = useState({open: false, severity: "", text: ""})
     const [sync, setSync] = useState(false)
     
     useEffect(()=>{
@@ -38,6 +39,8 @@ const Notes = () => {
 
     useEffect(() => {
         setSync(false)
+        setOpsStatus({...statusOps, open: true, severity: "success", text: "Note list refreshed"})
+        // eslint-disable-next-line
     }, [notes])
 
     const syncNotes = () => {
@@ -48,6 +51,10 @@ const Notes = () => {
     const showNoteCreator = () => {
         if (!add) setAdd(true)
     }
+
+    const closeAlerts = () => {
+        setOpsStatus({...statusOps, open: false})
+      }
 
     const sortNotesByFileration = (elements) => {
         if (filtered === "none") {
@@ -132,6 +139,11 @@ const Notes = () => {
                 open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
+            <Snackbar open={statusOps.open} autoHideDuration={5000} onClose={closeAlerts}>
+                <Alert onClose={closeAlerts} severity={statusOps.severity} sx={{ width: '100%' }}>
+                    {statusOps.text}
+                </Alert>
+            </Snackbar>
             </ThemeProvider>
         </Fragment>
     )
