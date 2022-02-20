@@ -11,6 +11,7 @@ import LockResetIcon from '@mui/icons-material/LockReset';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CircularProgress, Backdrop } from '@mui/material';
 import { MainAccent } from '../../app.config';
+import { ValidateEmail } from '../../utils/validators';
 
 const ForgotPassword = (props) => {
   const authContext = useContext(AuthContext);
@@ -111,6 +112,10 @@ const ForgotPassword = (props) => {
     e.preventDefault();
     if (!email.email) {
       setOpen({...open, open: true, message: "Please enter your registered email Id to proceed", severity: "error"});
+      return;
+    }
+    if (!ValidateEmail(email.email)) {
+      setOpen({...open, open: true, message: "Not a valid email, please enter a valid email to proceed", severity: "error"});
       return;
     }
     sendForgotPasswordMail(email);
