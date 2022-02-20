@@ -1,7 +1,7 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import NotesCard from './NotesCard';
-import { Backdrop, ThemeProvider, CircularProgress, SpeedDial } from '@mui/material';
+import { Backdrop, ThemeProvider, CircularProgress, SpeedDial, IconButton, Tooltip } from '@mui/material';
 import NoteView from './NoteView';
 import NoteCreator from './NoteCreator';
 import Shareing from './Shareing';
@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
 import { Theme } from '../layout/Layout';
+import SyncIcon from '@mui/icons-material/Sync';
 
 const Default = () => {
     return (
@@ -22,7 +23,8 @@ const Default = () => {
 
 const Notes = () => {
     const noteContext = useContext(NoteContext);
-    const { notes, searched, getNotes, filtered, loading, setAdd, add, setLoading } = noteContext 
+    const { notes, searched, getNotes, filtered, loading, setAdd, add, setLoading } = noteContext
+    const [sync, setSync] = useState(false)
     
     useEffect(()=>{
         if (localStorage.token){
@@ -33,6 +35,15 @@ const Notes = () => {
         setAdd(false)
         // eslint-disable-next-line
     },[])
+
+    useEffect(() => {
+        setSync(false)
+    }, [notes])
+
+    const syncNotes = () => {
+        setSync(true)
+        getNotes()
+    }
 
     const showNoteCreator = () => {
         if (!add) setAdd(true)
@@ -88,8 +99,19 @@ const Notes = () => {
                         ) 
                         : (filtered ? (
                             <Fragment>
-                                <div className='pb-2 filteration-header'>
-                                    {filtered === 'none' ? 'notes' : filtered}
+                                <div className='pb-2 filteration-header d-flex'>
+                                    {filtered === 'none' ? (
+                                        <Fragment>
+                                        notes
+                                        <span>
+                                            <Tooltip title="Reload content" placement="bottom" arrow>
+                                                <IconButton onClick={syncNotes}>
+                                                    <SyncIcon style={{ animation: sync ? 'spin 2s linear infinite' : '' }} />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </span>
+                                        </Fragment>
+                                    ) : filtered }
                                 </div>                     
                                     <RenderNotes />
                             </ Fragment>
