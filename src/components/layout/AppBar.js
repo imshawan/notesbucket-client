@@ -253,9 +253,9 @@ const ResponsiveAppBar = () => {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Global search…"
+              placeholder="Search…"
               name='search'
-              style={{color: '#000', fontWeight: 600, lineHeight: '4.2'}}
+              style={{color: '#000', fontWeight: 500, lineHeight: '4.2'}}
               onChange={(e) => setQuery(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
             />

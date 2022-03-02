@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { Box, TextField, Backdrop, CircularProgress } from '@mui/material';
+import { Box, TextField, CircularProgress } from '@mui/material';
 import { Button, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import QueriesContext from '../context/queries/queriesContext';
 import { MainAccent } from '../app.config';
@@ -124,8 +124,8 @@ const FeedbackModal = () => {
             </div>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onQuerySubmit} style={{background: MainAccent,  marginRight: '10px', width: '100px'}} variant="contained" startIcon={<SendIcon />}>
-                    Send
+                <Button onClick={onQuerySubmit} style={{background: MainAccent,  marginRight: '10px', width: '100px'}} variant="contained" startIcon={loading ? '' : <SendIcon />}>
+                { loading ? <CircularProgress style={{width: '24px', height: '24px', color: '#fff', margin: 'auto'}} /> : 'SEND'}
                 </Button>
             </DialogActions>
         </Dialog>
@@ -136,11 +136,6 @@ const FeedbackModal = () => {
             </Alert>
             </Snackbar>
         </Stack>
-        <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={loading}>
-            <CircularProgress color="inherit" />
-        </Backdrop>
         </ThemeProvider>
     </Fragment>
     )

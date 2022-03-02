@@ -204,7 +204,7 @@ function NoteView() {
                     aria-expanded={menu ? 'true' : undefined}
                     variant="contained"
                     disableElevation
-                    style={{ marginRight: '6px' }} 
+                    style={{ marginRight: '10px' }} 
                     endIcon={<KeyboardArrowDownIcon />}
                     onClick={handleClick}> 
                     Options
