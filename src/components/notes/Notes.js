@@ -38,8 +38,8 @@ const Notes = () => {
     },[])
 
     useEffect(() => {
+        if (sync) { setOpsStatus({ ...statusOps, open: true, severity: "success", text: "List refreshed" }) }
         setSync(false)
-        setOpsStatus({...statusOps, open: true, severity: "success", text: "Note list refreshed"})
         // eslint-disable-next-line
     }, [notes])
 

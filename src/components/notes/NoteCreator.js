@@ -2,7 +2,7 @@ import React, { Fragment, useState, useContext, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import NoteContext from '../../context/notes/notesContext';
 import { TextField, IconButton } from '@mui/material';
-import { Button, ThemeProvider, useMediaQuery, useTheme } from '@mui/material/';
+import { Button, ThemeProvider, useMediaQuery, useTheme, CircularProgress } from '@mui/material/';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Theme } from '../layout/Layout';
@@ -19,8 +19,9 @@ import { MainAccent } from '../../app.config';
 
 function NoteCreator() {
     const noteContext = useContext(NoteContext)
-    const { createNote, status, add, setAdd, SummerNoteOptions, setLoading } = noteContext
+    const { createNote, status, add, setAdd, SummerNoteOptions } = noteContext
     const [open, setOpen] = useState(false)
+    const [creating, setCreating] = useState(false)
     const [statusOps, setOpsStatus] = useState({open: false, text: ""})
     const [noteTitle, setNoteTitle] = useState("")
     const [editorContent, setEditorContent] = useState("")
@@ -47,9 +48,15 @@ function NoteCreator() {
             setAlert({...alert, open: true, message: "Content cannot be blank", severity: "error"});
             return;
         }
+        setCreating(true)
         createNote({title: noteTitle, content: editorContent})
-        setOpen(false)
-        setLoading(true)
+        //setOpen(false)
+        //setLoading(true)
+    }
+
+    const closeModal = () => {
+      setOpen(false)
+      setCreating(false)
     }
     
     const handleClose = (event, reason) => {
@@ -62,6 +69,7 @@ function NoteCreator() {
 
     useEffect(() => {
       if (!status) return;
+      closeModal();
       if (status.success === true) {
         setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
       }
@@ -100,7 +108,7 @@ function NoteCreator() {
               Create note
           </span>
           <span style={{display: 'flex', right: 0, position: 'absolute', marginRight: '10px', marginTop: '-4px'}}>
-            <IconButton style={{ color: '#fff' }} onClick={() => setOpen(false)}>
+            <IconButton style={{ color: '#fff' }} onClick={() => closeModal()}>
               <CloseIcon />
             </IconButton>
           </span>
@@ -117,16 +125,20 @@ function NoteCreator() {
                   InputProps={{
                       className: "notes-input-title"
                   }}
+                  disabled={creating}
                   multiline />
             </span>
           </div>
           <ReactSummernote
             options={SummerNoteOptions}
+            disabled={creating}
             onChange={(editorText) => setEditorContent(editorText)}/>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" style={{ marginRight: '16px' }} startIcon={<CloseIcon />} onClick={() => setOpen(false)}>DISCARD</Button>
-          <Button variant="contained" style={{ marginRight: '10px' }} onClick={submitPayload} startIcon={<NoteAddIcon />}>CREATE</Button>
+          <Button variant="contained" style={{ marginRight: '10px', width: '120px' }} disabled={creating} startIcon={<CloseIcon />} onClick={() => closeModal()}>DISCARD</Button>
+          <Button variant="contained" style={{ marginRight: '16px', width: '120px' }} onClick={submitPayload} startIcon={ creating ? '' : <NoteAddIcon />}>
+            { creating ? <CircularProgress style={{width: '24px', height: '24px', color: '#fff', margin: 'auto'}} /> : 'CREATE'}
+          </Button>
         </DialogActions>
       </Dialog>
       </ThemeProvider>

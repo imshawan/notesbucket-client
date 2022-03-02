@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import AuthContext from '../../context/auth/authContext';
-import { Button, Link, Typography, Avatar } from '@mui/material';
+import { Button, Link, Typography, Avatar, FormControlLabel, Checkbox } from '@mui/material';
 import { Alert, Theme } from '../layout/Layout';
 import LockIcon from '@mui/icons-material/Lock';
 import { CircularProgress, Backdrop, ThemeProvider } from '@mui/material';
@@ -19,6 +19,7 @@ const Login = (props) => {
   const [user, setUser] = useState({
     username: '',
     password: '',
+    remember_me: false,
   });
 
   const [open, setOpen] = useState({
@@ -66,7 +67,7 @@ const Login = (props) => {
       return;
     }
     signin(user);  
-    setLoading(true); 
+    setLoading(true);
   };
 
   const handleClose = (event, reason) => {
@@ -78,7 +79,7 @@ const Login = (props) => {
   };
 
   return (
-    <div className='container' style={{ marginTop: '7rem' }}>
+    <div className='container' style={{ marginTop: '6rem' }}>
       <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loading}>
@@ -121,7 +122,17 @@ const Login = (props) => {
               onChange={onChangeUserData}
               required label="Password" variant="outlined" />
             <br />
-        <Button style={{marginTop: '30px', height: '56px' }} size="large" type="submit" color="primary" variant="contained">Login</Button>
+        <FormControlLabel style={{textAlign: 'left', marginTop: '0px'}}
+            control={
+              <Checkbox checked={user.remember_me} onChange={(e) => setUser({ ...user, remember_me: e.target.checked }) } name="check" />
+            }
+            label={
+              <div className='form-footer'>
+                 <span>Remember me for the next time</span> 
+              </div>
+            }
+          />
+        <Button style={{ height: '56px' }} size="large" type="submit" color="primary" variant="contained">Login</Button>
         </Box>
         <div style={{marginTop: '10px', fontSize: '0.9rem!important'}}>
           <Typography>
