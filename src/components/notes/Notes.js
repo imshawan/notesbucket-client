@@ -52,7 +52,8 @@ const Notes = () => {
         if (!add) setAdd(true)
     }
 
-    const closeAlerts = () => {
+    const closeAlerts = (e) => {
+        //e.preventDefault();
         setOpsStatus({...statusOps, open: false})
       }
 
@@ -109,7 +110,7 @@ const Notes = () => {
                                 <div className='pb-2 filteration-header d-flex'>
                                     {filtered === 'none' ? (
                                         <Fragment>
-                                        notes
+                                        <span>notes</span>
                                         <span>
                                             <Tooltip title="Reload content" placement="bottom" arrow>
                                                 <IconButton onClick={syncNotes}>

@@ -222,6 +222,7 @@ const ResponsiveAppBar = () => {
   );
 
   return (
+    <ThemeProvider theme={Theme}>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar style={isAuthenticated ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
         <Toolbar style={{ marginTop: '6px' }}>
@@ -255,12 +256,12 @@ const ResponsiveAppBar = () => {
             <StyledInputBase
               placeholder="Search…"
               name='search'
-              style={{color: '#000', fontWeight: 500, lineHeight: '4.2'}}
+              style={{color: '#000', fontWeight: 600, lineHeight: '4.2'}}
               onChange={(e) => setQuery(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>) : (
-            <div className='app-header d-block d-sm-none d-md-none d-lg-none d-xl-none css-dudo9s-MuiTypography-root' style={{color: '#fff'}}>
+            <div className='app-header d-block d-sm-none d-md-none d-lg-none d-xl-none css-dudo9s-MuiTypography-root font-poppins' style={{color: '#fff'}}>
               NotesBucket
             </div>
           ) }
@@ -274,6 +275,7 @@ const ResponsiveAppBar = () => {
         </Drawer>
       </AppBar>
     </Box>
+    </ThemeProvider>
   );
 };
 export default ResponsiveAppBar;

@@ -110,13 +110,12 @@ const Login = (props) => {
         noValidate
         autoComplete="off">
         <TextField id="outlined-basic 1" type="text"
-              style={{marginBottom: '20px'}}
               name="username"
               value={user.username}
               onChange={onChangeUserData}
-              required label="Username" variant="outlined" />
+              required label="Username or email address" variant="outlined" />
               <br />
-        <TextField id="outlined-basic" type="password"
+        <TextField id="outlined-basic 2" type="password" className='mt-3'
               name="password"
               value={user.password}
               onChange={onChangeUserData}

@@ -26,6 +26,9 @@ const Theme = createTheme({
         //   main: secondary
         // }
     },
+    typography: {
+      fontFamily: "'Poppins', sans-serif!important;"
+    }
   });
 
   const OptionsMenu = styled((props) => (

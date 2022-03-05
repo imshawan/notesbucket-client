@@ -43,23 +43,21 @@ const Shared = (props) => {
             <div style={{ marginTop: '7rem', marginBottom: '4rem' }} className='container'>
             {!loading && note.title ?
             (
-                <div style={{ borderRadius: '10px' }} className='m-1 p-3 border'>
-                <div style={{ textAlign: 'left' }}>
-                    <h4 style={{ fontWeight: 600 }} className="shared-note-head mt-2">
-                        {note.title}
-                    </h4>
-                    <p className='d-flex' style={{ justifyContent: 'space-between'}}>
-                        <span>
-                            {note.author ? (`by ${note.author.firstname} ${note.author.lastname} `) : ''}
-                        </span>
-                        <span style={{ fontWeight: 600 }}>
-                            {dateFormatter(note.updatedAt)} 
-                        </span>
-                    </p>
-                </div>
-
-                <div style={{ overflow: 'auto', textAlign: 'left' }} className="note-content mt-5" dangerouslySetInnerHTML={{ __html: note.content }}>
-                </div>
+                <div style={{ borderRadius: '10px' }} id={note._id} className='m-1 p-3 border'>
+                    <div style={{ textAlign: 'left' }}>
+                        <h4 style={{ fontWeight: 600 }} className="shared-note-head mt-2 font-poppins">
+                            {note.title}
+                        </h4>
+                        <p className='d-flex' style={{ justifyContent: 'space-between'}}>
+                            <span className='font-poppins'>
+                                {note.author ? (`by ${note.author.firstname} ${note.author.lastname} `) : ''}
+                            </span>
+                            <span className='font-poppins' style={{ fontWeight: 600 }}>
+                                {dateFormatter(note.updatedAt)} 
+                            </span>
+                        </p>
+                    </div>
+                    <div style={{ overflow: 'auto', textAlign: 'left' }} className="note-content mt-5" dangerouslySetInnerHTML={{ __html: note.content }}></div>
                 </div>
             ) : (error ? (
                 <div style={{ textAlign: 'left' }} className='row justify-content-center m-2'>
