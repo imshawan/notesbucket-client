@@ -147,9 +147,14 @@ function NoteView() {
           <Dialog open={open}
           fullScreen={fullScreen}
           fullWidth={true}
-          maxWidth={'md'}
+          maxWidth={'lg'}
           aria-labelledby="scroll-dialog-title"
           aria-describedby="scroll-dialog-description"
+          PaperProps={{
+            sx: {
+              minHeight: '60vh'
+            }
+          }}
           >
             <DialogTitle style={{ height: '58px', background: MainAccent, marginTop: '-2px' }} id="scroll-dialog-title">
               <div style={{width: '100%', background: MainAccent, display: 'flex', justifyContent: 'center', marginTop: '-2px' }}>
@@ -163,7 +168,7 @@ function NoteView() {
                 </span>
               </div>
             </DialogTitle>
-            <DialogContent className='pt-3' dividers={true}>
+            <DialogContent className='pt-3' dividers={true} style={{ minHeight: '75%' }}>
               <div className='pb-2' style={{minHeigt: '64px', width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <span style={{ width: '100%'}}>
                     {editing ? (<TextField style={{width: '100%'}} id="outlined-textarea"

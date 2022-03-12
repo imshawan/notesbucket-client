@@ -8,6 +8,7 @@ const Shared = (props) => {
     const [note, setNote] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
+
     const headers = {
         "Content-Type" : "application/json",
         "accept": "*/*"

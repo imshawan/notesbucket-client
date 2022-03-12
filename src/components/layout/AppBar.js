@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Avatar } from '@mui/material';
 import { Typography, InputBase, ThemeProvider} from '@mui/material';
@@ -13,7 +14,7 @@ import NotesIcon from '@mui/icons-material/Notes';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ReportIcon from '@mui/icons-material/Report';
 import ShareIcon from '@mui/icons-material/Share';
-
+import CloseIcon from '@mui/icons-material/Close';
 import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
@@ -81,6 +82,7 @@ const ResponsiveAppBar = () => {
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
   const [Selected, setSelected] = useState(1)
+  const history = useHistory();
 
   const logMeOut = () => {
     clearNotes()
@@ -105,6 +107,11 @@ const ResponsiveAppBar = () => {
 
     setDrawer(open);
   };
+
+  const isHome = () => {
+    if (history.location.pathname === '/') return true;
+    else return false;
+  }
 
   const MenuList = () => (
     <Box
@@ -224,9 +231,9 @@ const ResponsiveAppBar = () => {
   return (
     <ThemeProvider theme={Theme}>
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={isAuthenticated ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
-        <Toolbar style={{ marginTop: '6px' }}>
-          {isAuthenticated ? (
+      <AppBar style={isAuthenticated && isHome() ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
+        <Toolbar style={ isAuthenticated && isHome() ? { marginTop: '6px' } : {}}>
+          {isAuthenticated && isHome() ? (
             <IconButton
             onClick={toggleDrawer(true)}
             size="large"
@@ -239,25 +246,31 @@ const ResponsiveAppBar = () => {
           </IconButton>
           ) : ''}
           <Typography
-          style={isAuthenticated ? {color: '#000'} : {color: '#fff'}}
+          style={isAuthenticated && isHome() ? {color: '#000'} : {color: '#fff'}}
             className='app-header'
             variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            NotesBucket
+            <span style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>NotesBucket</span>
           </Typography>
-          {isAuthenticated ?
+          {isAuthenticated && isHome() ?
           (<Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
+              {query ? (
+                <IconButton style={{ right: 0, position: 'absolute', height: '38px', marginRight: '10px', cursor: 'pointer', zIndex: 9999 }} onClick={() => setQuery("")}>
+                  <CloseIcon style={{ height: '.8em',  width: '.8em'}} />
+                </IconButton>
+              ) : ''}
             <StyledInputBase
               placeholder="Search…"
               name='search'
               style={{color: '#000', fontWeight: 600, lineHeight: '4.2'}}
               onChange={(e) => setQuery(e.target.value)}
+              value={query}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>) : (
@@ -269,7 +282,7 @@ const ResponsiveAppBar = () => {
         <Drawer
             anchor="left"
             open={drawer}
-            PaperProps={ {style: { borderTopRightRadius: '10px', borderBottomRightRadius: '10px' }}}
+            PaperProps={ {style: { borderTopRightRadius: '14px', borderBottomRightRadius: '14px' }}}
             onClose={toggleDrawer(false)}>
             <MenuList />
         </Drawer>

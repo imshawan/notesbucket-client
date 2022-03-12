@@ -13,6 +13,7 @@ import ForgotPassword from './components/auth/ForgotPassword';
 import Home from './pages/Home';
 import About from './pages/About';
 import Shared from './pages/Shared';
+import NotFound from './pages/404';
 import setAuthToken from './utils/setAuthToken';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -37,6 +38,7 @@ function App() {
                     <Route exact path='/forgotPassword' component={ForgotPassword} />
                     <Route exact path='/about' component={About} />
                     <Route exact path='/shared/:token' component={Shared} />
+                    <Route path="*" component={NotFound} />
                   </Switch>
                 </div>
               </Fragment>
