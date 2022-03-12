@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Avatar } from '@mui/material';
 import { Typography, InputBase, ThemeProvider} from '@mui/material';
-import { Drawer, List, Tooltip, ListItem, ListItemIcon, ListItemText,InputAdornment } from '@mui/material';
+import { Drawer, List, Tooltip, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -81,6 +82,7 @@ const ResponsiveAppBar = () => {
   const [drawer, setDrawer] = useState(false);
   const [query, setQuery] = useState("");
   const [Selected, setSelected] = useState(1)
+  const history = useHistory();
 
   const logMeOut = () => {
     clearNotes()
@@ -225,7 +227,7 @@ const ResponsiveAppBar = () => {
     <ThemeProvider theme={Theme}>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar style={isAuthenticated ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
-        <Toolbar style={{ marginTop: '6px' }}>
+        <Toolbar style={ isAuthenticated ? { marginTop: '6px' } : {}}>
           {isAuthenticated ? (
             <IconButton
             onClick={toggleDrawer(true)}
@@ -246,7 +248,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            NotesBucket
+            <span style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>NotesBucket</span>
           </Typography>
           {isAuthenticated ?
           (<Search>
@@ -264,13 +266,7 @@ const ResponsiveAppBar = () => {
               style={{color: '#000', fontWeight: 600, lineHeight: '4.2'}}
               onChange={(e) => setQuery(e.target.value)}
               value={query}
-              inputProps={{ endAdornment: (
-                <InputAdornment>
-                  <IconButton>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ) }}
+              inputProps={{ 'aria-label': 'search' }}
             />
           </Search>) : (
             <div className='app-header d-block d-sm-none d-md-none d-lg-none d-xl-none css-dudo9s-MuiTypography-root font-poppins' style={{color: '#fff'}}>
