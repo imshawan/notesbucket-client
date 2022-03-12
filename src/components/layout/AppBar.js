@@ -231,8 +231,8 @@ const ResponsiveAppBar = () => {
   return (
     <ThemeProvider theme={Theme}>
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={isAuthenticated ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
-        <Toolbar style={ isAuthenticated ? { marginTop: '6px' } : {}}>
+      <AppBar style={isAuthenticated && isHome() ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
+        <Toolbar style={ isAuthenticated && isHome() ? { marginTop: '6px' } : {}}>
           {isAuthenticated && isHome() ? (
             <IconButton
             onClick={toggleDrawer(true)}
@@ -246,7 +246,7 @@ const ResponsiveAppBar = () => {
           </IconButton>
           ) : ''}
           <Typography
-          style={isAuthenticated ? {color: '#000'} : {color: '#fff'}}
+          style={isAuthenticated && isHome() ? {color: '#000'} : {color: '#fff'}}
             className='app-header'
             variant="h6"
             noWrap
@@ -255,7 +255,7 @@ const ResponsiveAppBar = () => {
           >
             <span style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>NotesBucket</span>
           </Typography>
-          {isAuthenticated ?
+          {isAuthenticated && isHome() ?
           (<Search>
             <SearchIconWrapper>
               <SearchIcon />

@@ -1,21 +1,13 @@
 
-import React, { useState, useEffect, Fragment, useContext } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Backdrop, CircularProgress } from '@mui/material';
 import axios from 'axios';
-import AuthContext from '../context/auth/authContext'
 
 const Shared = (props) => {
     const { token } = props.match.params;
     const [note, setNote] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
-    const authContext = useContext(AuthContext);
-    const { loadUser, isAuthenticated } = authContext
-
-    useEffect(()=>{
-        if (isAuthenticated) loadUser();
-        // eslint-disable-next-line
-    }, [isAuthenticated])
 
     const headers = {
         "Content-Type" : "application/json",
