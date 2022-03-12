@@ -98,7 +98,7 @@ function NoteCreator() {
       <Dialog open={open}
           fullScreen={fullScreen}
           fullWidth={true}
-          maxWidth={'md'}
+          maxWidth={'lg'}
           aria-labelledby="scroll-dialog-title"
           aria-describedby="scroll-dialog-description"
           >

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Avatar } from '@mui/material';
 import { Typography, InputBase, ThemeProvider} from '@mui/material';
-import { Drawer, List, Tooltip, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Drawer, List, Tooltip, ListItem, ListItemIcon, ListItemText,InputAdornment } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -13,7 +13,7 @@ import NotesIcon from '@mui/icons-material/Notes';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ReportIcon from '@mui/icons-material/Report';
 import ShareIcon from '@mui/icons-material/Share';
-
+import CloseIcon from '@mui/icons-material/Close';
 import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
@@ -253,12 +253,24 @@ const ResponsiveAppBar = () => {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
+              {query ? (
+                <IconButton style={{ right: 0, position: 'absolute', height: '38px', marginRight: '10px', cursor: 'pointer', zIndex: 9999 }} onClick={() => setQuery("")}>
+                  <CloseIcon style={{ height: '.8em',  width: '.8em'}} />
+                </IconButton>
+              ) : ''}
             <StyledInputBase
               placeholder="Search…"
               name='search'
               style={{color: '#000', fontWeight: 600, lineHeight: '4.2'}}
               onChange={(e) => setQuery(e.target.value)}
-              inputProps={{ 'aria-label': 'search' }}
+              value={query}
+              inputProps={{ endAdornment: (
+                <InputAdornment>
+                  <IconButton>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ) }}
             />
           </Search>) : (
             <div className='app-header d-block d-sm-none d-md-none d-lg-none d-xl-none css-dudo9s-MuiTypography-root font-poppins' style={{color: '#fff'}}>
@@ -269,7 +281,7 @@ const ResponsiveAppBar = () => {
         <Drawer
             anchor="left"
             open={drawer}
-            PaperProps={ {style: { borderTopRightRadius: '10px', borderBottomRightRadius: '10px' }}}
+            PaperProps={ {style: { borderTopRightRadius: '14px', borderBottomRightRadius: '14px' }}}
             onClose={toggleDrawer(false)}>
             <MenuList />
         </Drawer>
