@@ -108,6 +108,11 @@ const ResponsiveAppBar = () => {
     setDrawer(open);
   };
 
+  const isHome = () => {
+    if (history.location.pathname === '/') return true;
+    else return false;
+  }
+
   const MenuList = () => (
     <Box
       sx={{ width: 'left' === 'top' || 'left' === 'bottom' ? 'auto' : 250 }}
@@ -228,7 +233,7 @@ const ResponsiveAppBar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar style={isAuthenticated ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
         <Toolbar style={ isAuthenticated ? { marginTop: '6px' } : {}}>
-          {isAuthenticated ? (
+          {isAuthenticated && isHome() ? (
             <IconButton
             onClick={toggleDrawer(true)}
             size="large"
