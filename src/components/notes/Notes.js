@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import NotesCard from './NotesCard';
-import { Backdrop, ThemeProvider, CircularProgress, SpeedDial, IconButton, Tooltip, Snackbar } from '@mui/material';
+import { Backdrop, ThemeProvider, SpeedDial, IconButton, Tooltip, Snackbar } from '@mui/material';
 import NoteView from './NoteView';
 import NoteCreator from './NoteCreator';
 import Shareing from './Shareing';
@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
 import { Theme, Alert } from '../layout/Layout';
+import Loader from '../layout/Loader';
 import SyncIcon from '@mui/icons-material/Sync';
 
 const Default = () => {
@@ -136,9 +137,10 @@ const Notes = () => {
             <SpeedDial onClick={showNoteCreator}
             ariaLabel="SpeedDial basic example" sx={{ position: 'fixed', bottom: 16, right: 16 }} icon={<AddIcon />} />
             <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                sx={{ backgroundColor: '#fff', color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={loading}>
-                <CircularProgress color="inherit" />
+                    {/* <CircularProgress color="inherit" /> */}
+                <Loader />
             </Backdrop>
             <Snackbar open={statusOps.open} autoHideDuration={5000} onClose={closeAlerts}>
                 <Alert onClose={closeAlerts} severity={statusOps.severity} sx={{ width: '100%' }}>
