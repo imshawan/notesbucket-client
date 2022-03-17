@@ -199,8 +199,7 @@ button {
 }
 
 .container-404 {
-  margin: 0;
-  margin-top: 10rem;
+  margin-top: 5rem;
 }
 
 .face {
@@ -338,7 +337,7 @@ button {
  .not-found-body {
   padding-left: 20px;
   padding-right: 20px;
-  font-size: 1.2em;
+  font-size: 1em;
  }
  .back-home-btn {
    margin-top: 60px!important;
@@ -353,10 +352,21 @@ button {
 
 /* -------Loader-------  */
 
+.loader {
+  height: 60px;
+  width: 60px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  border-radius: 30px;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
 .spinner {
-  width: 46px;
-  height: 46px;
+  width: 40px;
+  height: 40px;
   animation: contanim 2s linear infinite;
+  margin: auto;
 }
 .mui-loader {
   width: 100%;

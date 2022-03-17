@@ -10,6 +10,7 @@ const NotFound = () => {
 
     return (
         <ThemeProvider theme={Theme}>
+            <div className='d-flex' style={{ backgroundColor: 'rgba(255, 0, 0, 0.2)', height: '100vh'}}>
             <div className="container container-404">
                 <div className="face">
                     <div className="band">
@@ -23,7 +24,7 @@ const NotFound = () => {
                 </div>
 
                 <h1 className='not-found-head font-poppins'>Oops! Something went wrong!</h1>
-                <h5 className='not-found-body font-poppins'>The page you're trying to reach was not found</h5>
+                <h5 className='not-found-body font-poppins'>The page you are looking for might have been removed or is temporarily unavailable.</h5>
                 <Button
                     className='back-home-btn'
                     style={{ minWidth: '320px', padding: '10px', marginBottom: '50px' }}
@@ -34,6 +35,7 @@ const NotFound = () => {
                     variant="contained">
                     Return back Home
                 </Button>
+            </div>
             </div>
         </ ThemeProvider>
     );

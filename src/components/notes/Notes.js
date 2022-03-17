@@ -137,7 +137,7 @@ const Notes = () => {
             <SpeedDial onClick={showNoteCreator}
             ariaLabel="SpeedDial basic example" sx={{ position: 'fixed', bottom: 16, right: 16 }} icon={<AddIcon />} />
             <Backdrop
-                sx={{ backgroundColor: '#fff', color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={loading}>
                     {/* <CircularProgress color="inherit" /> */}
                 <Loader />

@@ -253,7 +253,9 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            <span style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>NotesBucket</span>
+            <Tooltip title="Home" placement="bottom" arrow>
+              <span style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>NotesBucket</span>
+            </Tooltip>
           </Typography>
           {isAuthenticated && isHome() ?
           (<Search>
