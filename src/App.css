@@ -3,6 +3,9 @@
 /* * {
   font-family: 'Poppins', sans-serif!important;
 } */
+:root {
+  --background: #fff;
+}
 
 .container {
   text-align: center;
@@ -55,12 +58,12 @@ p {
 .filteration-header {
   font-family: 'Poppins', sans-serif!important;
   height: 80px;
-  margin: -5px;
+  margin: -10px;
   margin-top: 16px;
   font-size: 38px;
   text-align: left;
   font-weight: 600;
-  background: #fff;
+  background: var(--background);
   position: fixed;
   z-index: 5;
   width: 100%;
@@ -73,12 +76,12 @@ p {
   height: 16px;
 }
 .notes-card {
+  border-radius: 12px!important;
   transition: .3s!important;
-  height: 76px;
+  height: 90px;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(255, 255, 255, 0.8);
 }
-.notes-card {
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(255, 255, 255, 0.8);
-}
+
 .notes-title, .notes-title {
   font-weight: 600;
   font-size: 22px;
@@ -115,6 +118,11 @@ button {
   font-family: 'Poppins', sans-serif!important;
   font-size: .9rem;
   margin-top: 1px;
+}
+
+.home {
+  background-color: var(--background);
+  min-height: 93vh;
 }
 
 .App-logo {
@@ -182,6 +190,9 @@ button {
   .no-notes-image {
     height: 128px;
   }
+  .note-list {
+    padding-top: 2px!important;
+  }
 }
 
 @media (max-width: 576px) {
@@ -199,9 +210,7 @@ button {
 }
 
 .container-404 {
-  margin: 0;
-  margin-top: 10rem;
-  padding: 0;
+  margin-top: 5rem;
 }
 
 .face {
@@ -339,7 +348,7 @@ button {
  .not-found-body {
   padding-left: 20px;
   padding-right: 20px;
-  font-size: 1.2em;
+  font-size: 1em;
  }
  .back-home-btn {
    margin-top: 60px!important;
@@ -347,4 +356,81 @@ button {
  .container-404 {
    margin-top: 0px;
  }
+ .loader-text {
+   font-size: 16px;
+ }
+}
+
+/* -------Loader-------  */
+
+.loader {
+  height: 60px;
+  width: 60px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  border-radius: 30px;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  animation: contanim 2s linear infinite;
+  margin: auto;
+}
+.mui-loader {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  transform: rotate(-90deg);
+}
+.mui-loader:nth-child(1) circle {
+  stroke: #00FFFF;
+  stroke-dasharray: 1, 300;
+  stroke-dashoffset: 0;
+  animation: strokeanim 3s calc(.2s * (1)) ease infinite;
+  transform-origin: center center;
+}
+.mui-loader:nth-child(2) circle {
+  stroke: #ffd900;
+  stroke-dasharray: 1, 300;
+  stroke-dashoffset: 0;
+  animation: strokeanim 3s calc(.2s * (2)) ease infinite;
+  transform-origin: center center;
+}
+.mui-loader:nth-child(3) circle {
+  stroke: #0029FF;
+  stroke-dasharray: 1, 300;
+  stroke-dashoffset: 0;
+  animation: strokeanim 3s calc(.2s * (3)) ease infinite;
+  transform-origin: center center;
+}
+.mui-loader:nth-child(4) circle {
+  stroke: #000;
+  stroke-dasharray: 1, 300;
+  stroke-dashoffset: 0;
+  animation: strokeanim 3s calc(.2s * (4)) ease infinite;
+  transform-origin: center center;
+}
+@keyframes strokeanim {
+  0% {
+    stroke-dasharray: 1, 300;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 120, 300;
+    stroke-dashoffset: -58.6666666667;
+  }
+  100% {
+    stroke-dasharray: 120, 300;
+    stroke-dashoffset: -176;
+  }
+}
+@keyframes contanim {
+  100% {
+    transform: rotate(360deg);
+  }
 }

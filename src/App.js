@@ -11,7 +11,6 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import ForgotPassword from './components/auth/ForgotPassword';
 import Home from './pages/Home';
-import About from './pages/About';
 import Shared from './pages/Shared';
 import NotFound from './pages/404';
 import setAuthToken from './utils/setAuthToken';
@@ -36,7 +35,6 @@ function App() {
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/register' component={Register} />
                     <Route exact path='/forgotPassword' component={ForgotPassword} />
-                    <Route exact path='/about' component={About} />
                     <Route exact path='/shared/:token' component={Shared} />
                     <Route path="*" component={NotFound} />
                   </Switch>

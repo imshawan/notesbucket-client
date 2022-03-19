@@ -12,6 +12,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CircularProgress, Backdrop } from '@mui/material';
 import { MainAccent } from '../../app.config';
 import { ValidateEmail } from '../../utils/validators';
+import Loader from '../layout/Loader';
 
 const ForgotPassword = (props) => {
   const authContext = useContext(AuthContext);
@@ -164,7 +165,7 @@ const ForgotPassword = (props) => {
       <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loading}>
-          <CircularProgress color="inherit" />
+          <Loader />
       </Backdrop>
       <div className='row justify-content-center'>
       <ThemeProvider theme={Theme}>

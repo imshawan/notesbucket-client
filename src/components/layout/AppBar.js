@@ -22,7 +22,7 @@ import ProfileContext from '../../context/userprofile/profileContext';
 // eslint-disable-next-line
 import { stringAvatar, stringToColor } from '../../utils/generateAvatar';
 import { Theme } from './Layout';
-import { MainAccent } from '../../app.config';
+import { MainAccent, background } from '../../app.config';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -231,7 +231,7 @@ const ResponsiveAppBar = () => {
   return (
     <ThemeProvider theme={Theme}>
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={isAuthenticated && isHome() ? { background: '#fff', boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
+      <AppBar style={isAuthenticated && isHome() ? { background: background, boxShadow: 'none', minHeight: '68px' } : { background: MainAccent}} position="fixed">
         <Toolbar style={ isAuthenticated && isHome() ? { marginTop: '6px' } : {}}>
           {isAuthenticated && isHome() ? (
             <IconButton
@@ -253,7 +253,9 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            <span style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>NotesBucket</span>
+            <Tooltip title="Home" placement="bottom" arrow>
+              <span style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>NotesBucket</span>
+            </Tooltip>
           </Typography>
           {isAuthenticated && isHome() ?
           (<Search>

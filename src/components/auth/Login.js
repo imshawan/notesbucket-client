@@ -7,8 +7,9 @@ import AuthContext from '../../context/auth/authContext';
 import { Button, Link, Typography, Avatar, FormControlLabel, Checkbox } from '@mui/material';
 import { Alert, Theme } from '../layout/Layout';
 import LockIcon from '@mui/icons-material/Lock';
-import { CircularProgress, Backdrop, ThemeProvider } from '@mui/material';
+import { Backdrop, ThemeProvider } from '@mui/material';
 import { MainAccent } from '../../app.config';
+import Loader from '../layout/Loader';
 import signin_svg from '../../assets/images/undraw_remotely.svg';
 
 const Login = (props) => {
@@ -83,7 +84,7 @@ const Login = (props) => {
       <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loading}>
-          <CircularProgress color="inherit" />
+          <Loader />
       </Backdrop>
       <div className='row justify-content-center' style={{marginTop: '7%'}}>
       <ThemeProvider theme={Theme}>

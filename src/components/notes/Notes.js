@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import NoteContext from '../../context/notes/notesContext';
 import NotesCard from './NotesCard';
-import { Backdrop, ThemeProvider, CircularProgress, SpeedDial, IconButton, Tooltip, Snackbar } from '@mui/material';
+import { Backdrop, ThemeProvider, SpeedDial, IconButton, Tooltip, Snackbar } from '@mui/material';
 import NoteView from './NoteView';
 import NoteCreator from './NoteCreator';
 import Shareing from './Shareing';
@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
 import no_note from '../../assets/images/note.png';
 import { Theme, Alert } from '../layout/Layout';
+import Loader from '../layout/Loader';
 import SyncIcon from '@mui/icons-material/Sync';
 
 const Default = () => {
@@ -58,25 +59,29 @@ const Notes = () => {
       }
 
     const sortNotesByFileration = (elements) => {
-        if (filtered === "none") {
-            return elements.sort((a, b) => {
-                return new Date(a.updatedAt).getTime() - 
-                    new Date(b.updatedAt).getTime()
-            }).reverse();
-        }
-        else if (filtered === "recents") {
-            return elements.filter((elem) => {
-                var timeStamp = Math.round(new Date().getTime() / 1000);
-                var filterationTime = timeStamp - (24 * 3600); //24 hours
-                return new Date(elem.updatedAt) >= new Date(filterationTime*1000).getTime();
-            })
-        }
-        else if (filtered === "favourites") {
-            return elements.filter((elem) => elem.favourite === true)
-        }
-        else if (filtered === "shared") {
-            return elements.filter((elem) => elem.shared === true)
-        }
+        switch (filtered) {
+            case "none":
+                return elements.sort((a, b) => {
+                    return new Date(a.updatedAt).getTime() - 
+                        new Date(b.updatedAt).getTime()
+                }).reverse();
+
+            case "recents":
+                return elements.filter((elem) => {
+                    var timeStamp = Math.round(new Date().getTime() / 1000);
+                    var filterationTime = timeStamp - (24 * 3600); //24 hours
+                    return new Date(elem.updatedAt) >= new Date(filterationTime*1000).getTime();
+                })
+
+            case "favourites":
+                return elements.filter((elem) => elem.favourite === true);
+
+            case "shared":
+                return elements.filter((elem) => elem.shared === true);
+
+            default:
+                return null;
+        };
     }
 
     const RenderNotes = () => {
@@ -84,7 +89,7 @@ const Notes = () => {
         return (
             <Fragment>
             {filteredNotes.length && filteredNotes !== [] ? (
-                <div className='row' style={{ paddingTop: '90px' }}>
+                <div className='row' style={{ paddingTop: '100px' }}>
                     {filteredNotes.map(note => <NotesCard note={note} key={note._id} />)}
                 </div>
                 ) : <Default />}
@@ -101,7 +106,7 @@ const Notes = () => {
                         searched ? (
                             <div className='row' style={{ paddingTop: '45px' }}>
                                 {searched.length !== 0 ? (searched.map(note=><NotesCard note={note} key={note._id}/>)) : (
-                                    <h3 style={{margin: 'auto'}}>Nothing found!</h3>
+                                    <h3 className='font-poppins' style={{margin: 'auto', fontWeight: 600}}>Nothing was found!</h3>
                                 )}
                             </div>
                         ) 
@@ -110,7 +115,7 @@ const Notes = () => {
                                 <div className='pb-2 filteration-header d-flex'>
                                     {filtered === 'none' ? (
                                         <Fragment>
-                                        <span>notes</span>
+                                        <span style={{ marginLeft: '5px' }}>notes</span>
                                         <span>
                                             <Tooltip title="Reload content" placement="bottom" arrow>
                                                 <IconButton onClick={syncNotes}>
@@ -119,7 +124,7 @@ const Notes = () => {
                                             </Tooltip>
                                         </span>
                                         </Fragment>
-                                    ) : filtered }
+                                    ) : (<span style={{ marginLeft: '5px' }}>{filtered}</span>) }
                                 </div>                     
                                     <RenderNotes />
                             </ Fragment>
@@ -134,11 +139,12 @@ const Notes = () => {
             <Shareing />
 
             <SpeedDial onClick={showNoteCreator}
-            ariaLabel="SpeedDial basic example" sx={{ position: 'fixed', bottom: 16, right: 16 }} icon={<AddIcon />} />
+                ariaLabel="SpeedDial basic example" sx={{ position: 'fixed', bottom: 16, right: 16 }} icon={<AddIcon style={{ height: '38px', width: '38px', fontWeight: 'bold' }} />} />
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={loading}>
-                <CircularProgress color="inherit" />
+                    {/* <CircularProgress color="inherit" /> */}
+                <Loader />
             </Backdrop>
             <Snackbar open={statusOps.open} autoHideDuration={5000} onClose={closeAlerts}>
                 <Alert onClose={closeAlerts} severity={statusOps.severity} sx={{ width: '100%' }}>

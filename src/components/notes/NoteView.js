@@ -63,7 +63,7 @@ function NoteView() {
       setisSaving(true)
     }
 
-    const onDelete = () =>{
+    const onDelete = () => {
       swal({
         title: "Are you sure?",
         text: "This will delete this document from our servers and the action cannot be undone",

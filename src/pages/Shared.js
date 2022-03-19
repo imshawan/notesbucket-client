@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect, Fragment } from 'react'
-import { Backdrop, CircularProgress } from '@mui/material';
+import { Backdrop } from '@mui/material';
 import axios from 'axios';
+import Loader from '../components/layout/Loader';
 
 const Shared = (props) => {
     const { token } = props.match.params;
@@ -25,7 +26,7 @@ const Shared = (props) => {
                     setNote({ ...note, ...resp.data[0] })
                     setLoading(false)
               })
-              .catch((err) => {
+              .catch(() => {
                   setError(true) 
                   setLoading(false)
                 })
@@ -82,7 +83,7 @@ const Shared = (props) => {
             <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={loading}>
-                <CircularProgress color="inherit" />
+                <Loader />
             </Backdrop>
         </Fragment>
     )
