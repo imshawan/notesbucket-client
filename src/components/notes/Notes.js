@@ -7,6 +7,7 @@ import NoteCreator from './NoteCreator';
 import Shareing from './Shareing';
 import AddIcon from '@mui/icons-material/Add';
 import setAuthToken from '../../utils/setAuthToken'
+import { getRecentItems, getSortedNotes, getFavourites, getSharedNotes } from '../../utils/utils'
 import no_note from '../../assets/images/note.png';
 import { Theme, Alert } from '../layout/Layout';
 import Loader from '../layout/Loader';
@@ -61,23 +62,16 @@ const Notes = () => {
     const sortNotesByFileration = (elements) => {
         switch (filtered) {
             case "none":
-                return elements.sort((a, b) => {
-                    return new Date(a.updatedAt).getTime() - 
-                        new Date(b.updatedAt).getTime()
-                }).reverse();
+                return getSortedNotes(elements);
 
             case "recents":
-                return elements.filter((elem) => {
-                    var timeStamp = Math.round(new Date().getTime() / 1000);
-                    var filterationTime = timeStamp - (24 * 3600); //24 hours
-                    return new Date(elem.updatedAt) >= new Date(filterationTime*1000).getTime();
-                })
+                return getRecentItems(elements);
 
             case "favourites":
-                return elements.filter((elem) => elem.favourite === true);
+                return getFavourites(elements);
 
             case "shared":
-                return elements.filter((elem) => elem.shared === true);
+                return getSharedNotes(elements);
 
             default:
                 return null;

@@ -19,10 +19,11 @@ import AuthContext from '../../context/auth/authContext'
 import NoteContext from '../../context/notes/notesContext';
 import QueriesContext from '../../context/queries/queriesContext';
 import ProfileContext from '../../context/userprofile/profileContext';
+import { withStyles } from '@mui/styles';
 // eslint-disable-next-line
 import { stringAvatar, stringToColor } from '../../utils/generateAvatar';
 import { Theme } from './Layout';
-import { MainAccent, background } from '../../app.config';
+import { MainAccent, background, secondary } from '../../app.config';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -67,6 +68,42 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+const DrawerListItem = withStyles({
+  root: {
+    "&": {
+      transition: '.3s'
+    },
+    "& .icon": {
+      transition: '.3s'
+    },
+    "& .count": {
+      color: "#000"
+    },
+    "&$selected": {
+      backgroundColor: secondary,
+      color: "white",
+      "& .MuiListItemIcon-root": {
+        color: "white"
+      },
+    },
+    "&$selected:hover": {
+      backgroundColor: `${secondary}90`,
+      color: "white",
+      "& .MuiListItemIcon-root": {
+        color: "white"
+      },
+    },
+    "&:hover": {
+      backgroundColor: MainAccent,
+      color: "white",
+      "& .MuiListItemIcon-root": {
+        color: "white"
+      },
+    }
+  },
+  selected: {}
+})(ListItem);
 
 const ResponsiveAppBar = () => {
   const authContext = useContext(AuthContext)
@@ -138,64 +175,77 @@ const ResponsiveAppBar = () => {
       </List>
 
       <List style={{width: '95%', fontWeight: 600, fontSize: '16px'}}>
-          <ListItem className="drawer-list" onClick={() => { setFilter("none"); setSelected(1); }} selected={Selected === 1} button key={"All Notes"}>
+
+          <DrawerListItem className='drawer-list' onClick={() => { setFilter("none"); setSelected(1); }} selected={Selected === 1} button key={"All Notes"}>
             <ListItemIcon>
-              <NotesIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
+              <NotesIcon className='icon' style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={
               <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
                 <span className='drawer-text'>All Notes</span>
-                {notes ? (<div className='badge'>
-                  <div style={{marginTop: '1px'}}>{notes.length}</div>
+                {notes ? (<div className='badge mt-0'>
+                  <div className='count' style={{marginTop: '1px'}}>{notes.length}</div>
                 </div>) : ''}
               </div>
             } />
-          </ListItem>
-          <ListItem className="drawer-list" onClick={() => { setFilter("recents"); setSelected(2); }} selected={Selected === 2} button key={"Recents"}>
+          </DrawerListItem>
+
+          <DrawerListItem className='drawer-list' onClick={() => { setFilter("recents"); setSelected(2); }} selected={Selected === 2} button key={"Recents"}>
             <ListItemIcon>
-              <AccessTimeIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
+              <AccessTimeIcon className='icon' style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
-            <ListItemText disableTypography className='menu-text' primary={<span className='drawer-text'>Recents</span>} />
-          </ListItem>
-          <ListItem className="drawer-list" onClick={() => { setFilter("favourites"); setSelected(3); }} selected={Selected === 3} button key={"Favourites"}>
+            <ListItemText disableTypography className='menu-text' primary={
+              <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
+                <span className='drawer-text'>Recents</span>
+                {notes ? (<div className='badge mt-0'>
+                  <div className='count' style={{marginTop: '1px'}}>{localStorage.getItem('recents') || 0}</div>
+                </div>) : ''}
+              </div>
+            } />
+          </DrawerListItem>
+
+          <DrawerListItem className='drawer-list' onClick={() => { setFilter("favourites"); setSelected(3); }} selected={Selected === 3} button key={"Favourites"}>
             <ListItemIcon>
-              <FavoriteBorderOutlinedIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
+              <FavoriteBorderOutlinedIcon className='icon' style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={
               <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
                 <span className='drawer-text'>Favourites</span>
-                {notes ? (<div className='badge'>
-                  <div style={{marginTop: '1px'}}>{notes.filter(note => note.favourite === true).length}</div>
+                {notes ? (<div className='badge mt-0'>
+                  <div className='count' style={{marginTop: '1px'}}>{notes.filter(note => note.favourite === true).length}</div>
                 </div>) : ''}
               </div>
             } />
-          </ListItem> 
-          <ListItem className="drawer-list" onClick={() => { setFilter("shared"); setSelected(4); }} selected={Selected === 4} button key={"Shared"}>
+          </DrawerListItem> 
+
+          <DrawerListItem className='drawer-list' onClick={() => { setFilter("shared"); setSelected(4); }} selected={Selected === 4} button key={"Shared"}>
             <ListItemIcon>
-              <ShareIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
+              <ShareIcon className='icon' style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={
               <div className='d-flex m-auto' style={{ justifyContent: 'space-between' }}>
                 <span className='drawer-text'>Shared</span>
-                {notes ? (<div className='badge'>
-                  <div style={{marginTop: '1px'}}>{notes.filter(note => note.shared === true).length}</div>
+                {notes ? (<div className='badge mt-0'>
+                  <div className='count' style={{marginTop: '1px'}}>{notes.filter(note => note.shared === true).length}</div>
                 </div>) : ''}
               </div>
             } />
-          </ListItem> 
+          </DrawerListItem> 
 
-          <ListItem className="drawer-list" onClick={() => logMeOut()} button key={"Logout"}>
+          <DrawerListItem className='drawer-list' onClick={() => logMeOut()} button key={"Logout"}>
             <ListItemIcon>
-              <LogoutIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
+              <LogoutIcon className='icon' style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={<span className='drawer-text'>Logout</span>} />
-          </ListItem>
-          <ListItem className="drawer-list" onClick={() => setPopUp(true)} button key={"Feedback"}>
+          </DrawerListItem>
+
+          <DrawerListItem className='drawer-list' onClick={() => setPopUp(true)} button key={"Feedback"}>
             <ListItemIcon>
-              <InfoOutlinedIcon style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
+              <InfoOutlinedIcon className='icon' style={{fontSize: '1.6rem', marginLeft: '14px'}}/>
             </ListItemIcon>
             <ListItemText disableTypography className='menu-text' primary={<span className='drawer-text'>Feedback</span>} />
-          </ListItem>
+          </DrawerListItem>
+
       </List>
       {/* Footer section */}
       <div style={{ width: '100%', bottom: '18px', position: 'absolute'}}>
