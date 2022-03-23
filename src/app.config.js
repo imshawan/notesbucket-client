@@ -2,7 +2,7 @@
 
 const MainAccent = '#5c33f6'
 const AppName = "NotesBucket"
-const secondary = `${MainAccent}40`
+const secondary = "#060d13"
 const background = '#fff'
 
 export {

@@ -102,7 +102,7 @@ const AuthReducer = (state, action) => {
         status: { success: false, message: action.payload }
       }
     case LOGOUT:
-      localStorage.removeItem('token')
+      localStorage.clear()
       return {
         ...state,
         token: null,

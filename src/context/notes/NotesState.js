@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import NotesContext from './notesContext';
 import notesReducer from './notesReducer';
+import { getRecentItems } from '../../utils/utils';
 import {
   GET_NOTES,
   GET_NOTES_BY_ID,
@@ -48,6 +49,7 @@ const NotesState = (props) => {
         data: {},
         headers: headers
       }).then((resp) => {
+        getRecentItems(resp.data)
         dispatch({ type: GET_NOTES, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
@@ -65,13 +67,18 @@ const NotesState = (props) => {
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
-  const getNotesById = async (id) =>{
+  const getNotesById = async (id) => {
+    let note = localStorage.getItem(id)
+    if (note) {
+      return dispatch({ type: GET_NOTES_BY_ID, payload: JSON.parse(note) })
+    }
     axios.request({
         url: `${process.env.REACT_APP_PROD_URL}/api/notes/${id}`,
         method: 'GET',
         data: {},
         headers: headers
       }).then((resp) => {
+        localStorage.setItem(id, JSON.stringify(resp.data))
         dispatch({ type: GET_NOTES_BY_ID, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
@@ -88,6 +95,7 @@ const NotesState = (props) => {
         data: data,
         headers: headers
       }).then((resp) => {
+        localStorage.setItem(id, JSON.stringify(resp.data.note))
         dispatch({ type: UPDATE_NOTE, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
@@ -136,6 +144,7 @@ const NotesState = (props) => {
         data: {},
         headers: headers
       }).then((resp) => {
+        localStorage.removeItem(id)
         dispatch({ type: DELETE_NOTE, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
