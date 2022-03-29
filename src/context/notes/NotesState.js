@@ -50,6 +50,7 @@ const NotesState = (props) => {
         headers: headers
       }).then((resp) => {
         getRecentItems(resp.data)
+        reloadCachedNotes()
         dispatch({ type: GET_NOTES, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
@@ -78,6 +79,7 @@ const NotesState = (props) => {
         data: {},
         headers: headers
       }).then((resp) => {
+        pushId(id)
         localStorage.setItem(id, JSON.stringify(resp.data))
         dispatch({ type: GET_NOTES_BY_ID, payload: resp.data })
       })
@@ -144,12 +146,52 @@ const NotesState = (props) => {
         data: {},
         headers: headers
       }).then((resp) => {
+        popId(id)
         localStorage.removeItem(id)
         dispatch({ type: DELETE_NOTE, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
+  const reloadCachedNotes = async () => {
+      let cachedItems = localStorage.getItem('cachedIds')
+      cachedItems = cachedItems ? JSON.parse(cachedItems) : []
+      cachedItems.forEach((id) => { 
+        axios.request({
+          url: `${process.env.REACT_APP_PROD_URL}/api/notes/${id}`,
+          method: 'GET',
+          data: {},
+          headers: headers
+        }).then((resp) => {
+          localStorage.setItem(id, JSON.stringify(resp.data))
+        })
+        .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
+      })
+    } 
+
+
+  const pushId = (id) => { 
+    let ids = localStorage.getItem('cachedIds')
+    if (!ids) {
+      localStorage.setItem('cachedIds', JSON.stringify([id]))
+    } else {
+      let idsArr = JSON.parse(ids)
+      idsArr.push(id)
+      localStorage.setItem('cachedIds', JSON.stringify(idsArr))
+    }
+  }
+
+  const popId = (id) => {
+    let ids = localStorage.getItem('cachedIds')
+    if (!ids) {
+      return
+    } else {
+      let idsArr = JSON.parse(ids)
+      idsArr.pop(id)
+      localStorage.setItem('cachedIds', JSON.stringify(idsArr))
+    }
+  }
+  
   //Set current note
   const setCurrent = (note) =>{
     dispatch({ type: SET_CURRENT, payload: note })
@@ -250,6 +292,7 @@ const NotesState = (props) => {
       filtered: state.filtered,
       loading: state.loading,
       TinyEditorOptions,
+      reloadCachedNotes,
       addToFavourites, 
       removeFavourite,
       updateNoteById,
