@@ -182,19 +182,59 @@ const NotesState = (props) => {
     dispatch({ type: SET_FILTER, payload: type })
   }
 
-  const SummerNoteOptions = {
-    height: 360,
-    dialogsInBody: true,
-    tabDisable: true,
-    dialogsFade: true,
-    placeholder: 'Create something awesome...',
-    toolbar: [
-      ['style', ['style']],
-      ['font', ['bold', 'underline', 'clear']],
-      ['fontname', ['fontname']],
-      ['para', ['ul', 'ol', 'paragraph']],
-      ['table', ['table']]
-    ]
+  const TinyEditorOptions = {
+    apiKey: process.env.REACT_APP_TINYEDITOR_APIKEY,
+    initialConfig: {
+      height: 500,
+      menubar: false,
+      paste_data_images: true,
+      automatic_uploads: true,
+      file_picker_types: "image",
+      file_picker_callback: function (
+        callback,
+        value,
+        meta
+      ) {
+        // Provide file and text for the link dialog
+        var input = document.createElement("input");
+        input.setAttribute("type", "file");
+        input.setAttribute("accept", "image/*");
+        input.onchange = function () {
+          var file = this.files[0];
+
+          var reader = new FileReader();
+          reader.onload = function () {
+            var id = "blobid" + new Date().getTime();
+            var blobCache =
+              window.tinymce.activeEditor.editorUpload
+                .blobCache;
+            var base64 = reader.result.split(",")[1];
+            var blobInfo = blobCache.create(
+              id,
+              file,
+              base64
+            );
+            blobCache.add(blobInfo);
+            callback(blobInfo.blobUri(), {
+              title: file.name,
+            });
+          };
+          reader.readAsDataURL(file);
+        };
+
+        input.click();
+      },
+      plugins: [
+        'advlist autolink lists link image', 
+        'charmap print preview anchor help',
+        'searchreplace visualblocks code',
+        'insertdatetime media table paste wordcount'
+      ],
+      toolbar:
+        `code undo redo | image | formatselect | bold italic | 
+        alignleft aligncenter alignright | 
+        bullist numlist outdent indent | help`
+    } 
   }
 
   return (
@@ -209,7 +249,7 @@ const NotesState = (props) => {
       shared_content: state.shared_content,
       filtered: state.filtered,
       loading: state.loading,
-      SummerNoteOptions,
+      TinyEditorOptions,
       addToFavourites, 
       removeFavourite,
       updateNoteById,

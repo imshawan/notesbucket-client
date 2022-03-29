@@ -16,8 +16,7 @@ import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/tooltip';
 import 'bootstrap/dist/css/bootstrap.css';
-import ReactSummernote from 'react-summernote';
-import 'react-summernote/dist/react-summernote.css'; // import styles
+import { Editor } from '@tinymce/tinymce-react';
 
 import MenuItem from '@mui/material/MenuItem';
 // import Divider from '@mui/material/Divider';
@@ -30,7 +29,7 @@ import swal from "sweetalert";
 function NoteView() {
     const noteContext = useContext(NoteContext)
     const { note, status, getNotesById, addToFavourites, removeFavourite, setShareing,
-      current, deleteNotesById, updateNoteById, clearCurrent, SummerNoteOptions, setLoading } = noteContext
+      current, deleteNotesById, updateNoteById, clearCurrent, TinyEditorOptions, setLoading } = noteContext
     const [open, setOpen] = useState(false)
     const [isSaving, setisSaving] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
@@ -46,7 +45,12 @@ function NoteView() {
     const [editorContent, setEditorContent] = useState("")
 
     const theme = useTheme();
+    // eslint-disable-next-line
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const handleEditorChange = (e) => {
+      setEditorContent(e.target.getContent())
+    }
 
     const submitPayload = (e) => {
       e.preventDefault();
@@ -106,6 +110,7 @@ function NoteView() {
     useEffect(() => {
       if (!status) return;
       setisSaving(false)
+      if (status && status.message.toLowerCase() === 'unauthorized') { return; }
       if (status.success === true) {
         setOpsStatus({...statusOps, open: true, severity: "success", text: status.message})
       }
@@ -145,7 +150,7 @@ function NoteView() {
       <Fragment>
         <ThemeProvider theme={Theme}>
           <Dialog open={open}
-          fullScreen={fullScreen}
+          fullScreen={true}
           fullWidth={true}
           maxWidth={'lg'}
           aria-labelledby="scroll-dialog-title"
@@ -187,12 +192,11 @@ function NoteView() {
               <div className='pt-0'>
                 <p style={{ overflow: 'auto' }}>
                 {editing ? (
-                    <ReactSummernote
-                      onInit={() => {
-                        document.querySelector(".note-editable").innerHTML = note.content
-                      }}
-                      options={SummerNoteOptions}
-                      onChange={(editorText) => setEditorContent(editorText)}
+                    <Editor
+                      initialValue={note.content}
+                      apiKey={TinyEditorOptions.apiKey}
+                      init={TinyEditorOptions.initialConfig}
+                      onChange={handleEditorChange}
                     />
                 ) : (
                   <p dangerouslySetInnerHTML={{ __html: note.content }}></p>

@@ -12,14 +12,13 @@ import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/tooltip';
 import 'bootstrap/dist/css/bootstrap.css';
-import ReactSummernote from 'react-summernote';
-import 'react-summernote/dist/react-summernote.css'; // import styles
+import { Editor } from '@tinymce/tinymce-react';
 import { MainAccent } from '../../app.config';
 
 
 function NoteCreator() {
     const noteContext = useContext(NoteContext)
-    const { createNote, status, add, setAdd, SummerNoteOptions } = noteContext
+    const { createNote, status, add, setAdd, TinyEditorOptions } = noteContext
     const [open, setOpen] = useState(false)
     const [creating, setCreating] = useState(false)
     const [statusOps, setOpsStatus] = useState({open: false, text: ""})
@@ -32,7 +31,12 @@ function NoteCreator() {
       });
       
     const theme = useTheme();
+    // eslint-disable-next-line
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const handleEditorChange = (e) => {
+      setEditorContent(e.target.getContent())
+    }
 
     const submitPayload = (e) => {
         e.preventDefault();
@@ -96,7 +100,7 @@ function NoteCreator() {
       <Fragment>
         <ThemeProvider theme={Theme}>
       <Dialog open={open}
-          fullScreen={fullScreen}
+          fullScreen={true}
           fullWidth={true}
           maxWidth={'lg'}
           aria-labelledby="scroll-dialog-title"
@@ -129,10 +133,14 @@ function NoteCreator() {
                   multiline />
             </span>
           </div>
-          <ReactSummernote
-            options={SummerNoteOptions}
-            disabled={creating}
-            onChange={(editorText) => setEditorContent(editorText)}/>
+
+          <Editor
+              initialValue=""
+              apiKey={TinyEditorOptions.apiKey}
+              init={TinyEditorOptions.initialConfig}
+              onChange={handleEditorChange}
+            />
+
         </DialogContent>
         <DialogActions>
           <Button variant="contained" style={{ marginRight: '10px', width: '120px' }} disabled={creating} startIcon={<CloseIcon />} onClick={() => closeModal()}>DISCARD</Button>
