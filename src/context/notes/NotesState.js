@@ -50,6 +50,7 @@ const NotesState = (props) => {
         headers: headers
       }).then((resp) => {
         getRecentItems(resp.data)
+        reloadCachedNotes()
         dispatch({ type: GET_NOTES, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
@@ -78,6 +79,7 @@ const NotesState = (props) => {
         data: {},
         headers: headers
       }).then((resp) => {
+        pushId(id)
         localStorage.setItem(id, JSON.stringify(resp.data))
         dispatch({ type: GET_NOTES_BY_ID, payload: resp.data })
       })
@@ -144,12 +146,52 @@ const NotesState = (props) => {
         data: {},
         headers: headers
       }).then((resp) => {
+        popId(id)
         localStorage.removeItem(id)
         dispatch({ type: DELETE_NOTE, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
   }
 
+  const reloadCachedNotes = async () => {
+      let cachedItems = localStorage.getItem('cachedIds')
+      cachedItems = cachedItems ? JSON.parse(cachedItems) : []
+      cachedItems.forEach((id) => { 
+        axios.request({
+          url: `${process.env.REACT_APP_PROD_URL}/api/notes/${id}`,
+          method: 'GET',
+          data: {},
+          headers: headers
+        }).then((resp) => {
+          localStorage.setItem(id, JSON.stringify(resp.data))
+        })
+        .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
+      })
+    } 
+
+
+  const pushId = (id) => { 
+    let ids = localStorage.getItem('cachedIds')
+    if (!ids) {
+      localStorage.setItem('cachedIds', JSON.stringify([id]))
+    } else {
+      let idsArr = JSON.parse(ids)
+      idsArr.push(id)
+      localStorage.setItem('cachedIds', JSON.stringify(idsArr))
+    }
+  }
+
+  const popId = (id) => {
+    let ids = localStorage.getItem('cachedIds')
+    if (!ids) {
+      return
+    } else {
+      let idsArr = JSON.parse(ids)
+      idsArr.pop(id)
+      localStorage.setItem('cachedIds', JSON.stringify(idsArr))
+    }
+  }
+  
   //Set current note
   const setCurrent = (note) =>{
     dispatch({ type: SET_CURRENT, payload: note })
@@ -182,19 +224,59 @@ const NotesState = (props) => {
     dispatch({ type: SET_FILTER, payload: type })
   }
 
-  const SummerNoteOptions = {
-    height: 360,
-    dialogsInBody: true,
-    tabDisable: true,
-    dialogsFade: true,
-    placeholder: 'Create something awesome...',
-    toolbar: [
-      ['style', ['style']],
-      ['font', ['bold', 'underline', 'clear']],
-      ['fontname', ['fontname']],
-      ['para', ['ul', 'ol', 'paragraph']],
-      ['table', ['table']]
-    ]
+  const TinyEditorOptions = {
+    apiKey: process.env.REACT_APP_TINYEDITOR_APIKEY,
+    initialConfig: {
+      height: 500,
+      menubar: false,
+      paste_data_images: true,
+      automatic_uploads: true,
+      file_picker_types: "image",
+      file_picker_callback: function (
+        callback,
+        value,
+        meta
+      ) {
+        // Provide file and text for the link dialog
+        var input = document.createElement("input");
+        input.setAttribute("type", "file");
+        input.setAttribute("accept", "image/*");
+        input.onchange = function () {
+          var file = this.files[0];
+
+          var reader = new FileReader();
+          reader.onload = function () {
+            var id = "blobid" + new Date().getTime();
+            var blobCache =
+              window.tinymce.activeEditor.editorUpload
+                .blobCache;
+            var base64 = reader.result.split(",")[1];
+            var blobInfo = blobCache.create(
+              id,
+              file,
+              base64
+            );
+            blobCache.add(blobInfo);
+            callback(blobInfo.blobUri(), {
+              title: file.name,
+            });
+          };
+          reader.readAsDataURL(file);
+        };
+
+        input.click();
+      },
+      plugins: [
+        'advlist autolink lists link image', 
+        'charmap print preview anchor help',
+        'searchreplace visualblocks code',
+        'insertdatetime media table paste wordcount'
+      ],
+      toolbar:
+        `code undo redo | image | formatselect | bold italic | 
+        alignleft aligncenter alignright | 
+        bullist numlist outdent indent | help`
+    } 
   }
 
   return (
@@ -209,7 +291,8 @@ const NotesState = (props) => {
       shared_content: state.shared_content,
       filtered: state.filtered,
       loading: state.loading,
-      SummerNoteOptions,
+      TinyEditorOptions,
+      reloadCachedNotes,
       addToFavourites, 
       removeFavourite,
       updateNoteById,
