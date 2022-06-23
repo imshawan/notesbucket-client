@@ -120,6 +120,7 @@ const ResponsiveAppBar = () => {
   const [query, setQuery] = useState("");
   const [Selected, setSelected] = useState(1)
   const history = useHistory();
+  const drawerWidth = 280;
 
   const logMeOut = () => {
     clearNotes()
@@ -146,13 +147,12 @@ const ResponsiveAppBar = () => {
   };
 
   const isHome = () => {
-    if (history.location.pathname === '/') return true;
-    else return false;
+    return history.location.pathname === '/';
   }
 
   const MenuList = () => (
     <Box
-      sx={{ width: 'left' === 'top' || 'left' === 'bottom' ? 'auto' : 250 }}
+      sx={{ width: 'left' === 'top' || 'left' === 'bottom' ? 'auto' : drawerWidth }}
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
@@ -334,7 +334,7 @@ const ResponsiveAppBar = () => {
         <Drawer
             anchor="left"
             open={drawer}
-            PaperProps={ {style: { borderTopRightRadius: '14px', borderBottomRightRadius: '14px' }}}
+            PaperProps={ {style: { borderTopRightRadius: '14px', borderBottomRightRadius: '14px', width: drawerWidth + 'px' }}}
             onClose={toggleDrawer(false)}>
             <MenuList />
         </Drawer>

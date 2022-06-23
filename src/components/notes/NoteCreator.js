@@ -19,6 +19,7 @@ import { MainAccent } from '../../app.config';
 function NoteCreator() {
     const noteContext = useContext(NoteContext)
     const { createNote, status, add, setAdd, TinyEditorOptions } = noteContext
+    const { apiKey, initialConfig } = TinyEditorOptions
     const [open, setOpen] = useState(false)
     const [creating, setCreating] = useState(false)
     const [statusOps, setOpsStatus] = useState({open: false, text: ""})
@@ -32,7 +33,7 @@ function NoteCreator() {
       
     const theme = useTheme();
     // eslint-disable-next-line
-    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleEditorChange = (e) => {
       setEditorContent(e.target.getContent())
@@ -136,8 +137,8 @@ function NoteCreator() {
 
           <Editor
               initialValue=""
-              apiKey={TinyEditorOptions.apiKey}
-              init={TinyEditorOptions.initialConfig}
+              apiKey={apiKey}
+              init={{ ...initialConfig, menubar: !mobile}}
               onChange={handleEditorChange}
             />
 

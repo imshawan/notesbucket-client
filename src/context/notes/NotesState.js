@@ -229,6 +229,7 @@ const NotesState = (props) => {
     initialConfig: {
       height: 500,
       menubar: false,
+      branding: false,
       paste_data_images: true,
       automatic_uploads: true,
       file_picker_types: "image",
@@ -267,15 +268,14 @@ const NotesState = (props) => {
         input.click();
       },
       plugins: [
-        'advlist autolink lists link image', 
-        'charmap print preview anchor help',
-        'searchreplace visualblocks code',
-        'insertdatetime media table paste wordcount'
+        'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+        'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+        'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
       ],
       toolbar:
-        `code undo redo | image | formatselect | bold italic | 
-        alignleft aligncenter alignright | 
-        bullist numlist outdent indent | help`
+        `code undo redo | image | formatselect formatpainter casechange blocks | bold italic underline | 
+        alignleft aligncenter alignright alignjustify | 
+        bullist numlist outdent indent | removeformat | a11ycheck code table help`
     } 
   }
 
