@@ -268,14 +268,14 @@ const NotesState = (props) => {
         input.click();
       },
       plugins: [
-        'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
-        'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-        'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+        'advlist','autolink', 'lists','link','image','charmap', 
+        'print', 'preview','anchor','searchreplace','visualblocks',
+        'code', 'fullscreen','insertdatetime','media','table', 'paste', 'help','wordcount'
       ],
       toolbar:
-        `code undo redo | image | formatselect formatpainter casechange blocks | bold italic underline | 
+        `undo redo | image | formatselect casechange blocks | bold italic underline | 
         alignleft aligncenter alignright alignjustify | 
-        bullist numlist outdent indent | removeformat | a11ycheck code table help`
+        bullist numlist outdent indent | removeformat | code table help`
     } 
   }
 
