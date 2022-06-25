@@ -110,6 +110,7 @@ const NotesState = (props) => {
         data: {},
         headers: headers
       }).then((resp) => {
+        updateNoteCache(id, {favourite: true})
         dispatch({ type: UPDATE_NOTE, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
@@ -122,6 +123,7 @@ const NotesState = (props) => {
         data: {},
         headers: headers
       }).then((resp) => {
+        updateNoteCache(id, {favourite: false})
         dispatch({ type: UPDATE_NOTE, payload: resp.data })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data : err.message }))
@@ -134,6 +136,8 @@ const NotesState = (props) => {
         data: payload,
         headers: headers
       }).then((resp) => {
+        let { data } = resp;
+        updateNoteCache(id, {access_token: data.token, shared: !!data.token})
         dispatch({ type: SHAREING_SUCCESS, payload: { ...resp.data, id: id } })
       })
       .catch(err => dispatch({ type: NOTE_ERROR, payload: err.response ? err.response.data.message : err.message}))
@@ -189,6 +193,14 @@ const NotesState = (props) => {
       let idsArr = JSON.parse(ids)
       idsArr.pop(id)
       localStorage.setItem('cachedIds', JSON.stringify(idsArr))
+    }
+  }
+
+  const updateNoteCache = (id, payload = {}) => {
+    let note = localStorage.getItem(id);
+    if (note) {
+      note = { ...JSON.parse(note), ...payload}
+      localStorage.setItem(id, JSON.stringify(note))
     }
   }
   
@@ -273,7 +285,7 @@ const NotesState = (props) => {
         'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
       ],
       toolbar:
-        `code undo redo | image | formatselect formatpainter casechange blocks | bold italic underline | 
+        `code undo redo fullscreen | image | formatselect formatpainter casechange blocks | bold italic underline | 
         alignleft aligncenter alignright alignjustify | 
         bullist numlist outdent indent | removeformat | a11ycheck code table help`
     } 
