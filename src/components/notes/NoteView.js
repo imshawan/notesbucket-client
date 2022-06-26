@@ -30,6 +30,8 @@ function NoteView() {
     const noteContext = useContext(NoteContext)
     const { note, status, getNotesById, addToFavourites, removeFavourite, setShareing,
       current, deleteNotesById, updateNoteById, clearCurrent, TinyEditorOptions, setLoading } = noteContext
+    
+    const { apiKey, initialConfig } = TinyEditorOptions
     const [open, setOpen] = useState(false)
     const [isSaving, setisSaving] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
@@ -45,8 +47,7 @@ function NoteView() {
     const [editorContent, setEditorContent] = useState("")
 
     const theme = useTheme();
-    // eslint-disable-next-line
-    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleEditorChange = (e) => {
       setEditorContent(e.target.getContent())
@@ -194,8 +195,8 @@ function NoteView() {
                 {editing ? (
                     <Editor
                       initialValue={note.content}
-                      apiKey={TinyEditorOptions.apiKey}
-                      init={TinyEditorOptions.initialConfig}
+                      apiKey={apiKey}
+                      init={{ ...initialConfig, menubar: !mobile}}
                       onChange={handleEditorChange}
                     />
                 ) : (
